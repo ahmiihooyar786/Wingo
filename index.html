@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINGO AI PREMIUM TERMINAL</title>
+    <title>WINGO AI PREMIUM CORE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -16,9 +16,9 @@
             backdrop-filter: blur(16px); 
             border: 1px solid rgba(255, 255, 255, 0.04); 
         }
-        .glow-cyan { box-shadow: 0 0 30px rgba(34, 211, 238, 0.08); }
-        .row-animate { animation: fadeIn 0.4s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .glow-active { box-shadow: 0 0 30px rgba(34, 211, 238, 0.06); }
+        .row-animate { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden selection:bg-cyan-500/30">
@@ -29,23 +29,23 @@
     <div class="w-full max-w-xl z-10 mx-auto mt-2">
         
         <div class="flex flex-col items-center mb-6 text-center">
-            <div class="inline-flex items-center gap-2 bg-cyan-955/40 border border-cyan-500/20 px-3.5 py-1 rounded-full text-cyan-400 font-bold text-[10px] tracking-widest uppercase mb-4">
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> CONSOLE SYSTEM LIVE
+            <div class="inline-flex items-center gap-2 bg-cyan-950/40 border border-cyan-500/20 px-3.5 py-1 rounded-full text-cyan-400 font-bold text-[10px] tracking-widest uppercase mb-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> LIVE MATRIX FEED
             </div>
             <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white uppercase">
                 WINGO AUTOMATED MONITOR
             </h1>
-            <p class="text-slate-500 text-xs mt-1 tracking-wide">Premium Cloud-Hosted Predictive Matrix</p>
+            <p class="text-slate-500 text-xs mt-1 tracking-wide">Clean Intelligent Sequence Tracker</p>
         </div>
 
-        <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden glow-cyan">
-            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-500"></div>
+        <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden glow-active">
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-500"></div>
             
             <div class="flex flex-col gap-6">
-                <div class="grid grid-cols-2 border-b border-slate-800/60 pb-5 items-center">
+                <div class="grid grid-cols-2 border-b border-slate-800/50 pb-4 items-center">
                     <div>
                         <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">ACTIVE BLOCK</span>
-                        <div id="live-period" class="text-xl font-extrabold text-white tracking-wide mt-0.5">ID: ----</div>
+                        <div id="live-period" class="text-xl font-extrabold text-white tracking-wide mt-0.5">🔄 Syncing...</div>
                     </div>
                     <div class="text-right">
                         <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">TIME CLOCK</span>
@@ -55,10 +55,10 @@
                 
                 <div class="text-center py-2 relative">
                     <span class="text-[11px] font-bold text-slate-400 tracking-widest uppercase block">PREMIUM TARGET</span>
-                    <div id="live-target" class="text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300 drop-shadow-md my-1.5">-</div>
+                    <div id="live-target" class="text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300 my-2">-</div>
                     
-                    <div class="inline-flex items-center bg-slate-950/80 rounded-lg px-3 py-1.5 border border-slate-800/60">
-                        <div id="live-multiplier" class="text-[11px] text-slate-400 font-bold tracking-wide uppercase">MULT: Checking...</div>
+                    <div class="inline-flex items-center bg-slate-950/60 rounded-lg px-3 py-1.5 border border-slate-800/40">
+                        <div id="live-multiplier" class="text-[11px] text-slate-400 font-bold tracking-wide uppercase">MULT: Fetching Data...</div>
                     </div>
                 </div>
             </div>
@@ -71,12 +71,12 @@
 
         <div id="history-deck" class="space-y-2.5">
             <div class="text-center py-10 text-slate-600 text-xs border border-dashed border-slate-800/60 rounded-xl uppercase tracking-widest">
-                Connecting link pipeline...
+                Establishing live pipeline link...
             </div>
         </div>
 
         <div class="mt-10 text-center text-[10px] text-slate-600 tracking-widest uppercase">
-            SECURE REEP-FEED DISTRIBUTION INTERFACE
+            SECURE REAL-TIME DATA STREAM INTERFACE
         </div>
     </div>
 
@@ -112,32 +112,35 @@
         function renderInterface() {
             if (!activePrediction) return;
 
+            // Render current live prediction card parameters
             document.getElementById('live-period').innerText = `*${formatPeriod(activePrediction.period)}`;
             document.getElementById('live-target').innerText = activePrediction.target;
             
             const targetEl = document.getElementById('live-target');
             if(activePrediction.target === "BIG") {
-                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)] my-1.5";
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)] my-2";
             } else {
-                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-500 drop-shadow-[0_0_15px_rgba(232,121,249,0.2)] my-1.5";
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-500 drop-shadow-[0_0_15px_rgba(232,121,249,0.2)] my-2";
             }
 
             document.getElementById('live-multiplier').innerText = `${activePrediction.multiplier} (${activePrediction.amount} RS)`;
 
+            // Render history cards perfectly matching the verified array items
             const deck = document.getElementById('history-deck');
             deck.innerHTML = '';
 
             if (matrixHistory.length === 0) {
-                deck.innerHTML = `<div class="text-center py-8 text-slate-600 text-[11px] border border-dashed border-slate-800/80 rounded-xl uppercase tracking-widest">[ Queue empty - Awaiting verification sync ]</div>`;
+                deck.innerHTML = `<div class="text-center py-8 text-slate-600 text-[11px] border border-dashed border-slate-800/80 rounded-xl uppercase tracking-widest">[ No past rounds verified in this session ]</div>`;
                 return;
             }
 
+            // Always pick up to the latest 5 unique concluded items
             const itemsToShow = matrixHistory.slice(-5).reverse();
             itemsToShow.forEach(row => {
                 const isWin = row.result === "WIN";
                 const badgeTheme = isWin 
-                    ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.05)]' 
-                    : 'text-rose-400 bg-rose-500/5 border-rose-500/20 shadow-[0_0_12px_rgba(244,63,94,0.05)]';
+                    ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/20' 
+                    : 'text-rose-400 bg-rose-500/5 border-rose-500/20';
                 
                 const indicatorSideBorder = isWin ? 'border-l-emerald-500/80' : 'border-l-rose-500/80';
 
@@ -164,35 +167,41 @@
                 const json = await response.json();
                 const latestRecord = json.data.list[0];
                 const completedPeriod = parseInt(latestRecord.issueNumber);
+                const liveActivePeriod = completedPeriod + 1;
 
-                if (activePrediction && completedPeriod >= activePrediction.period) {
-                    const matchedItem = json.data.list.find(item => parseInt(item.issueNumber) === activePrediction.period);
+                // Step 1: Check if previous prediction is now officially closed on server
+                if (activePrediction && activePrediction.period < liveActivePeriod) {
+                    // Make sure we never push duplicate items to the history ledger
+                    const alreadyEvaluated = matrixHistory.some(row => parseInt(row.period) === activePrediction.period);
                     
-                    if (matchedItem) {
-                        const actualResult = parseInt(matchedItem.number) >= 5 ? "BIG" : "SMALL";
-                        const isWin = activePrediction.target === actualResult;
+                    if (!alreadyEvaluated) {
+                        const matchedItem = json.data.list.find(item => parseInt(item.issueNumber) === activePrediction.period);
+                        if (matchedItem) {
+                            const actualResult = parseInt(matchedItem.number) >= 5 ? "BIG" : "SMALL";
+                            const isWin = activePrediction.target === actualResult;
 
-                        matrixHistory.push({
-                            period: activePrediction.period, 
-                            target: activePrediction.target,
-                            amount: activePrediction.amount,
-                            result: isWin ? "WIN" : "LOSE"
-                        });
+                            matrixHistory.push({
+                                period: activePrediction.period, 
+                                target: activePrediction.target,
+                                amount: activePrediction.amount,
+                                result: isWin ? "WIN" : "LOSE"
+                            });
 
-                        currentIndex = isWin ? 0 : Math.min(currentIndex + 1, AMOUNTS.length - 1);
-                        
-                        localStorage.setItem('wingo_curr_idx', currentIndex);
-                        localStorage.setItem('wingo_matrix_hist', JSON.stringify(matrixHistory));
-                        activePrediction = null;
+                            currentIndex = isWin ? 0 : Math.min(currentIndex + 1, AMOUNTS.length - 1);
+                            
+                            localStorage.setItem('wingo_curr_idx', currentIndex);
+                            localStorage.setItem('wingo_matrix_hist', JSON.stringify(matrixHistory));
+                        }
                     }
+                    activePrediction = null;
                 }
 
-                if (!activePrediction) {
-                    const nextPeriod = completedPeriod + 1;
+                // Step 2: Force live active block synchronization to prevent any visual delay or stuck states
+                if (!activePrediction || activePrediction.period !== liveActivePeriod) {
                     const predictedTarget = runMultiPatternAnalyzer(json.data.list);
 
                     activePrediction = {
-                        period: nextPeriod,
+                        period: liveActivePeriod,
                         target: predictedTarget,
                         amount: AMOUNTS[currentIndex],
                         multiplier: MULTIPLIERS[currentIndex]
@@ -203,7 +212,7 @@
 
                 renderInterface();
             } catch (error) {
-                console.log("Network sync pipe retry...", error);
+                console.log("Network pipeline update skip, retrying...", error);
             }
         }
 
@@ -217,16 +226,19 @@
             }
         }
 
+        // Clock cycle sync settings
         setInterval(() => {
             const currentSeconds = new Date().getSeconds();
             const remainingSeconds = 60 - currentSeconds;
             document.getElementById('live-timer').innerText = (remainingSeconds < 10 ? "0" : "") + remainingSeconds + "s";
 
+            // Safe checkpoint polling to catch state switches quickly
             if (remainingSeconds === 58 || remainingSeconds === 30 || remainingSeconds === 15) {
                 synchronizedFetchEngine();
             }
         }, 1000);
 
+        // Immediate first boot activation
         synchronizedFetchEngine();
     </script>
 </body>
