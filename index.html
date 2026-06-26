@@ -3,99 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINGO AI REAL-TIME SMART PANEL</title>
-    <!-- Tailwind CSS for Ultra-Premium UI -->
+    <title>WINGO AI PREMIUM TERMINAL</title>
+    <!-- Tailwind CSS for Elite Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #05070F; 
+            background-color: #070913; 
         }
-        .glass-card { 
-            background: rgba(20, 28, 48, 0.6); 
-            backdrop-filter: blur(14px); 
-            border: 1px solid rgba(255, 255, 255, 0.06); 
+        .glass-panel { 
+            background: linear-gradient(135deg, rgba(19, 26, 47, 0.7) 0%, rgba(11, 15, 28, 0.8) 100%);
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.04); 
         }
-        .cyber-glow {
-            box-shadow: 0 0 40px rgba(56, 189, 248, 0.12);
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
         }
     </style>
 </head>
-<body class="text-white min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden">
+<body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden selection:bg-cyan-500/30">
 
-    <!-- Ambient Neon Background Glows -->
-    <div class="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-[-10%] right-[-20%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- Ambient Grid Backdrops -->
+    <div class="absolute top-[-5%] left-[-10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-[5%] right-[-10%] w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-    <!-- Main Web Layout Dashboard -->
-    <div class="w-full max-w-4xl z-10 mt-4">
+    <!-- Main Container -->
+    <div class="w-full max-w-xl z-10 mx-auto mt-2">
         
-        <!-- Top App Header Branding -->
-        <div class="flex flex-col items-center mb-8 text-center">
-            <div class="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 px-4 py-1.5 rounded-full text-cyan-400 font-bold text-xs tracking-wider uppercase mb-3 animate-pulse">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> CYBER SMART CORE ONLINE
+        <!-- Header Console Status -->
+        <div class="flex flex-col items-center mb-6 text-center">
+            <div class="inline-flex items-center gap-2 bg-cyan-950/40 border border-cyan-500/20 px-3.5 py-1 rounded-full text-cyan-400 font-bold text-[10px] tracking-widest uppercase mb-4">
+                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> CONSOLE SYSTEM LIVE
             </div>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-sky-400 bg-clip-text text-transparent">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white uppercase">
                 WINGO AUTOMATED MONITOR
             </h1>
-            <p class="text-slate-400 text-xs md:text-sm mt-2 tracking-wide">Professional GitHub Cloud-Hosted Dashboard</p>
+            <p class="text-slate-500 text-xs mt-1 tracking-wide">Premium Cloud-Hosted Predictive Matrix</p>
         </div>
 
-        <!-- 🚀 LIVE ACTIVE TARGET PANEL CARD -->
-        <div class="glass-card rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden cyber-glow">
-            <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500"></div>
+        <!-- 🚀 LIVE RUNNING BLOCK COMPONENT -->
+        <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden glow-cyan">
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-500"></div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <!-- Current Active Period Segment -->
-                <div class="text-center md:text-left border-b md:border-b-0 md:border-r border-slate-800/80 pb-4 md:pb-0 md:pr-6">
-                    <span class="text-xs font-bold text-slate-400 tracking-widest uppercase">ACTIVE PERIOD</span>
-                    <div id="live-period" class="text-3xl font-black text-white tracking-wide mt-1">🔄 Loading...</div>
+            <div class="flex flex-col gap-6">
+                <!-- Row 1: Target vs Period Layout Grid -->
+                <div class="grid grid-cols-2 border-b border-slate-800/60 pb-5 items-center">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">ACTIVE BLOCK</span>
+                        <div id="live-period" class="text-xl font-extrabold text-white tracking-wide mt-0.5">ID: ----</div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">TIME CLOCK</span>
+                        <div id="live-timer" class="text-xl font-black text-rose-400 tracking-wider font-mono mt-0.5">00s</div>
+                    </div>
                 </div>
                 
-                <!-- Main Core AI Signal Target Output -->
-                <div class="text-center py-2">
-                    <span class="text-xs font-bold text-cyan-400 tracking-widest uppercase">PREMIUM TARGET</span>
-                    <div id="live-target" class="text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 mt-1">-</div>
-                    <div id="live-multiplier" class="text-xs text-slate-400 font-semibold tracking-wide mt-2">MULT: Waiting...</div>
-                </div>
-
-                <!-- Live Auto-Sync Game Clock Timer -->
-                <div class="text-center md:text-right border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-6 flex flex-col items-center md:items-end justify-center">
-                    <span class="text-xs font-bold text-slate-400 tracking-widest uppercase">NEXT SIGNAL IN</span>
-                    <div id="live-timer" class="text-4xl font-black text-rose-400 tracking-wider font-mono mt-1">00s</div>
+                <!-- Row 2: Central AI Strategy Presentation -->
+                <div class="text-center py-2 relative">
+                    <span class="text-[11px] font-bold text-cyan-400 tracking-widest uppercase block">PREMIUM TARGET</span>
+                    <div id="live-target" class="text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300 drop-shadow-md my-1.5">-</div>
+                    
+                    <div class="inline-flex items-center bg-slate-900/60 rounded-lg px-3 py-1 border border-slate-800/40">
+                        <div id="live-multiplier" class="text-[11px] text-slate-400 font-bold tracking-wide uppercase">MULT: WAITING BLOCK...</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 📊 HISTORICAL SEQUENCE SMART PANEL DECK -->
-        <div class="mb-4 flex items-center justify-between px-2">
-            <h2 class="text-xs font-bold tracking-widest text-slate-400 uppercase">RECENT MATRIX RESULTS INDICATOR</h2>
-            <button onclick="clearSystemCache()" class="text-[10px] text-rose-400/70 hover:text-rose-400 uppercase tracking-wider font-bold transition-colors">Clear History</button>
+        <!-- 📊 HISTORICAL STRATEGY MATRIX ROW -->
+        <div class="mb-3 flex items-center justify-between px-1">
+            <h2 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">RECENT RECORD ANALYSIS</h2>
+            <button onclick="clearSystemCache()" class="text-[9px] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold transition-all">Clear Logs</button>
         </div>
 
-        <!-- Dynamic Target List Storage Wrapper -->
-        <div id="history-deck" class="space-y-3.5">
-            <div class="text-center py-12 text-slate-500 text-sm border border-dashed border-slate-800/80 rounded-xl">
-                Establishing handshake connection with game data servers...
+        <!-- Target Data Rows Anchor Output -->
+        <div id="history-deck" class="space-y-2.5">
+            <div class="text-center py-10 text-slate-600 text-xs border border-dashed border-slate-800/60 rounded-xl uppercase tracking-widest">
+                Connecting link pipeline...
             </div>
         </div>
 
-        <!-- Footer Branding Guidelines -->
-        <div class="mt-12 text-center text-[11px] text-slate-500 tracking-widest uppercase">
-            ⚠️ RISK NOTE: MAINTAIN WALLET BALANCE FOR ACCURATE 2X STEPS • VIP DISTRIBUTION MODE
+        <!-- Disclaimers Footer -->
+        <div class="mt-10 text-center text-[10px] text-slate-600 tracking-widest uppercase">
+            SECURE REEP-FEED DISTRIBUTION INTERFACE
         </div>
     </div>
 
-    <!-- 🧠 AUTOMATED CLIENT SIDE CORE SCRIPT ENGINE -->
+    <!-- 🧠 AUTOMATED SYNC CODE ENGINE -->
     <script>
         const GAME_API = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
         
-        // 📊 Risk Protection Architecture
+        // Safety Strategy Layers
         const AMOUNTS = [10, 20, 40, 80, 160, 320];
         const MULTIPLIERS = ["1x", "2x", "4x", "8x", "16x", "32x"];
         
-        // Load System Memory from LocalStorage so refresh does not break consistency
         let currentIndex = parseInt(localStorage.getItem('wingo_curr_idx')) || 0;
         let matrixHistory = JSON.parse(localStorage.getItem('wingo_matrix_hist')) || [];
         let activePrediction = JSON.parse(localStorage.getItem('wingo_active_pred')) || null;
@@ -103,16 +105,10 @@
         function runMultiPatternAnalyzer(list) {
             try {
                 let types = list.map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL");
-                
-                // Pattern 1: Dragon Trend Ride
                 if (types[0] === types[1] && types[1] === types[2]) return types[0];
-                
-                // Pattern 2: Alternating Alternate Wave Breakout
                 if (types[0] !== types[1] && types[1] !== types[2] && types[2] !== types[3]) {
                     return types[0] === "BIG" ? "SMALL" : "BIG";
                 }
-                
-                // Fallback Pattern Mode
                 let bigCount = types.slice(0, 5).filter(t => t === "BIG").length;
                 return bigCount >= 3 ? "SMALL" : "BIG";
             } catch (e) {
@@ -123,37 +119,51 @@
         function renderInterface() {
             if (!activePrediction) return;
 
-            // Render top main panel active values
-            document.getElementById('live-period').innerText = activePrediction.period;
-            document.getElementById('live-target').innerText = activePrediction.target;
-            document.getElementById('live-multiplier').innerText = `MULTIPLIER: ${activePrediction.multiplier} (${activePrediction.amount} RS)`;
+            // Display fixed: Slice period token string to last 4 indexes directly for pristine alignment
+            const rawPeriodStr = String(activePrediction.period);
+            const styledPeriod = rawPeriodStr.length > 4 ? `*${rawPeriodStr.slice(-4)}` : rawPeriodStr;
 
-            // Render dynamic visual history tracking items
+            document.getElementById('live-period').innerText = styledPeriod;
+            document.getElementById('live-target').innerText = activePrediction.target;
+            
+            // Neon accent highlight replacement for targets
+            const targetEl = document.getElementById('live-target');
+            if(activePrediction.target === "BIG") {
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-400 my-1.5";
+            } else {
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 my-1.5";
+            }
+
+            document.getElementById('live-multiplier').innerText = `${activePrediction.multiplier} (${activePrediction.amount} RS)`;
+
+            // Render Dynamic Component Table Deck
             const deck = document.getElementById('history-deck');
             deck.innerHTML = '';
 
             if (matrixHistory.length === 0) {
-                deck.innerHTML = `<div class="text-center py-12 text-slate-500 text-xs border border-dashed border-slate-800 rounded-xl uppercase tracking-widest">[ Waiting for first verified block calculation ]</div>`;
+                deck.innerHTML = `<div class="text-center py-8 text-slate-600 text-[11px] border border-dashed border-slate-800/80 rounded-xl uppercase tracking-widest">[ Queue empty - Awaiting verification sync ]</div>`;
                 return;
             }
 
-            // Render last 5 rounds sorted descending
+            // Descending structural layout order limit of 5 records max
             const itemsToShow = matrixHistory.slice(-5).reverse();
             itemsToShow.forEach(row => {
                 const isWin = row.result === "WIN";
-                const pillStyle = isWin 
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.1)]' 
-                    : 'bg-rose-500/10 text-rose-400 border-rose-500/30 shadow-[0_0_15px_rgba(244,63,94,0.1)]';
+                const badgeTheme = isWin 
+                    ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/20 shadow-[0_0_12px_rgba(16,185,129,0.05)]' 
+                    : 'text-rose-400 bg-rose-500/5 border-rose-500/20 shadow-[0_0_12px_rgba(244,63,94,0.05)]';
+                
+                const indicatorSideBorder = isWin ? 'border-l-emerald-500/80' : 'border-l-rose-500/80';
 
                 deck.innerHTML += `
-                    <div class="glass-card rounded-xl p-4 flex items-center justify-between transition-all duration-300 border-l-4 ${isWin ? 'border-l-emerald-500' : 'border-l-rose-500'}">
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <span class="text-xs md:text-sm font-semibold text-slate-400">Period *${row.period}</span>
-                            <span class="text-sm md:text-base font-bold text-white tracking-wide">【 ${row.target} 】</span>
+                    <div class="glass-panel rounded-xl p-3.5 flex items-center justify-between transition-all border-l-2 ${indicatorSideBorder}">
+                        <div class="flex items-center gap-5">
+                            <span class="text-xs font-semibold text-slate-500 font-mono">ID: *${row.period}</span>
+                            <span class="text-sm font-extrabold text-white tracking-wide">【${row.target}】</span>
                         </div>
-                        <div class="flex items-center gap-4 md:gap-8">
-                            <span class="text-xs md:text-sm font-bold text-slate-300 font-mono">₹ ${row.amount}</span>
-                            <div class="w-20 md:w-24 border text-center py-1 md:py-1.5 text-[10px] font-black tracking-widest rounded-full uppercase ${pillStyle}">
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs font-bold text-slate-400 font-mono">₹${row.amount}</span>
+                            <div class="w-16 border text-center py-1 text-[9px] font-black tracking-widest rounded-md uppercase ${badgeTheme}">
                                 ${row.result}
                             </div>
                         </div>
@@ -164,14 +174,11 @@
 
         async function synchronizedFetchEngine() {
             try {
-                // IMPORTANT NOTE: If GitHub pages experiences CORS blocks from the target site, 
-                // developers can append a free custom cors proxy utility string URL prefix here.
                 const response = await fetch(GAME_API, { method: 'GET' });
                 const json = await response.json();
                 const latestRecord = json.data.list[0];
                 const completedPeriod = parseInt(latestRecord.issueNumber);
 
-                // Phase 1: Verify and evaluate the active target parameter
                 if (activePrediction && completedPeriod >= activePrediction.period) {
                     const matchedItem = json.data.list.find(item => parseInt(item.issueNumber) === activePrediction.period);
                     
@@ -179,25 +186,21 @@
                         const actualResult = parseInt(matchedItem.number) >= 5 ? "BIG" : "SMALL";
                         const isWin = activePrediction.target === actualResult;
 
-                        // Append to historical tracking registry array
                         matrixHistory.push({
-                            period: String(activePrediction.period).slice(-3),
+                            period: String(activePrediction.period).slice(-4), // Cleaner 4 digit stamp logs
                             target: activePrediction.target,
                             amount: activePrediction.amount,
                             result: isWin ? "WIN" : "LOSE"
                         });
 
-                        // Shift investment layers based on security settings
                         currentIndex = isWin ? 0 : Math.min(currentIndex + 1, AMOUNTS.length - 1);
                         
-                        // Sync adjustments directly back into system memory registry
                         localStorage.setItem('wingo_curr_idx', currentIndex);
                         localStorage.setItem('wingo_matrix_hist', JSON.stringify(matrixHistory));
                         activePrediction = null;
                     }
                 }
 
-                // Phase 2: Create new data point if structure is blank
                 if (!activePrediction) {
                     const nextPeriod = completedPeriod + 1;
                     const predictedTarget = runMultiPatternAnalyzer(json.data.list);
@@ -214,12 +217,12 @@
 
                 renderInterface();
             } catch (error) {
-                console.log("Sync error encountered, retrying connection matrix standard operation...", error);
+                console.log("Network sync pipe retry...", error);
             }
         }
 
         function clearSystemCache() {
-            if (confirm("Are you sure you want to clear history log parameters?")) {
+            if (confirm("Reset current monitoring stats ledger?")) {
                 localStorage.clear();
                 currentIndex = 0;
                 matrixHistory = [];
@@ -228,19 +231,18 @@
             }
         }
 
-        // Live Clock Loop Configurator
+        // Native Sync Fast-Clock
         setInterval(() => {
             const currentSeconds = new Date().getSeconds();
             const remainingSeconds = 60 - currentSeconds;
             document.getElementById('live-timer').innerText = (remainingSeconds < 10 ? "0" : "") + remainingSeconds + "s";
 
-            // Trigger internal system fetch checks smoothly 3 seconds after sequence ends and midway
-            if (remainingSeconds === 57 || remainingSeconds === 30 || remainingSeconds === 15) {
+            // Interval execution sequences (Immediate pull confirmation blocks)
+            if (remainingSeconds === 58 || remainingSeconds === 30 || remainingSeconds === 15) {
                 synchronizedFetchEngine();
             }
         }, 1000);
 
-        // Instant Initialization Run Execution
         synchronizedFetchEngine();
     </script>
 </body>
