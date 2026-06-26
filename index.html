@@ -4,36 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WINGO AI PREMIUM TERMINAL</title>
-    <!-- Tailwind CSS for Elite Styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #070913; 
+            background-color: #05070F; 
         }
         .glass-panel { 
-            background: linear-gradient(135deg, rgba(19, 26, 47, 0.7) 0%, rgba(11, 15, 28, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(19, 26, 47, 0.6) 0%, rgba(11, 15, 28, 0.75) 100%);
             backdrop-filter: blur(16px); 
             border: 1px solid rgba(255, 255, 255, 0.04); 
         }
-        .glow-cyan {
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
-        }
+        .glow-cyan { box-shadow: 0 0 30px rgba(34, 211, 238, 0.08); }
+        .row-animate { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden selection:bg-cyan-500/30">
 
-    <!-- Ambient Grid Backdrops -->
     <div class="absolute top-[-5%] left-[-10%] w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
     <div class="absolute bottom-[5%] right-[-10%] w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-    <!-- Main Container -->
     <div class="w-full max-w-xl z-10 mx-auto mt-2">
         
-        <!-- Header Console Status -->
         <div class="flex flex-col items-center mb-6 text-center">
-            <div class="inline-flex items-center gap-2 bg-cyan-950/40 border border-cyan-500/20 px-3.5 py-1 rounded-full text-cyan-400 font-bold text-[10px] tracking-widest uppercase mb-4">
+            <div class="inline-flex items-center gap-2 bg-cyan-955/40 border border-cyan-500/20 px-3.5 py-1 rounded-full text-cyan-400 font-bold text-[10px] tracking-widest uppercase mb-4">
                 <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> CONSOLE SYSTEM LIVE
             </div>
             <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white uppercase">
@@ -42,12 +38,10 @@
             <p class="text-slate-500 text-xs mt-1 tracking-wide">Premium Cloud-Hosted Predictive Matrix</p>
         </div>
 
-        <!-- 🚀 LIVE RUNNING BLOCK COMPONENT -->
         <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden glow-cyan">
             <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-cyan-500 via-sky-500 to-indigo-500"></div>
             
             <div class="flex flex-col gap-6">
-                <!-- Row 1: Target vs Period Layout Grid -->
                 <div class="grid grid-cols-2 border-b border-slate-800/60 pb-5 items-center">
                     <div>
                         <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">ACTIVE BLOCK</span>
@@ -59,42 +53,36 @@
                     </div>
                 </div>
                 
-                <!-- Row 2: Central AI Strategy Presentation -->
                 <div class="text-center py-2 relative">
-                    <span class="text-[11px] font-bold text-cyan-400 tracking-widest uppercase block">PREMIUM TARGET</span>
+                    <span class="text-[11px] font-bold text-slate-400 tracking-widest uppercase block">PREMIUM TARGET</span>
                     <div id="live-target" class="text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-300 drop-shadow-md my-1.5">-</div>
                     
-                    <div class="inline-flex items-center bg-slate-900/60 rounded-lg px-3 py-1 border border-slate-800/40">
-                        <div id="live-multiplier" class="text-[11px] text-slate-400 font-bold tracking-wide uppercase">MULT: WAITING BLOCK...</div>
+                    <div class="inline-flex items-center bg-slate-950/80 rounded-lg px-3 py-1.5 border border-slate-800/60">
+                        <div id="live-multiplier" class="text-[11px] text-slate-400 font-bold tracking-wide uppercase">MULT: Checking...</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 📊 HISTORICAL STRATEGY MATRIX ROW -->
         <div class="mb-3 flex items-center justify-between px-1">
             <h2 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">RECENT RECORD ANALYSIS</h2>
             <button onclick="clearSystemCache()" class="text-[9px] text-rose-400/60 hover:text-rose-400 uppercase tracking-widest font-bold transition-all">Clear Logs</button>
         </div>
 
-        <!-- Target Data Rows Anchor Output -->
         <div id="history-deck" class="space-y-2.5">
             <div class="text-center py-10 text-slate-600 text-xs border border-dashed border-slate-800/60 rounded-xl uppercase tracking-widest">
                 Connecting link pipeline...
             </div>
         </div>
 
-        <!-- Disclaimers Footer -->
         <div class="mt-10 text-center text-[10px] text-slate-600 tracking-widest uppercase">
             SECURE REEP-FEED DISTRIBUTION INTERFACE
         </div>
     </div>
 
-    <!-- 🧠 AUTOMATED SYNC CODE ENGINE -->
     <script>
         const GAME_API = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
         
-        // Safety Strategy Layers
         const AMOUNTS = [10, 20, 40, 80, 160, 320];
         const MULTIPLIERS = ["1x", "2x", "4x", "8x", "16x", "32x"];
         
@@ -116,27 +104,26 @@
             }
         }
 
+        function formatPeriod(periodVal) {
+            const str = String(periodVal);
+            return str.length > 4 ? str.slice(-4) : str.padStart(4, '0');
+        }
+
         function renderInterface() {
             if (!activePrediction) return;
 
-            // Display fixed: Slice period token string to last 4 indexes directly for pristine alignment
-            const rawPeriodStr = String(activePrediction.period);
-            const styledPeriod = rawPeriodStr.length > 4 ? `*${rawPeriodStr.slice(-4)}` : rawPeriodStr;
-
-            document.getElementById('live-period').innerText = styledPeriod;
+            document.getElementById('live-period').innerText = `*${formatPeriod(activePrediction.period)}`;
             document.getElementById('live-target').innerText = activePrediction.target;
             
-            // Neon accent highlight replacement for targets
             const targetEl = document.getElementById('live-target');
             if(activePrediction.target === "BIG") {
-                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-400 my-1.5";
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-sky-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)] my-1.5";
             } else {
-                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 my-1.5";
+                targetEl.className = "text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-500 drop-shadow-[0_0_15px_rgba(232,121,249,0.2)] my-1.5";
             }
 
             document.getElementById('live-multiplier').innerText = `${activePrediction.multiplier} (${activePrediction.amount} RS)`;
 
-            // Render Dynamic Component Table Deck
             const deck = document.getElementById('history-deck');
             deck.innerHTML = '';
 
@@ -145,7 +132,6 @@
                 return;
             }
 
-            // Descending structural layout order limit of 5 records max
             const itemsToShow = matrixHistory.slice(-5).reverse();
             itemsToShow.forEach(row => {
                 const isWin = row.result === "WIN";
@@ -156,9 +142,9 @@
                 const indicatorSideBorder = isWin ? 'border-l-emerald-500/80' : 'border-l-rose-500/80';
 
                 deck.innerHTML += `
-                    <div class="glass-panel rounded-xl p-3.5 flex items-center justify-between transition-all border-l-2 ${indicatorSideBorder}">
+                    <div class="glass-panel rounded-xl p-3.5 flex items-center justify-between border-l-2 ${indicatorSideBorder} row-animate">
                         <div class="flex items-center gap-5">
-                            <span class="text-xs font-semibold text-slate-500 font-mono">ID: *${row.period}</span>
+                            <span class="text-xs font-semibold text-slate-500 font-mono">ID: *${formatPeriod(row.period)}</span>
                             <span class="text-sm font-extrabold text-white tracking-wide">【${row.target}】</span>
                         </div>
                         <div class="flex items-center gap-4">
@@ -187,7 +173,7 @@
                         const isWin = activePrediction.target === actualResult;
 
                         matrixHistory.push({
-                            period: String(activePrediction.period).slice(-4), // Cleaner 4 digit stamp logs
+                            period: activePrediction.period, 
                             target: activePrediction.target,
                             amount: activePrediction.amount,
                             result: isWin ? "WIN" : "LOSE"
@@ -231,13 +217,11 @@
             }
         }
 
-        // Native Sync Fast-Clock
         setInterval(() => {
             const currentSeconds = new Date().getSeconds();
             const remainingSeconds = 60 - currentSeconds;
             document.getElementById('live-timer').innerText = (remainingSeconds < 10 ? "0" : "") + remainingSeconds + "s";
 
-            // Interval execution sequences (Immediate pull confirmation blocks)
             if (remainingSeconds === 58 || remainingSeconds === 30 || remainingSeconds === 15) {
                 synchronizedFetchEngine();
             }
@@ -247,3 +231,4 @@
     </script>
 </body>
 </html>
+
