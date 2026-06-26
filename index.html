@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINGO VIP CYBER MONITOR</title>
+    <title>WINGO VIP CORE V3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -16,27 +16,30 @@
             backdrop-filter: blur(20px); 
             border: 1px solid rgba(255, 255, 255, 0.05); 
         }
-        .row-entry { animation: slideIn 0.3s ease-out forwards; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .row-entry { animation: slideIn 0.2s ease-out forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden">
 
+    <!-- Radial Cyber Glows -->
     <div class="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
     <div class="absolute bottom-[0%] right-[-20%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
     <div class="w-full max-w-xl z-10 mx-auto mt-2">
         
+        <!-- Header -->
         <div class="flex flex-col items-center mb-6 text-center">
             <div class="inline-flex items-center gap-2 bg-indigo-950/50 border border-indigo-500/30 px-4 py-1.5 rounded-full text-indigo-400 font-bold text-[10px] tracking-widest uppercase mb-3">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> COGNITIVE PATTERN CORE ACTIVE
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> STATUTORY REALTIME CONNECTION
             </div>
-            <h1 class="text-2xl md:text-3xl font-black tracking-wider text-white uppercase bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
-                WINGO VIP MATRIX
+            <h1 class="text-2xl md:text-3xl font-black tracking-wider text-white uppercase">
+                WINGO AUTOMATED MONITOR
             </h1>
-            <p class="text-slate-500 text-xs mt-1 tracking-widest uppercase font-semibold">Premium AI Pattern Synchronization</p>
+            <p class="text-cyan-400/80 text-xs mt-1 tracking-widest uppercase font-bold">VIP PURE STATELESS ENGINE V3</p>
         </div>
 
+        <!-- 🚀 LIVE ACTIVE TARGET COMPONENT -->
         <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)]">
             <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500"></div>
             
@@ -44,7 +47,7 @@
                 <div class="grid grid-cols-2 border-b border-slate-800/60 pb-4 items-center">
                     <div>
                         <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">ACTIVE BLOCK</span>
-                        <div id="live-period" class="text-xl font-black text-white tracking-wide mt-0.5">🔄 Connecting...</div>
+                        <div id="live-period" class="text-xl font-black text-white tracking-wide mt-0.5">🔄 Syncing...</div>
                     </div>
                     <div class="text-right">
                         <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">TIME CLOCK</span>
@@ -54,57 +57,55 @@
                 
                 <div class="text-center py-2 relative">
                     <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase block">PREMIUM TARGET</span>
-                    <div id="live-target" class="text-6xl font-black tracking-widest text-slate-300 my-3">ANALYZING</div>
+                    <div id="live-target" class="text-6xl font-black tracking-widest text-slate-300 my-3">CALCULATING</div>
                     
                     <div class="inline-flex items-center bg-slate-950/80 rounded-xl px-4 py-2 border border-slate-800/80 shadow-inner">
-                        <div id="live-multiplier" class="text-xs text-indigo-300 font-bold tracking-widest uppercase">MULT: WAITING FOR PIPELINE...</div>
+                        <div id="live-multiplier" class="text-xs text-indigo-300 font-bold tracking-widest uppercase">LEVEL: FETCHING...</div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- 📊 PATTERN VERIFICATION DECK -->
         <div class="mb-3 flex items-center justify-between px-1">
             <h2 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">PATTERN VERIFICATION DECK</h2>
-            <div class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Live Verified</div>
+            <div class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Zero-Lag Sync</div>
         </div>
 
         <div id="history-deck" class="space-y-2.5">
             <div class="text-center py-12 text-slate-600 text-xs border border-dashed border-slate-800/80 rounded-xl uppercase tracking-widest">
-                Rebuilding historical sync matrix...
+                Reconstructing Stateless Matrix...
             </div>
         </div>
 
         <div class="mt-10 text-center text-[9px] text-slate-600 tracking-widest uppercase font-medium">
-            Automated Analytical Terminal • Secure Distribution Node
+            Automated Analytical Terminal • Node Sync Active
         </div>
     </div>
 
+    <!-- 🧠 ENGINE CODE -->
     <script>
         const GAME_API = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=20";
         const AMOUNTS = [10, 30, 90, 270, 810, 2430];
-        const MULTIPLIERS = ["1x", "3x", "9x", "27x", "81x", "243x"]; // Matches VIP Channel 3x Martingale Strategy
+        const MULTIPLIERS = ["1x", "3x", "9x", "27x", "81x", "243x"];
 
-        // Advanced Pattern Hunter Engine
         function runMultiPatternAnalyzer(list) {
             try {
                 let types = list.map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL");
                 
-                // 1. Dragon Line Detector (Streak Rider)
+                // Pattern 1: Dragon Line
                 if (types[0] === types[1] && types[1] === types[2] && types[2] === types[3]) {
-                    return types[0]; // Ride the dragon streak
+                    return types[0];
                 }
-                
-                // 2. Alternate Jumping Detector (Chop Trend)
+                // Pattern 2: Alternate Chop
                 if (types[0] !== types[1] && types[1] !== types[2] && types[2] !== types[3]) {
-                    return types[0] === "BIG" ? "SMALL" : "BIG"; // Continue the alternate jump
+                    return types[0] === "BIG" ? "SMALL" : "BIG";
                 }
-
-                // 3. Mirror Pair Detection (e.g., B B S S)
+                // Pattern 3: Mirror Pairs
                 if (types[0] === types[1] && types[2] === types[3] && types[0] !== types[2]) {
                     return types[0] === "BIG" ? "SMALL" : "BIG";
                 }
-
-                // 4. Safe Fallback - Dynamic Density Analysis
+                // Fallback Density Analysis
                 let bigCount = types.slice(0, 6).filter(t => t === "BIG").length;
                 return bigCount >= 3 ? "SMALL" : "BIG";
             } catch (e) {
@@ -117,7 +118,7 @@
             return str.length > 4 ? str.slice(-4) : str.padStart(4, '0');
         }
 
-        async function dynamicDataSyncEngine() {
+        async function pureStatelessSync() {
             try {
                 const response = await fetch(GAME_API);
                 const json = await response.json();
@@ -127,12 +128,12 @@
                 let currentMartingaleIndex = 0;
                 let processedHistory = [];
 
-                // Reconstruct full automated log generation chronologically
+                // Re-calculate everything from server state dynamically
                 for (let i = 0; i < reversedList.length; i++) {
                     let origIndex = serverList.findIndex(item => item.issueNumber === reversedList[i].issueNumber);
                     let pastDataFeed = serverList.slice(origIndex + 1);
 
-                    if (pastDataFeed.length < 2) continue; // Maximum optimization to ensure history never goes empty
+                    if (pastDataFeed.length < 2) continue;
 
                     let predictedTarget = runMultiPatternAnalyzer(pastDataFeed);
                     let actualResult = parseInt(reversedList[i].number) >= 5 ? "BIG" : "SMALL";
@@ -152,14 +153,14 @@
                     }
                 }
 
-                // Compute parameters for the upcoming Live Round
+                // 1. Calculate next round parameters based STRICTLY on the latest server response + 1
                 const latestConcludedPeriod = parseInt(serverList[0].issueNumber);
                 const nextActivePeriod = latestConcludedPeriod + 1;
                 const nextActiveTarget = runMultiPatternAnalyzer(serverList);
                 const nextActiveAmount = AMOUNTS[currentMartingaleIndex];
                 const nextActiveMultiplier = MULTIPLIERS[currentMartingaleIndex];
 
-                // Update DOM Elements
+                // Force layout shift immediately
                 document.getElementById('live-period').innerText = `*${formatPeriod(nextActivePeriod)}`;
                 document.getElementById('live-target').innerText = nextActiveTarget;
                 
@@ -171,17 +172,14 @@
                 }
                 document.getElementById('live-multiplier').innerText = `LEVEL: ${nextActiveMultiplier} (₹${nextActiveAmount})`;
 
-                // Render verified historical patterns safely (Last 6 Items)
+                // 2. Clear and build history list
                 const deck = document.getElementById('history-deck');
                 deck.innerHTML = '';
 
                 const displayHistory = processedHistory.slice(-6).reverse();
                 displayHistory.forEach(row => {
                     const isWin = row.result === "WIN";
-                    const badgeStyle = isWin 
-                        ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' 
-                        : 'text-rose-400 bg-rose-500/10 border-rose-500/30';
-                    
+                    const badgeStyle = isWin ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' : 'text-rose-400 bg-rose-500/10 border-rose-500/30';
                     const borderLeftColor = isWin ? 'border-l-emerald-500' : 'border-l-rose-500';
 
                     deck.innerHTML += `
@@ -201,24 +199,23 @@
                 });
 
             } catch (error) {
-                console.log("Core Sync Re-routing Interval Execution Error...", error);
+                console.log("Sync Error:", error);
             }
         }
 
-        // Precision Hardware Time Sync Loops
+        // Clock trigger configurations
         setInterval(() => {
             const currentSeconds = new Date().getSeconds();
             const remainingSeconds = 60 - currentSeconds;
             document.getElementById('live-timer').innerText = (remainingSeconds < 10 ? "0" : "") + remainingSeconds + "s";
 
-            // Instant hot-reloads to beat lag and pull the result early
-            if (remainingSeconds === 59 || remainingSeconds === 57 || remainingSeconds === 30 || remainingSeconds === 2) {
-                dynamicDataSyncEngine();
+            // Multi-frequency background polling near the edge transitions
+            if (remainingSeconds === 59 || remainingSeconds === 57 || remainingSeconds === 55 || remainingSeconds === 30 || remainingSeconds === 5) {
+                pureStatelessSync();
             }
         }, 1000);
 
-        // Initialization trigger
-        dynamicDataSyncEngine();
+        pureStatelessSync();
     </script>
 </body>
 </html>
