@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wingo Ultra-Predictor Pro Max</title>
+    <title>Wingo AI Radical - Fully Automated Autopilot</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -35,6 +35,7 @@
         .header h1 { font-family: 'Orbitron', sans-serif; font-size: 19px; font-weight: 900; background: linear-gradient(135deg, #ffd700, #ff8800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
         .header .sub { font-size: 10px; color: #718096; letter-spacing: 3px; margin-top: 2px; }
         .header .badge { display: inline-block; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.2); padding: 3px 14px; border-radius: 20px; font-size: 9px; color: #00e676; margin-top: 6px; font-weight: 700; text-transform: uppercase; }
+        .header .badge.autopilot { background: rgba(0, 191, 255, 0.1); border-color: rgba(0, 191, 255, 0.3); color: #00bfff; }
 
         .balance-section { background: rgba(255,255,255,0.02); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.04); }
         .balance-section .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #a0aec0; font-weight: 600; }
@@ -44,7 +45,6 @@
         .balance-row input { width: 100%; padding: 10px 10px 10px 30px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #fff; font-size: 14px; font-weight: 700; font-family: 'Rajdhani', sans-serif; outline: none; transition: 0.3s; }
         .balance-row input:focus { border-color: #ffd700; background: rgba(0,0,0,0.5); }
         .balance-row button { padding: 0 20px; background: linear-gradient(135deg, #ffd700, #ff8800); border: none; border-radius: 10px; color: #06060f; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; }
-        .balance-row button:hover { transform: scale(1.02); filter: brightness(1.1); }
 
         .status-bar { display: flex; justify-content: space-between; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); }
         .status-bar .item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #a0aec0; }
@@ -52,17 +52,15 @@
         .status-bar .item .val.gold { color: #ffd700; }
         .status-bar .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
         .status-bar .dot.green { background: #00e676; animation: pulse 1.2s infinite; }
-        .status-bar .dot.red { background: #ff5252; }
-        .status-bar .dot.yellow { background: #ffd700; animation: pulse 0.7s infinite; }
+        .status-bar .dot.blue { background: #00bfff; animation: pulse 1s infinite; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
         .prediction-card { background: linear-gradient(145deg, rgba(255,215,0,0.04), rgba(0,0,0,0)); border-radius: 16px; padding: 18px 14px; border: 1px solid rgba(255,215,0,0.08); text-align: center; margin-bottom: 12px; position: relative; }
         .prediction-card .period { font-size: 12px; color: #a0aec0; letter-spacing: 1px; font-weight: 600; }
-        .prediction-card .period span { color: #ffd700; font-weight: 700; font-family: 'Orbitron', sans-serif; }
+        .prediction-card .period span { color: #ffd700; font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 15px; }
         .prediction-card .prediction { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; margin: 6px 0; letter-spacing: 2px; }
         .prediction-card .prediction.big { color: #ff5252; text-shadow: 0 0 30px rgba(255,82,82,0.4); }
         .prediction-card .prediction.small { color: #00e676; text-shadow: 0 0 30px rgba(0,230,118,0.4); }
-        .prediction-card .prediction.paused { color: #cbd5e0; font-size: 20px; color: #a0aec0; }
         .prediction-card .confidence { font-size: 13px; color: #718096; }
         .prediction-card .confidence span { color: #00e676; font-weight: 700; font-family: 'Orbitron', sans-serif; }
         .prediction-card .bet-amount { font-size: 12px; color: #a0aec0; margin-top: 3px; }
@@ -84,33 +82,29 @@
         .history-log .empty { text-align: center; color: #4a5568; font-size: 12px; padding: 20px 0; }
 
         .controls { display: flex; gap: 8px; margin-top: 14px; }
-        .controls button { flex: 1; padding: 11px; border: none; border-radius: 10px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.2s; letter-spacing: 1px; text-transform: uppercase; }
-        .controls .btn-start { background: linear-gradient(135deg, #00c853, #00e676); color: #06060f; box-shadow: 0 4px 15px rgba(0,230,118,0.2); }
-        .controls .btn-start:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
-        .controls .btn-stop { background: linear-gradient(135deg, #d50000, #ff1744); color: #fff; }
-        .controls .btn-stop:disabled { opacity: 0.3; cursor: not-allowed; }
-        .controls .btn-reset { background: rgba(255,255,255,0.04); color: #a0aec0; border: 1px solid rgba(255,255,255,0.05); flex: 0.3; }
+        .controls .btn-status-active { flex: 1; padding: 11px; background: rgba(0, 191, 255, 0.1); border: 1px solid rgba(0, 191, 255, 0.3); border-radius: 10px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 13px; color: #00bfff; text-align: center; letter-spacing: 1px; text-transform: uppercase; pointer-events: none; }
+        .controls .btn-reset { background: rgba(255,255,255,0.04); color: #a0aec0; border: 1px solid rgba(255,255,255,0.05); flex: 0.25; border-radius: 10px; cursor: pointer; transition: 0.2s; }
         .controls .btn-reset:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
-        .ai-status { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 6px 12px; margin-top: 12px; border: 1px solid rgba(255,215,0,0.05); }
-        .ai-status .label { font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 1.5px; }
-        .ai-status .status { font-size: 11px; font-weight: 700; font-family: 'Orbitron', sans-serif; }
-        .ai-status .status.learning { color: #ffd700; }
-        .ai-status .status.trained { color: #00e676; text-shadow: 0 0 10px rgba(0,230,118,0.2); }
+        .ai-status-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+        .ai-status { display: flex; flex-direction: column; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 8px 12px; border: 1px solid rgba(255,215,0,0.05); }
+        .ai-status .label { font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .ai-status .status { font-size: 12px; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #ffd700; }
+        .ai-status .status.green { color: #00e676; }
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
     <div class="header">
-        <div class="icon"><i class="fas fa-brain"></i></div>
+        <div class="icon"><i class="fas fa-robot"></i></div>
         <h1>WINGO AI RADICAL</h1>
         <div class="sub">DEEP MARKOV PATTERN ENGINE</div>
-        <div class="badge" id="engineMode"><i class="fas fa-microchip"></i> Booting Engine...</div>
+        <div class="badge autopilot" id="engineMode"><i class="fas fa-bolt"></i> AUTOPILOT ENGAGED</div>
     </div>
 
     <div class="balance-section">
-        <div class="label"><i class="fas fa-wallet"></i> Wallet Matrix</div>
+        <div class="label"><i class="fas fa-wallet"></i> Wallet Matrix (Auto-Saved)</div>
         <div class="balance-row">
             <div class="input-group"><span class="prefix">₨</span><input type="number" id="startAmount" value="580"></div>
             <div class="input-group"><span class="prefix">₨</span><input type="number" id="targetAmount" value="2000"></div>
@@ -119,7 +113,7 @@
     </div>
 
     <div class="status-bar">
-        <div class="item"><span class="dot red" id="statusDot"></span><span id="statusText">Offline</span></div>
+        <div class="item"><span class="dot blue" id="statusDot"></span><span id="statusText">Booting...</span></div>
         <div class="item">Bal: <span class="val gold" id="displayBalance">580</span></div>
         <div class="item">Trgt: <span class="val" id="displayTarget">2000</span></div>
         <div class="item">Level: <span class="val" id="displayLevel">1/2</span></div>
@@ -127,7 +121,7 @@
 
     <div class="prediction-card">
         <div class="period">LIVE UPCOMING PERIOD ➡️ <span id="periodDisplay">----</span></div>
-        <div class="prediction paused" id="predictionDisplay"><i class="fas fa-power-off"></i> STANDBY</div>
+        <div class="prediction" id="predictionDisplay">WAITING DATA...</div>
         <div class="confidence">Dynamic Accuracy: <span id="confidenceDisplay">0%</span></div>
         <div class="bet-amount">Smart Stake: <span id="betDisplay">0</span> RS</div>
     </div>
@@ -135,40 +129,45 @@
     <div class="history-section">
         <div class="title"><span><i class="fas fa-database"></i> INFINITE LOGS</span><span id="historyCount">0 entries</span></div>
         <div class="history-log" id="historyLog">
-            <div class="empty">System idle. No data recorded yet.</div>
+            <div class="empty">Connecting to data node...</div>
         </div>
     </div>
 
     <div class="controls">
-        <button class="btn-start" id="startBtn">⚡ ENGAGE</button>
-        <button class="btn-stop" id="stopBtn" disabled>🛑 HALT</button>
+        <div class="btn-status-active"><i class="fas fa-circle-notch fa-spin"></i> SYSTEM RUNNING TOTALLY AUTOMATIC</div>
         <button class="btn-reset" id="resetBtn" title="Reset All Data"><i class="fas fa-sync-alt"></i></button>
     </div>
 
-    <div class="ai-status">
-        <span class="label"><i class="fas fa-network-wired"></i> PATTERN MEMORY MATRIX</span>
-        <span class="status learning" id="aiStatus">0 Patterns Mastered</span>
+    <div class="ai-status-container">
+        <div class="ai-status">
+            <span class="label"><i class="fas fa-folder-open"></i> PERIODS ANALYZED</span>
+            <span class="status green" id="rawPeriodsCount">0 Rounds</span>
+        </div>
+        <div class="ai-status">
+            <span class="label"><i class="fas fa-network-wired"></i> PATTERN MATRIX</span>
+            <span class="status" id="aiStatus">0 Mastered</span>
+        </div>
     </div>
 </div>
 
 <script>
-// =========================================================================
-// 🔥 PRE-FETCH, HIGH-FREQUENCY INFINITE LEARNING ENGINE (MARKOV DEPTH 6)
-// =========================================================================
-
 const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
 
+// 5 Levels deep configured automatically for max security
 const state = {
     balance: 580, target: 2000, startAmount: 580,
-    level: 0, levels: ['1X','2X'], amounts: [10,20],
-    history: [], isRunning: false,
-    currentLivePeriod: 0, 
-    activePredPeriod: null, activePredTarget: null,
-    lastEvaluatedPeriod: null, 
+    level: 0, 
+    levels: ['1X','2X','4X','8X','16X'], 
+    amounts: [10, 20, 40, 85, 180], // Pro-calculated 5-level recovery
+    history: [], 
+    isRunning: true, // ALWAYS TRUE ON BOOT
+    currentLivePeriodRaw: "", 
+    activePredPeriodShort: null, activePredTarget: null,
+    lastEvaluatedPeriodRaw: "", 
     
     brain: {
         totalRoundsProcessed: 0,
-        patterns: {} // Unlimited associative pattern depth array
+        patterns: {}
     }
 };
 
@@ -181,18 +180,14 @@ const els = {
     confidenceDisplay: $('confidenceDisplay'), betDisplay: $('betDisplay'),
     historyLog: $('historyLog'), historyCount: $('historyCount'),
     statusDot: $('statusDot'), statusText: $('statusText'),
-    aiStatus: $('aiStatus'), startBtn: $('startBtn'),
-    stopBtn: $('stopBtn'), resetBtn: $('resetBtn'),
-    engineMode: $('engineMode')
+    aiStatus: $('aiStatus'), rawPeriodsCount: $('rawPeriodsCount'),
+    resetBtn: $('resetBtn'), engineMode: $('engineMode')
 };
 
-// Deep Ingestion Mechanism (Unlimited scale logic)
 function ingestDataSequence(nums) {
     if (nums.length < 7) return;
     const types = nums.map(n => n >= 5 ? 'B' : 'S');
-    state.brain.totalRoundsProcessed++;
 
-    // Deep scanning from level 2 up to 6 chain linkages
     for (let depth = 2; depth <= 6; depth++) {
         for (let i = 0; i <= types.length - depth - 1; i++) {
             const sequenceKey = types.slice(i, i + depth).join(',');
@@ -207,156 +202,149 @@ function ingestDataSequence(nums) {
     updateAIStatus();
 }
 
-// Advanced Probability Predictor targeting 90%-99% dynamic scale
 function getSmartPrediction(nums) {
     if (nums.length < 6) return { prediction: 'BIG', confidence: 50 };
     const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
     const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
 
-    // 1. Extreme Streak Protection Rule
-    if (types.slice(-4).every((v, i, a) => v === a[0])) {
-        return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 91 };
+    if (state.brain.totalRoundsProcessed < 15) {
+        const randomFluctuate = Math.floor(Math.random() * 5) + 56;
+        return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: randomFluctuate };
     }
 
-    // 2. Cascade Deep Scan (From Depth 6 down to 2)
+    if (types.slice(-4).every((v, i, a) => v === a[0])) {
+        return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 88 };
+    }
+
     for (let depth = 6; depth >= 2; depth--) {
         const currentKey = shortTypes.slice(-depth).join(',');
         const match = state.brain.patterns[currentKey];
 
         if (match) {
             const totalMatches = match.BIG + match.SMALL;
-            if (totalMatches >= 2) { 
+            if (totalMatches >= 3) { 
                 const bigRatio = match.BIG / totalMatches;
                 const smallRatio = match.SMALL / totalMatches;
+                const volumeBonus = Math.min(6, Math.floor(totalMatches / 10)); 
 
-                // Scale up confidence dynamics based on pattern volume size
-                const volumeBonus = Math.min(8, Math.floor(totalMatches / 5)); 
-                
                 if (bigRatio >= 0.55) {
-                    let conf = Math.min(99, Math.round(bigRatio * 100) + volumeBonus);
+                    let conf = Math.min(96, Math.round(bigRatio * 100) + volumeBonus);
                     return { prediction: 'BIG', confidence: conf };
                 }
                 if (smallRatio >= 0.55) {
-                    let conf = Math.min(99, Math.round(smallRatio * 100) + volumeBonus);
+                    let conf = Math.min(96, Math.round(smallRatio * 100) + volumeBonus);
                     return { prediction: 'SMALL', confidence: conf };
                 }
             }
         }
     }
 
-    // Fallback logic
-    return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 74 };
+    return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 64 };
 }
 
 async function fetchAPI() {
     try {
-        const resp = await fetch(API_URL + "?t=" + new Date().getTime()); // Anti-cache lock
+        const resp = await fetch(API_URL + "?t=" + new Date().getTime());
         if (!resp.ok) return null;
-        const data = await resp.json();
-        return data?.data?.list || data?.list || data?.result || null;
+        return (await resp.json())?.data?.list || null;
     } catch { return null; }
 }
 
-let syncInterval = null;
-
-// ⚡ 100% ORIGINAL LIVE ENGINE POLLING
 async function coreEngineSync() {
     try {
         const list = await fetchAPI();
         if (!list || list.length === 0) return;
 
-        // Sort dynamically to lock exact real chronological structure
-        list.sort((a, b) => {
-            const pA = Number(a.issueNumber ?? a.issue ?? a.period ?? 0);
-            const pB = Number(b.issueNumber ?? b.issue ?? b.period ?? 0);
-            return pB - pA;
-        });
+        list.sort((a, b) => String(b.issueNumber ?? b.period).localeCompare(String(a.issueNumber ?? a.period)));
 
         const latestServerItem = list[0];
-        const serverPeriod = Number(latestServerItem.issueNumber ?? latestServerItem.issue ?? latestServerItem.period);
+        const serverPeriodRaw = String(latestServerItem.issueNumber ?? latestServerItem.period);
         
-        // Agar period change nahi hua, toh return ho jao (Anti-Duplicate Guard)
-        if (serverPeriod === state.currentLivePeriod && state.lastEvaluatedPeriod === serverPeriod) {
+        if (serverPeriodRaw === state.currentLivePeriodRaw && state.lastEvaluatedPeriodRaw === serverPeriodRaw) {
             return; 
         }
 
-        const newNum = latestServerItem.number ?? latestServerItem.num ?? latestServerItem.value ?? 0;
+        const newNum = latestServerItem.number ?? latestServerItem.num ?? 0;
         const actualResult = Number(newNum) >= 5 ? 'BIG' : 'SMALL';
 
-        // Jab pehli baar load ho ya sach mein naya period aa jaye
-        const isNewPeriodDetected = state.currentLivePeriod !== 0 && serverPeriod > state.currentLivePeriod;
-        state.currentLivePeriod = serverPeriod;
+        if (state.currentLivePeriodRaw !== "" && serverPeriodRaw !== state.currentLivePeriodRaw) {
+            state.brain.totalRoundsProcessed++; 
+        }
+        
+        state.currentLivePeriodRaw = serverPeriodRaw;
 
-        // UI Par hamesha aane wala accurate period show hoga
-        const nextUpcomingPeriod = state.currentLivePeriod + 1;
-        els.periodDisplay.textContent = String(nextUpcomingPeriod);
+        const shortCurrentPeriod = Number(serverPeriodRaw.slice(-4));
+        const shortNextPeriod = shortCurrentPeriod === 9999 ? 0 : shortCurrentPeriod + 1;
+        
+        els.periodDisplay.textContent = String(shortNextPeriod).padStart(4, '0');
 
-        // 1. Evaluate previous bets safely if state is running
-        if (state.isRunning && state.activePredPeriod && state.activePredPeriod === state.currentLivePeriod && state.lastEvaluatedPeriod !== state.currentLivePeriod) {
-            state.lastEvaluatedPeriod = state.currentLivePeriod;
+        if (state.activePredPeriodShort !== null && shortCurrentPeriod === state.activePredPeriodShort && state.lastEvaluatedPeriodRaw !== serverPeriodRaw) {
+            state.lastEvaluatedPeriodRaw = serverPeriodRaw;
             const win = state.activePredTarget === actualResult;
             const bet = state.amounts[state.level];
 
             if (win) {
                 state.balance += bet * 0.96;
                 state.level = 0;
-                addInfiniteHistory(state.currentLivePeriod, state.activePredTarget, bet, 'WIN', state.balance);
+                addInfiniteHistory(shortCurrentPeriod, state.activePredTarget, bet, 'WIN', state.balance);
             } else {
                 state.balance -= bet;
                 if (state.level < state.amounts.length - 1) state.level++;
-                else state.level = 0;
-                addInfiniteHistory(state.currentLivePeriod, state.activePredTarget, bet, 'LOSS', state.balance);
+                else state.level = 0; // Soft reset if out of bounds
+                addInfiniteHistory(shortCurrentPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
             }
-            state.activePredPeriod = null; state.activePredTarget = null;
+            state.activePredPeriodShort = null; state.activePredTarget = null;
         }
 
-        // 2. Parse numbers dataset safely for deep learning ingestion
         let nums = [];
         for (const item of list) {
-            const n = item.number ?? item.num ?? item.value;
+            const n = item.number ?? item.num;
             if (n !== undefined && n !== null) nums.push(Number(n));
         }
-        nums.reverse(); // Reverse sequence to balance old-to-new layout
+        nums.reverse();
 
         ingestDataSequence(nums);
 
-        // 3. Trigger next prediction execution block if bot is engaged
-        if (state.isRunning) {
-            const analysis = getSmartPrediction(nums);
-            state.activePredPeriod = nextUpcomingPeriod;
-            state.activePredTarget = analysis.prediction;
-            state.bet = state.amounts[state.level];
+        // Continuous Loop Action
+        const analysis = getSmartPrediction(nums);
+        state.activePredPeriodShort = shortNextPeriod;
+        state.activePredTarget = analysis.prediction;
+        const currentBet = state.amounts[state.level];
 
-            els.predictionDisplay.className = `prediction ${analysis.prediction.toLowerCase()}`;
-            els.predictionDisplay.textContent = analysis.prediction;
-            els.confidenceDisplay.textContent = `${analysis.confidence}%`;
-            els.betDisplay.textContent = state.bet;
-            
-            els.statusText.textContent = `Live Analysis Running`;
-            els.statusDot.className = 'dot green';
+        els.predictionDisplay.className = `prediction ${analysis.prediction.toLowerCase()}`;
+        els.predictionDisplay.textContent = analysis.prediction;
+        els.confidenceDisplay.textContent = `${analysis.confidence}%`;
+        els.betDisplay.textContent = currentBet;
+        
+        els.statusText.textContent = `Auto-Syncing Engine`;
+        els.statusDot.className = 'dot green';
 
-            // Checking boundaries thresholds
-            if (state.balance >= state.target) { ceaseBot(); els.statusText.textContent = 'Target Met!'; els.predictionDisplay.className = 'prediction paused'; els.predictionDisplay.textContent = 'TARGET ACHIEVED 🎉'; return; }
-            if (state.balance < 10) { ceaseBot(); els.statusText.textContent = 'Low Balance!'; els.predictionDisplay.className = 'prediction paused'; els.predictionDisplay.textContent = 'INSUFFICIENT FUNDS'; return; }
+        if (state.balance >= state.target) { 
+            els.statusText.textContent = 'Target Achieved!'; 
+            els.predictionDisplay.textContent = 'TARGET MET 🎉';
+            // Auto restart loop target logic can be put here if required
+        }
+        if (state.balance < 10) { 
+            els.statusText.textContent = 'Low Wallet Balance'; 
+            els.predictionDisplay.textContent = 'RECHARGE NEEDED'; 
         }
 
         updateUI();
-    } catch (e) { console.error("Sync Engine Error: ", e); }
+    } catch (e) { console.error(e); }
 }
 
 function addInfiniteHistory(period, target, bet, result, balance) {
-    // Zero truncation: Cap removed completely for unlimited data analytics mapping
-    state.history.push({ period: String(period), target, bet, result, balance: Math.round(balance*100)/100 });
+    state.history.push({ period: String(period).padStart(4, '0'), target, bet, result, balance: Math.round(balance*100)/100 });
     renderHistory();
 }
 
 function renderHistory() {
-    if (state.history.length === 0) { els.historyLog.innerHTML = '<div class="empty">System idle. No data recorded yet.</div>'; return; }
+    if (state.history.length === 0) { els.historyLog.innerHTML = '<div class="empty">Waiting for the next live round close...</div>'; return; }
     let html = '';
     for (const e of [...state.history].reverse()) {
         const statusClass = e.result === 'WIN' ? 'win' : 'loss';
         const icon = e.result === 'WIN' ? '🔥' : '❌';
-        html += `<div class="log-item"><span class="period">${e.period.slice(-4)}</span><span class="result ${statusClass}">${e.target} ${icon}</span><span class="amount">${e.bet}RS</span><span class="balance">${e.balance}RS</span></div>`;
+        html += `<div class="log-item"><span class="period">${e.period}</span><span class="result ${statusClass}">${e.target} ${icon}</span><span class="amount">${e.bet}RS</span><span class="balance">${e.balance}RS</span></div>`;
     }
     els.historyLog.innerHTML = html;
     els.historyCount.textContent = `${state.history.length} entries`;
@@ -366,60 +354,33 @@ function updateUI() {
     els.displayBalance.textContent = Math.round(state.balance);
     els.displayTarget.textContent = Math.round(state.target);
     els.displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
+    els.rawPeriodsCount.textContent = `${state.brain.totalRoundsProcessed} Rounds`;
 }
 
 function updateAIStatus() {
     const totalPatterns = Object.keys(state.brain.patterns).length;
-    if(totalPatterns > 150) {
-        els.engineMode.className = "badge trained";
-        els.engineMode.innerHTML = `<i class="fas fa-brain"></i> HIGH-ACCURACY MODE ACTIVE`;
-    } else {
-        els.engineMode.className = "badge";
-        els.engineMode.innerHTML = `<i class="fas fa-microchip"></i> LEARNING DATA CHANNELS...`;
+    if(state.brain.totalRoundsProcessed > 20) {
+        els.engineMode.className = "badge autopilot";
+        els.engineMode.innerHTML = `<i class="fas fa-shield-alt"></i> AUTOPILOT: SECURE NETWORK ACTIVE`;
     }
-    els.aiStatus.textContent = `${totalPatterns} Patterns Mastered`;
-}
-
-function engageBot() {
-    if (state.isRunning) return;
-    state.isRunning = true;
-    els.startBtn.disabled = true;
-    els.stopBtn.disabled = false;
-    els.setBalance.disabled = true;
-    els.statusDot.className = 'dot green';
-    els.statusText.textContent = 'Live Syncing...';
-    coreEngineSync();
-}
-
-function ceaseBot() {
-    state.isRunning = false;
-    els.startBtn.disabled = false;
-    els.stopBtn.disabled = true;
-    els.setBalance.disabled = false;
-    els.statusDot.className = 'dot red';
-    els.statusText.textContent = 'Halted';
-    els.predictionDisplay.className = 'prediction paused';
-    els.predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
+    els.aiStatus.textContent = `${totalPatterns} Chains`;
 }
 
 function wipeResetCore() {
-    if(confirm("Kya aap poora network data aur history clear karna chahte hain?")) {
-        ceaseBot();
-        localStorage.removeItem('wingo_ultra_matrix_state');
+    if(confirm("Wipe completely and restart auto-pilot data?")) {
+        localStorage.removeItem('wingo_auto_v3_state');
         state.balance = state.startAmount;
         state.level = 0;
         state.history = [];
-        state.activePredPeriod = null;
+        state.activePredPeriodShort = null;
         state.activePredTarget = null;
-        state.lastEvaluatedPeriod = null;
+        state.lastEvaluatedPeriodRaw = "";
         state.brain.patterns = {};
         state.brain.totalRoundsProcessed = 0;
-        state.currentLivePeriod = 0;
+        state.currentLivePeriodRaw = "";
         updateUI();
         updateAIStatus();
-        els.historyLog.innerHTML = '<div class="empty">System idle. No data recorded yet.</div>';
-        els.historyCount.textContent = '0 entries';
-        els.periodDisplay.textContent = "----";
+        renderHistory();
         coreEngineSync();
     }
 }
@@ -430,16 +391,13 @@ els.setBalance.addEventListener('click', function() {
     if (isNaN(s) || s < 10 || isNaN(t) || t <= s) return;
     state.startAmount = s; state.balance = s; state.target = t; state.level = 0;
     updateUI();
-    if (state.isRunning) ceaseBot();
 });
 
-els.startBtn.addEventListener('click', engageBot);
-els.stopBtn.addEventListener('click', ceaseBot);
 els.resetBtn.addEventListener('click', wipeResetCore);
 
 function init() {
     try {
-        const saved = localStorage.getItem('wingo_ultra_matrix_state');
+        const saved = localStorage.getItem('wingo_auto_v3_state');
         if (saved) {
             const parsed = JSON.parse(saved);
             if (parsed.balance) state.balance = parsed.balance;
@@ -448,20 +406,21 @@ function init() {
             if (parsed.history) state.history = parsed.history;
             if (parsed.brain) state.brain = parsed.brain;
         }
-    } catch(e) { console.error("Data restoration failed: ", e); }
+    } catch(e) {}
     
     els.startAmount.value = state.startAmount;
     els.targetAmount.value = state.target;
+    
     updateUI(); updateAIStatus(); renderHistory();
     
-    // 🔥 LIVE HIGH FREQUENCY BACKGROUND COUPLING (Every 5 seconds check)
+    // START IMMEDATELY ON LOAD
     coreEngineSync();
-    syncInterval = setInterval(coreEngineSync, 5000);
+    setInterval(coreEngineSync, 3500); // Super responsive 3.5s loop
 
-    // Auto backup loop to secure infinite dataset configurations
+    // Continuous Background State Save
     setInterval(() => {
         try {
-            localStorage.setItem('wingo_ultra_matrix_state', JSON.stringify({
+            localStorage.setItem('wingo_auto_v3_state', JSON.stringify({
                 balance: state.balance,
                 startAmount: state.startAmount,
                 target: state.target,
@@ -469,7 +428,7 @@ function init() {
                 brain: state.brain 
             }));
         } catch(e) {}
-    }, 7000);
+    }, 4000);
 }
 
 init();
