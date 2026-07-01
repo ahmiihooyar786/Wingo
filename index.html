@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wingo Prediction Bot</title>
+    <title>Wingo Self-Learning Bot</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -103,24 +103,16 @@
         .ai-status .status.learning { color: #ffd700; }
         .ai-status .status.trained { color: #00e676; }
         .ai-status .status.waiting { color: #555577; }
-
-        @media (max-width: 420px) {
-            .container { padding: 14px 12px 18px; }
-            .balance-row { flex-direction: column; }
-            .balance-row button { width: 100%; }
-            .prediction-card .prediction { font-size: 22px; }
-            .history-log .log-item { grid-template-columns: 30px 1fr 30px 40px; font-size: 10px; }
-        }
     </style>
 </head>
 <body>
 
 <div class="container" id="app">
     <div class="header">
-        <div class="icon"><i class="fas fa-robot"></i></div>
+        <div class="icon"><i class="fas fa-brain"></i></div>
         <h1>WINGO PREDICTOR</h1>
-        <div class="sub">AI + DRAGON SHIELD HYBRID</div>
-        <div class="badge"><i class="fas fa-bolt"></i> 1-MIN MODE</div>
+        <div class="sub">CONTINUOUS SELF-LEARNING ENGINE</div>
+        <div class="badge"><i class="fas fa-bolt"></i> AUTOMATIC TRAINING ACTIVE</div>
     </div>
 
     <div class="balance-section">
@@ -160,31 +152,33 @@
     </div>
 
     <div class="ai-status">
-        <span class="label"><i class="fas fa-brain"></i> AI STATUS</span>
-        <span class="status waiting" id="aiStatus">⏳ Waiting for data...</span>
+        <span class="label"><i class="fas fa-database"></i> KNOWLEDGE BASE</span>
+        <span class="status waiting" id="aiStatus">0 Patterns Memorized</span>
     </div>
 </div>
 
 <script>
 // ============================================================
-// 📊 DRAGON-ARMOR REINFORCED WEB ENGINE
+// 📊 CONTINUOUS SELF-LEARNING ENGINE (MARKOV CHAIN HYBRID)
 // ============================================================
 
 const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
 
-// STATE CONFIGURATION (Strict 2-Level Multiplier Protection)
 const state = {
     balance: 580, target: 800, startAmount: 580,
     level: 0, levels: ['1X','2X'], amounts: [10,20],
     history: [], isRunning: false, period: 11,
     prediction: null, confidence: 75, bet: 10,
-    winStreak: 0, lossStreak: 0, totalProfit: 0,
-    consecutiveWins: 0, samples: 0, aiTrained: false,
     activePredPeriod: null, activePredTarget: null,
-    skipCount: 0, maxSkip: 1, apiData: []
+    skipCount: 0, maxSkip: 1,
+    
+    // Persistent Learning Matrix Database
+    brain: {
+        totalRoundsProcessed: 0,
+        patterns: {} // Stores pattern sequences infinitely without bloating
+    }
 };
 
-// DOM NODES
 const $ = id => document.getElementById(id);
 const els = {
     startAmount: $('startAmount'), targetAmount: $('targetAmount'),
@@ -198,88 +192,65 @@ const els = {
     stopBtn: $('stopBtn'), resetBtn: $('resetBtn')
 };
 
-// STATIC PIVOT MAPS
-const CP = {
-    '1,4':'BIG','4,2':'BIG','4,3':'BIG','4,4':'BIG','4,7':'BIG',
-    '4,5':'SMALL','6,1':'SMALL','6,3':'SMALL','6,5':'SMALL','6,6':'SMALL',
-    '0,0':'BIG','0,1':'SMALL','2,2':'SMALL','1,8':'SMALL','1,2':'BIG',
-    '6,4':'SMALL','6,9':'BIG','1,5':'BIG','7,3':'BIG','0,2':'SMALL'
-};
+// 🔄 DYNAMIC LEARNING LAYER (Feeds new data to the statistical matrix live)
+function ingestDataSequence(nums) {
+    if (nums.length < 5) return;
+    
+    const types = nums.map(n => n >= 5 ? 'B' : 'S'); // Compressed memory formatting (B=Big, S=Small)
+    state.brain.totalRoundsProcessed++;
 
-let trainingData = [], aiPatterns = {};
+    // Track multi-depth patterns (pichle 2, 3, aur 4 rounds ke patterns seekhta hai)
+    for (let depth = 2; depth <= 4; depth++) {
+        for (let i = 0; i <= types.length - depth - 1; i++) {
+            const sequenceKey = types.slice(i, i + depth).join(',');
+            const nextResult = types[i + depth] === 'B' ? 'BIG' : 'SMALL';
 
-function addSample(nums, result) {
-    if (nums.length >= 5) {
-        trainingData.push({ numbers: nums.slice(-10), result });
-        state.samples = trainingData.length;
-        if (trainingData.length >= 50 && !state.aiTrained) trainAI();
-        updateAIStatus();
-    }
-}
-
-function trainAI() {
-    if (trainingData.length < 50) return;
-    const pc = {}, pr = {};
-    for (const s of trainingData) {
-        const n = s.numbers;
-        if (n.length >= 2) {
-            const k = `${n[n.length-2]},${n[n.length-1]}`;
-            pc[k] = (pc[k]||0)+1;
-            if (!pr[k]) pr[k] = {BIG:0, SMALL:0};
-            pr[k][s.result] = (pr[k][s.result]||0)+1;
+            if (!state.brain.patterns[sequenceKey]) {
+                state.brain.patterns[sequenceKey] = { BIG: 0, SMALL: 0 };
+            }
+            state.brain.patterns[sequenceKey][nextResult]++;
         }
     }
-    aiPatterns = {};
-    for (const [k, c] of Object.entries(pc)) {
-        if (c >= 3) {
-            const r = pr[k];
-            aiPatterns[k] = {
-                prediction: r.BIG > r.SMALL ? 'BIG' : 'SMALL',
-                confidence: Math.round((Math.max(r.BIG,r.SMALL)/c)*100)
-            };
-        }
-    }
-    state.aiTrained = true;
     updateAIStatus();
 }
 
-// 🧠 DRAGON-ARMOR PREDICTION ENGINE (Chronological Input)
-function getPrediction(nums) {
+// 🧠 LIVE PREDICTION FILTER
+function getSmartPrediction(nums) {
     if (nums.length < 4) return { prediction: null, confidence: 0 };
     const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
+    const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
 
-    // 1. AI Trained Engine Prediction Flow
-    if (state.aiTrained) {
-        const k = `${nums[nums.length-2]},${nums[nums.length-1]}`;
-        if (aiPatterns[k] && aiPatterns[k].confidence >= 65) {
-            return { prediction: aiPatterns[k].prediction, confidence: aiPatterns[k].confidence };
+    // 🐉 1. DRAGON PROTECTION MECHANISM (Always active)
+    if (types[types.length-1] === types[types.length-2] && types[types.length-2] === types[types.length-3]) {
+        return { prediction: types[types.length-1], confidence: 95 };
+    }
+
+    // ⚡ 2. AUTOMATIC MATRIX LOOKUP (Deep Pattern Memory Check)
+    // Sabse pehle deep 4-round sequence match check karega, phir 3, phir 2.
+    for (let depth = 4; depth >= 2; depth--) {
+        const currentKey = shortTypes.slice(-depth).join(',');
+        const historicalMatch = state.brain.patterns[currentKey];
+
+        if (historicalMatch) {
+            const totalMatches = historicalMatch.BIG + historicalMatch.SMALL;
+            if (totalMatches >= 2) { // Minimun 2 baar woh pattern pehle aa chuka ho
+                const bigRatio = historicalMatch.BIG / totalMatches;
+                const smallRatio = historicalMatch.SMALL / totalMatches;
+
+                if (bigRatio >= 0.60) {
+                    return { prediction: 'BIG', confidence: Math.round(bigRatio * 100) };
+                } else if (smallRatio >= 0.60) {
+                    return { prediction: 'SMALL', confidence: Math.round(smallRatio * 100) };
+                }
+            }
         }
     }
 
-    // 🐉 2. ANTI-DRAGON CRITICAL TRIGGER (Ride the Trend!)
-    // If the last 3 rounds are identical -> DO NOT FIGHT THE DRAGON! Follow it!
-    if (types[types.length-1] === types[types.length-2] && types[types.length-2] === types[types.length-3]) {
-        console.log("🐉 Web Dragon Shield Fired. Riding trend:", types[types.length-1]);
-        return { prediction: types[types.length-1], confidence: 96 };
-    }
-
-    // 🚨 3. NORMAL ZIG-ZAG PATTERNS (Only if NO Dragon Alert)
+    // 🎯 3. BACKUP ZIG-ZAG ENGINE (Agar bilkul naya pattern ho)
     if (types[types.length-1] === types[types.length-2]) {
-        return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 85 };
+        return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 78 };
     }
-
-    if (types.length >= 3) {
-        const l3 = types.slice(-3);
-        if (l3[0] === 'BIG' && l3[1] === 'SMALL' && l3[2] === 'BIG') return { prediction: 'SMALL', confidence: 85 };
-        if (l3[0] === 'SMALL' && l3[1] === 'BIG' && l3[2] === 'SMALL') return { prediction: 'BIG', confidence: 85 };
-    }
-
-    if (nums.length >= 2) {
-        const k = `${nums[nums.length-2]},${nums[nums.length-1]}`;
-        if (CP[k]) return { prediction: CP[k], confidence: 85 };
-    }
-
-    return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 75 };
+    return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 72 };
 }
 
 async function fetchAPI() {
@@ -312,30 +283,26 @@ async function runCycle() {
                 const n = item.number ?? item.num ?? item.value;
                 if (n !== undefined && n !== null) nums.push(Number(n));
             }
-            // CRITICAL TIME ALIGNMENT FIX: Reverse sequence to get chronological order [oldest -> newest]
-            nums.reverse();
+            nums.reverse(); // Standard correct chronological parsing [Oldest -> Newest]
         } else {
             nums = Array.from({length:10}, () => Math.floor(Math.random()*10));
             currentPeriod++;
             actual = nums[nums.length-1] >= 5 ? 'BIG' : 'SMALL';
         }
 
-        // Process Prediction Results
+        // Live Learning Trigger (Har round ka real-time auto calculation)
+        ingestDataSequence(nums);
+
+        // Verification Process
         if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
             const win = state.activePredTarget === actual;
             const bet = state.amounts[state.level];
             if (win) {
                 state.balance += bet * 0.96;
-                state.totalProfit += bet * 0.96;
-                state.winStreak++; state.consecutiveWins++; state.lossStreak = 0;
                 state.level = 0;
                 addHistory(currentPeriod, state.activePredTarget, bet, 'WIN', state.balance);
             } else {
                 state.balance -= bet;
-                state.totalProfit -= bet;
-                state.lossStreak++; state.winStreak = 0; state.consecutiveWins = 0;
-                
-                // Safe Level Guard Reset
                 if (state.level < state.amounts.length - 1) state.level++;
                 else state.level = 0;
                 addHistory(currentPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
@@ -343,20 +310,8 @@ async function runCycle() {
             state.activePredPeriod = null; state.activePredTarget = null; state.skipCount = 0;
         }
 
-        const result = getPrediction(nums.slice(-10));
-        addSample(nums.slice(-10), actual);
-
-        let pred = null, conf = 0;
-        if (result.prediction && result.confidence >= 75) {
-            pred = result.prediction; conf = result.confidence;
-        } else {
-            state.skipCount++;
-            if (state.skipCount >= state.maxSkip) {
-                const fb = getPrediction(nums.slice(-10));
-                if (fb.prediction) { pred = fb.prediction; conf = Math.max(fb.confidence, 70); }
-                state.skipCount = 0;
-            }
-        }
+        const result = getSmartPrediction(nums);
+        let pred = result.prediction, conf = result.confidence;
 
         const nextPeriod = currentPeriod + 1;
         els.periodDisplay.textContent = String(nextPeriod).slice(-4);
@@ -369,18 +324,11 @@ async function runCycle() {
             els.predictionDisplay.textContent = pred;
             els.confidenceDisplay.textContent = `${conf}%`;
             els.betDisplay.textContent = state.bet;
-            els.statusText.textContent = `📈 ${pred} • ${conf}%`;
+            els.statusText.textContent = `⚡ AI Bet Active • ${conf}%`;
             els.statusDot.className = 'dot green';
-        } else {
-            els.predictionDisplay.className = 'prediction waiting';
-            els.predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
-            els.confidenceDisplay.textContent = '--%';
-            els.betDisplay.textContent = '--';
-            els.statusText.textContent = '⏳ Scanning...';
-            els.statusDot.className = 'dot yellow';
         }
 
-        if (state.balance >= state.target) { stopBot(); els.statusText.textContent = '🎉 TARGET REACHED!'; els.predictionDisplay.className = 'prediction waiting'; els.predictionDisplay.innerHTML = '🎯 TARGET ACHIEVED! 🎉'; return; }
+        if (state.balance >= state.target) { stopBot(); els.statusText.textContent = '🎯 TARGET REACHED!'; els.predictionDisplay.className = 'prediction waiting'; els.predictionDisplay.innerHTML = '🎯 TARGET ACHIEVED! 🎉'; return; }
         if (state.balance < 10) { stopBot(); els.statusText.textContent = '⚠️ BALANCE LOW!'; els.predictionDisplay.className = 'prediction waiting'; els.predictionDisplay.innerHTML = '⚠️ INSUFFICIENT BALANCE'; return; }
 
         updateUI();
@@ -409,27 +357,24 @@ function updateUI() {
     els.displayBalance.textContent = Math.round(state.balance);
     els.displayTarget.textContent = Math.round(state.target);
     els.displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
-    els.displayBalance.style.color = state.balance < state.startAmount * 0.5 ? '#ff5252' : state.balance > state.startAmount ? '#00e676' : '#ffd700';
 }
 
 function updateAIStatus() {
-    if (state.aiTrained) { els.aiStatus.className = 'status trained'; els.aiStatus.textContent = `✅ Trained (${Object.keys(aiPatterns).length} patterns)`; }
-    else if (state.samples >= 10) { els.aiStatus.className = 'status learning'; els.aiStatus.textContent = `🔄 Learning... ${state.samples}/50`; }
-    else { els.aiStatus.className = 'status waiting'; els.aiStatus.textContent = '⏳ Waiting for data...'; }
+    const totalPatterns = Object.keys(state.brain.patterns).length;
+    els.aiStatus.className = totalPatterns > 20 ? 'status trained' : 'status learning';
+    els.aiStatus.textContent = `🧠 ${totalPatterns} Patterns Mastered`;
 }
 
 function startBot() {
     if (state.isRunning) return;
-    if (state.balance < 10) { state.balance = state.startAmount; updateUI(); }
     state.isRunning = true;
     els.startBtn.disabled = true;
     els.stopBtn.disabled = false;
     els.setBalance.disabled = true;
     els.statusDot.className = 'dot green';
-    els.statusText.textContent = 'Running';
     runCycle();
     if (cycleInterval) clearInterval(cycleInterval);
-    cycleInterval = setInterval(runCycle, 60000); // 1-Min Poll Sequence
+    cycleInterval = setInterval(runCycle, 60000); 
 }
 
 function stopBot() {
@@ -449,92 +394,58 @@ function resetBot() {
     state.balance = state.startAmount;
     state.level = 0;
     state.history = [];
-    state.winStreak = 0;
-    state.lossStreak = 0;
-    state.totalProfit = 0;
-    state.consecutiveWins = 0;
     state.activePredPeriod = null;
     state.activePredTarget = null;
-    state.skipCount = 0;
-    trainingData = [];
-    state.samples = 0;
-    state.aiTrained = false;
-    aiPatterns = {};
+    state.brain.patterns = {}; // Clears matrix on hard user reset request
+    state.brain.totalRoundsProcessed = 0;
     updateUI();
     updateAIStatus();
     els.historyLog.innerHTML = '<div class="empty">⏳ Waiting...</div>';
     els.historyCount.textContent = '0 entries';
-    els.predictionDisplay.className = 'prediction paused';
-    els.predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
-    els.confidenceDisplay.textContent = '75%';
-    els.betDisplay.textContent = '10';
-    els.periodDisplay.textContent = '0011';
-    els.statusDot.className = 'dot yellow';
-    els.statusText.textContent = 'Ready';
 }
 
-// EVENTS
 els.setBalance.addEventListener('click', function() {
     const s = parseFloat(els.startAmount.value);
     const t = parseFloat(els.targetAmount.value);
-    if (isNaN(s) || s < 10) { alert('Valid start amount (min 10)'); return; }
-    if (isNaN(t) || t <= s) { alert('Target must be greater than start'); return; }
-    state.startAmount = s; state.balance = s; state.target = t; state.level = 0; state.history = []; state.totalProfit = 0;
-    trainingData = []; state.samples = 0; state.aiTrained = false; aiPatterns = {};
-    updateUI(); updateAIStatus();
-    els.historyLog.innerHTML = '<div class="empty">⏳ Waiting...</div>';
-    els.historyCount.textContent = '0 entries';
-    els.predictionDisplay.className = 'prediction paused';
-    els.predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
-    els.statusDot.className = 'dot yellow';
-    els.statusText.textContent = 'Configured';
+    if (isNaN(s) || s < 10 || isNaN(t) || t <= s) return;
+    state.startAmount = s; state.balance = s; state.target = t; state.level = 0;
+    updateUI();
     if (state.isRunning) stopBot();
-    alert(`✅ Set! Start: ${s} RS | Target: ${t} RS`);
 });
 
 els.startBtn.addEventListener('click', startBot);
 els.stopBtn.addEventListener('click', stopBot);
 els.resetBtn.addEventListener('click', resetBot);
 
-// INIT DATA LAYER
+// 💾 SECURE LOCAL STORAGE ENGINE (Preserves learned statistics forever)
 function init() {
     try {
-        const saved = localStorage.getItem('wingoState');
+        const saved = localStorage.getItem('wingo_brain_state');
         if (saved) {
-            const p = JSON.parse(saved);
-            if (p.balance) state.balance = p.balance;
-            if (p.startAmount) state.startAmount = p.startAmount;
-            if (p.target) state.target = p.target;
-            if (p.history) state.history = p.history;
-            if (p.samples) state.samples = p.samples;
-            if (p.aiTrained) state.aiTrained = p.aiTrained;
-            if (p.aiPatterns) aiPatterns = p.aiPatterns;
-            if (p.trainingData) trainingData = p.trainingData;
+            const parsed = JSON.parse(saved);
+            if (parsed.balance) state.balance = parsed.balance;
+            if (parsed.startAmount) state.startAmount = parsed.startAmount;
+            if (parsed.target) state.target = parsed.target;
+            if (parsed.history) state.history = parsed.history;
+            if (parsed.brain && parsed.brain.patterns) state.brain = parsed.brain;
         }
     } catch(e) {}
     els.startAmount.value = state.startAmount;
     els.targetAmount.value = state.target;
     updateUI(); updateAIStatus(); renderHistory();
-    els.historyCount.textContent = `${state.history.length} entries`;
-    els.statusDot.className = 'dot yellow';
-    els.statusText.textContent = 'Ready';
 
+    // Auto backup learned matrix patterns every 10 seconds securely
     setInterval(() => {
         try {
-            localStorage.setItem('wingoState', JSON.stringify({
+            localStorage.setItem('wingo_brain_state', JSON.stringify({
                 balance: state.balance,
                 startAmount: state.startAmount,
                 target: state.target,
-                history: state.history.slice(-50),
-                samples: state.samples,
-                aiTrained: state.aiTrained,
-                aiPatterns: aiPatterns,
-                trainingData: trainingData.slice(-200)
+                history: state.history,
+                brain: state.brain 
             }));
         } catch(e) {}
     }, 10000);
-
-    console.log('🚀 Patched Dragon-Armor Wingo Bot Loaded!');
 }
 
 init();
