@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wingo AI Prediction Bot</title>
-
-    <!-- ===== Google Fonts ===== -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
-
-    <!-- ===== Font Awesome ===== -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* ======================================================
-                   GLOBAL RESET & BASE
-                ====================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Rajdhani', sans-serif;
             background: #0a0a1a;
@@ -29,1324 +16,663 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(10, 30, 80, 0.4) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(80, 10, 30, 0.3) 0%, transparent 60%),
-                linear-gradient(180deg, #0a0a1a 0%, #141430 100%);
+            padding: 15px;
+            background-image: radial-gradient(ellipse at 20% 50%, rgba(10,30,80,0.4) 0%, transparent 60%),
+                              radial-gradient(ellipse at 80% 50%, rgba(80,10,30,0.3) 0%, transparent 60%);
         }
-
-        /* ======================================================
-                   MAIN CONTAINER
-                ====================================================== */
         .container {
-            max-width: 520px;
+            max-width: 480px;
             width: 100%;
-            background: rgba(20, 20, 50, 0.85);
+            background: rgba(20,20,50,0.88);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
-            padding: 28px 24px 32px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.8),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-
-        /* ======================================================
-                   HEADER
-                ====================================================== */
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .header .icon {
-            font-size: 42px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-            margin-bottom: 4px;
-        }
-
-        .header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-        }
-
-        .header .sub {
-            font-size: 13px;
-            color: #8888bb;
-            margin-top: 2px;
-            letter-spacing: 2px;
-        }
-
-        .header .badge {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.12);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 2px 14px;
-            border-radius: 20px;
-            font-size: 10px;
-            color: #ffd700;
-            letter-spacing: 1px;
-            margin-top: 6px;
-            font-weight: 600;
-        }
-
-        /* ======================================================
-                   BALANCE INPUT SECTION
-                ====================================================== */
-        .balance-section {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 18px 16px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .balance-section .label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #8888bb;
-            font-weight: 600;
-        }
-
-        .balance-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .balance-row .input-group {
-            flex: 1;
-            position: relative;
-        }
-
-        .balance-row .input-group .prefix {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #ffd700;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .balance-row input {
-            width: 100%;
-            padding: 12px 14px 12px 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            font-family: 'Rajdhani', sans-serif;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .balance-row input:focus {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.05);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
-        }
-
-        .balance-row input::placeholder {
-            color: #555577;
-            font-weight: 400;
-        }
-
-        .balance-row button {
-            padding: 12px 22px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            border: none;
-            border-radius: 12px;
-            color: #0a0a1a;
-            font-weight: 700;
-            font-size: 14px;
-            font-family: 'Rajdhani', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .balance-row button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
-        }
-
-        .balance-row button:active {
-            transform: scale(0.97);
-        }
-
-        /* ======================================================
-                   STATUS BAR
-                ====================================================== */
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 10px 16px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .status-bar .item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #aaaacc;
-        }
-
-        .status-bar .item .val {
-            font-weight: 700;
-            color: #fff;
-            font-size: 14px;
-        }
-
-        .status-bar .item .val.gold {
-            color: #ffd700;
-        }
-
-        .status-bar .item .val.green {
-            color: #00e676;
-        }
-
-        .status-bar .item .val.red {
-            color: #ff5252;
-        }
-
-        .status-bar .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-dot 1.5s ease-in-out infinite;
-        }
-
-        .status-bar .dot.green {
-            background: #00e676;
-        }
-
-        .status-bar .dot.red {
-            background: #ff5252;
-            animation: none;
-        }
-
-        .status-bar .dot.yellow {
-            background: #ffd700;
-            animation: pulse-dot 0.8s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scale(0.7);
-            }
-        }
-
-        /* ======================================================
-                   PREDICTION CARD
-                ====================================================== */
-        .prediction-card {
-            background: linear-gradient(145deg, rgba(255, 215, 0, 0.06), rgba(255, 215, 0, 0.01));
-            border-radius: 18px;
-            padding: 22px 20px 20px;
-            border: 1px solid rgba(255, 215, 0, 0.10);
-            text-align: center;
-            margin-bottom: 16px;
-            min-height: 120px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .prediction-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03), transparent 70%);
-            animation: rotate-glow 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate-glow {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .prediction-card .period {
-            font-size: 13px;
-            color: #8888bb;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .prediction-card .period span {
-            color: #ffd700;
-            font-weight: 700;
-        }
-
-        .prediction-card .prediction {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 36px;
-            font-weight: 900;
-            margin: 6px 0 4px;
-            position: relative;
-            z-index: 1;
-            letter-spacing: 2px;
-        }
-
-        .prediction-card .prediction.big {
-            color: #ff5252;
-            text-shadow: 0 0 40px rgba(255, 82, 82, 0.3);
-        }
-
-        .prediction-card .prediction.small {
-            color: #00e676;
-            text-shadow: 0 0 40px rgba(0, 230, 118, 0.3);
-        }
-
-        .prediction-card .prediction.waiting {
-            color: #8888bb;
-            font-size: 20px;
-        }
-
-        .prediction-card .confidence {
-            font-size: 14px;
-            color: #8888bb;
-            position: relative;
-            z-index: 1;
-        }
-
-        .prediction-card .confidence span {
-            color: #ffd700;
-            font-weight: 700;
-        }
-
-        .prediction-card .bet-amount {
-            font-size: 13px;
-            color: #8888bb;
-            margin-top: 2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .prediction-card .bet-amount span {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        /* ======================================================
-                   HISTORY LOG
-                ====================================================== */
-        .history-section {
-            margin-top: 12px;
-        }
-
-        .history-section .title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #555577;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .history-section .title .count {
-            color: #8888bb;
-            font-weight: 400;
-        }
-
-        .history-log {
-            max-height: 180px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
-        }
-
-        .history-log::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .history-log::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .history-log::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-        }
-
-        .history-log .log-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 8px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: background 0.2s ease;
-        }
-
-        .history-log .log-item:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .history-log .log-item .period {
-            color: #666688;
-            font-weight: 400;
-        }
-
-        .history-log .log-item .result {
-            font-weight: 700;
-        }
-
-        .history-log .log-item .result.win {
-            color: #00e676;
-        }
-
-        .history-log .log-item .result.loss {
-            color: #ff5252;
-        }
-
-        .history-log .log-item .amount {
-            color: #8888bb;
-        }
-
-        .history-log .log-item .balance {
-            color: #ffd700;
-            font-weight: 700;
-        }
-
-        .history-log .empty {
-            text-align: center;
-            color: #555577;
-            font-size: 13px;
-            padding: 20px 0;
-        }
-
-        /* ======================================================
-                   CONTROL BUTTONS
-                ====================================================== */
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-        }
-
-        .controls button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 12px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .controls .btn-start {
-            background: linear-gradient(135deg, #00c853, #00e676);
-            color: #0a0a1a;
-        }
-
-        .controls .btn-start:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 40px rgba(0, 230, 118, 0.2);
-        }
-
-        .controls .btn-start:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .controls .btn-stop {
-            background: linear-gradient(135deg, #d50000, #ff1744);
-            color: #fff;
-        }
-
-        .controls .btn-stop:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 40px rgba(255, 23, 68, 0.2);
-        }
-
-        .controls .btn-stop:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .controls .btn-reset {
-            background: rgba(255, 255, 255, 0.05);
-            color: #8888bb;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            flex: 0.5;
-        }
-
-        .controls .btn-reset:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-        }
-
-        /* ======================================================
-                   AI STATUS
-                ====================================================== */
-        .ai-status {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-            padding: 8px 14px;
-            margin-top: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .ai-status .label {
-            font-size: 11px;
-            color: #555577;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .ai-status .status {
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .ai-status .status.learning {
-            color: #ffd700;
-        }
-
-        .ai-status .status.trained {
-            color: #00e676;
-        }
-
-        .ai-status .status.waiting {
-            color: #555577;
-        }
-
-        /* ======================================================
-                   RESPONSIVE
-                ====================================================== */
-        @media (max-width: 480px) {
-            .container {
-                padding: 18px 14px 22px;
-            }
-
-            .balance-row {
-                flex-wrap: wrap;
-            }
-
-            .balance-row button {
-                width: 100%;
-            }
-
-            .prediction-card .prediction {
-                font-size: 28px;
-            }
-
-            .status-bar {
-                font-size: 11px;
-                padding: 8px 12px;
-            }
-
-            .header h1 {
-                font-size: 17px;
-            }
-
-            .controls {
-                flex-wrap: wrap;
-            }
-
-            .controls .btn-reset {
-                flex: 1;
-            }
-        }
-
-        /* ======================================================
-                   ANIMATIONS
-                ====================================================== */
-        .fade-in {
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .pulse-gold {
-            animation: pulseGold 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseGold {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.6;
-            }
+            border-radius: 24px;
+            padding: 20px 18px 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+        }
+        /* Header */
+        .header { text-align: center; margin-bottom: 20px; }
+        .header .icon { font-size: 36px; background: linear-gradient(135deg, #f7971e, #ffd200); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header h1 { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; background: linear-gradient(135deg, #f7971e, #ffd200); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header .sub { font-size: 11px; color: #8888bb; letter-spacing: 2px; }
+        .header .badge { display: inline-block; background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.2); padding: 2px 12px; border-radius: 20px; font-size: 9px; color: #ffd700; margin-top: 4px; font-weight: 600; }
+
+        /* Balance Section */
+        .balance-section { background: rgba(255,255,255,0.03); border-radius: 14px; padding: 14px 14px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.05); }
+        .balance-section .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #8888bb; font-weight: 600; }
+        .balance-row { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+        .balance-row .input-group { flex: 1; position: relative; min-width: 100px; }
+        .balance-row .input-group .prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #ffd700; font-weight: 700; font-size: 13px; }
+        .balance-row input { width: 100%; padding: 10px 12px 10px 28px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600; font-family: 'Rajdhani', sans-serif; outline: none; }
+        .balance-row input:focus { border-color: #ffd700; background: rgba(255,215,0,0.05); }
+        .balance-row button { padding: 10px 18px; background: linear-gradient(135deg, #f7971e, #ffd200); border: none; border-radius: 10px; color: #0a0a1a; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+        .balance-row button:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(255,215,0,0.15); }
+
+        /* Status Bar */
+        .status-bar { display: flex; justify-content: space-between; background: rgba(255,255,255,0.03); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.04); flex-wrap: wrap; gap: 4px; }
+        .status-bar .item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8888bb; }
+        .status-bar .item .val { font-weight: 700; color: #fff; font-size: 13px; }
+        .status-bar .item .val.gold { color: #ffd700; }
+        .status-bar .item .val.green { color: #00e676; }
+        .status-bar .item .val.red { color: #ff5252; }
+        .status-bar .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; animation: pulse-dot 1.5s ease-in-out infinite; }
+        .status-bar .dot.green { background: #00e676; }
+        .status-bar .dot.red { background: #ff5252; animation: none; }
+        .status-bar .dot.yellow { background: #ffd700; animation: pulse-dot 0.8s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
+
+        /* Prediction Card */
+        .prediction-card { background: linear-gradient(145deg, rgba(255,215,0,0.06), rgba(255,215,0,0.01)); border-radius: 16px; padding: 18px 16px; border: 1px solid rgba(255,215,0,0.08); text-align: center; margin-bottom: 12px; min-height: 100px; position: relative; overflow: hidden; }
+        .prediction-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(255,215,0,0.03), transparent 70%); animation: rotate-glow 20s linear infinite; pointer-events: none; }
+        @keyframes rotate-glow { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .prediction-card .period { font-size: 12px; color: #8888bb; letter-spacing: 1px; position: relative; z-index: 1; }
+        .prediction-card .period span { color: #ffd700; font-weight: 700; }
+        .prediction-card .prediction { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; margin: 4px 0; position: relative; z-index: 1; letter-spacing: 2px; }
+        .prediction-card .prediction.big { color: #ff5252; text-shadow: 0 0 40px rgba(255,82,82,0.3); }
+        .prediction-card .prediction.small { color: #00e676; text-shadow: 0 0 40px rgba(0,230,118,0.3); }
+        .prediction-card .prediction.waiting { color: #8888bb; font-size: 18px; }
+        .prediction-card .prediction.paused { color: #ffd700; font-size: 22px; }
+        .prediction-card .confidence { font-size: 13px; color: #8888bb; position: relative; z-index: 1; }
+        .prediction-card .confidence span { color: #ffd700; font-weight: 700; }
+        .prediction-card .bet-amount { font-size: 12px; color: #8888bb; margin-top: 2px; position: relative; z-index: 1; }
+        .prediction-card .bet-amount span { color: #fff; font-weight: 700; }
+
+        /* History */
+        .history-section { margin-top: 10px; }
+        .history-section .title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #555577; font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .history-section .title .count { color: #8888bb; font-weight: 400; }
+        .history-log { max-height: 160px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.05) transparent; }
+        .history-log::-webkit-scrollbar { width: 3px; }
+        .history-log::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
+        .history-log .log-item { display: grid; grid-template-columns: 50px 1fr 50px 60px; gap: 4px; padding: 5px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,0.03); align-items: center; }
+        .history-log .log-item .period { color: #666688; font-weight: 400; }
+        .history-log .log-item .result { font-weight: 700; }
+        .history-log .log-item .result.win { color: #00e676; }
+        .history-log .log-item .result.loss { color: #ff5252; }
+        .history-log .log-item .amount { color: #8888bb; }
+        .history-log .log-item .balance { color: #ffd700; font-weight: 700; font-size: 11px; }
+        .history-log .empty { text-align: center; color: #555577; font-size: 12px; padding: 15px 0; }
+
+        /* Controls */
+        .controls { display: flex; gap: 8px; margin-top: 12px; }
+        .controls button { flex: 1; padding: 10px; border: none; border-radius: 10px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.3s; letter-spacing: 0.5px; }
+        .controls .btn-start { background: linear-gradient(135deg, #00c853, #00e676); color: #0a0a1a; }
+        .controls .btn-start:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,230,118,0.15); }
+        .controls .btn-start:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .controls .btn-stop { background: linear-gradient(135deg, #d50000, #ff1744); color: #fff; }
+        .controls .btn-stop:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(255,23,68,0.15); }
+        .controls .btn-stop:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+        .controls .btn-reset { background: rgba(255,255,255,0.05); color: #8888bb; border: 1px solid rgba(255,255,255,0.06); flex: 0.4; }
+        .controls .btn-reset:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+        /* AI Status */
+        .ai-status { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); border-radius: 8px; padding: 6px 12px; margin-top: 10px; border: 1px solid rgba(255,255,255,0.04); }
+        .ai-status .label { font-size: 10px; color: #555577; text-transform: uppercase; letter-spacing: 1px; }
+        .ai-status .status { font-size: 11px; font-weight: 600; }
+        .ai-status .status.learning { color: #ffd700; }
+        .ai-status .status.trained { color: #00e676; }
+        .ai-status .status.waiting { color: #555577; }
+
+        /* Responsive */
+        @media (max-width: 420px) {
+            .container { padding: 14px 12px 18px; }
+            .balance-row { flex-direction: column; }
+            .balance-row button { width: 100%; }
+            .prediction-card .prediction { font-size: 26px; }
+            .status-bar { font-size: 10px; padding: 6px 10px; }
+            .history-log .log-item { grid-template-columns: 40px 1fr 40px 50px; font-size: 11px; }
+            .header h1 { font-size: 16px; }
+            .controls button { font-size: 12px; padding: 8px; }
         }
     </style>
 </head>
-
 <body>
 
-    <div class="container" id="app">
-        <!-- ===== HEADER ===== -->
-        <div class="header">
-            <div class="icon"><i class="fas fa-robot"></i></div>
-            <h1>WINGO PREDICTOR</h1>
-            <div class="sub">AI + RULE HYBRID ENGINE</div>
-            <div class="badge"><i class="fas fa-bolt"></i> 1-MIN MODE</div>
-        </div>
+<div class="container" id="app">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="icon"><i class="fas fa-robot"></i></div>
+        <h1>WINGO PREDICTOR</h1>
+        <div class="sub">AI + RULE HYBRID ENGINE</div>
+        <div class="badge"><i class="fas fa-bolt"></i> 1-MIN MODE</div>
+    </div>
 
-        <!-- ===== BALANCE INPUT ===== -->
-        <div class="balance-section">
-            <div class="label"><i class="fas fa-wallet"></i> &nbsp;CONFIGURE BALANCE</div>
-            <div class="balance-row">
-                <div class="input-group">
-                    <span class="prefix">₨</span>
-                    <input type="number" id="startAmount" placeholder="Start Amount" value="800" min="10" />
-                </div>
-                <div class="input-group">
-                    <span class="prefix">₨</span>
-                    <input type="number" id="targetAmount" placeholder="Target Amount" value="40000" min="100" />
-                </div>
-                <button id="setBalanceBtn"><i class="fas fa-check"></i> SET</button>
+    <!-- BALANCE INPUT -->
+    <div class="balance-section">
+        <div class="label"><i class="fas fa-wallet"></i> CONFIGURE BALANCE</div>
+        <div class="balance-row">
+            <div class="input-group">
+                <span class="prefix">₨</span>
+                <input type="number" id="startAmount" placeholder="Start" value="580" min="10">
             </div>
-        </div>
-
-        <!-- ===== STATUS BAR ===== -->
-        <div class="status-bar">
-            <div class="item">
-                <span class="dot green" id="statusDot"></span>
-                <span id="statusText">Ready</span>
+            <div class="input-group">
+                <span class="prefix">₨</span>
+                <input type="number" id="targetAmount" placeholder="Target" value="800" min="100">
             </div>
-            <div class="item">
-                Balance: <span class="val gold" id="displayBalance">800</span>
-            </div>
-            <div class="item">
-                Target: <span class="val" id="displayTarget">40,000</span>
-            </div>
-            <div class="item">
-                Level: <span class="val" id="displayLevel">1/2</span>
-            </div>
-        </div>
-
-        <!-- ===== PREDICTION CARD ===== -->
-        <div class="prediction-card" id="predictionCard">
-            <div class="period">PERIOD NO ➡️ <span id="periodDisplay">----</span></div>
-            <div class="prediction waiting" id="predictionDisplay">
-                <i class="fas fa-circle-notch fa-spin"></i> SCANNING...
-            </div>
-            <div class="confidence">Confidence: <span id="confidenceDisplay">--%</span></div>
-            <div class="bet-amount">Bet: <span id="betDisplay">--</span> RS</div>
-        </div>
-
-        <!-- ===== HISTORY ===== -->
-        <div class="history-section">
-            <div class="title">
-                <span><i class="fas fa-list-ul"></i> HISTORY</span>
-                <span class="count" id="historyCount">0 entries</span>
-            </div>
-            <div class="history-log" id="historyLog">
-                <div class="empty">⏳ Waiting for predictions...</div>
-            </div>
-        </div>
-
-        <!-- ===== CONTROLS ===== -->
-        <div class="controls">
-            <button class="btn-start" id="startBtn"><i class="fas fa-play"></i> START</button>
-            <button class="btn-stop" id="stopBtn" disabled><i class="fas fa-stop"></i> STOP</button>
-            <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i></button>
-        </div>
-
-        <!-- ===== AI STATUS ===== -->
-        <div class="ai-status">
-            <span class="label"><i class="fas fa-brain"></i> AI STATUS</span>
-            <span class="status waiting" id="aiStatus">⏳ Waiting for data...</span>
+            <button id="setBalanceBtn"><i class="fas fa-check"></i> SET</button>
         </div>
     </div>
 
-    <!-- ======================================================
-    JAVASCRIPT — COMPLETE BOT LOGIC
-    ====================================================== -->
-    <script>
-        // ============================================================
-        // STATE
-        // ============================================================
-        const state = {
-            balance: 800,
-            target: 40000,
-            startAmount: 800,
-            level: 0,
-            levels: ['1X', '3X'],
-            amounts: [10, 30],
-            history: [],
-            isRunning: false,
-            period: null,
-            prediction: null,
-            confidence: 0,
-            bet: 10,
-            winStreak: 0,
-            lossStreak: 0,
-            totalProfit: 0,
-            consecutiveWins: 0,
-            samples: 0,
-            aiTrained: false,
-            lastPeriod: null,
-            activePredPeriod: null,
-            activePredTarget: null,
-            skipCount: 0,
-            maxSkip: 2
-        };
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+        <div class="item"><span class="dot yellow" id="statusDot"></span><span id="statusText">Ready</span></div>
+        <div class="item">Balance: <span class="val gold" id="displayBalance">580</span></div>
+        <div class="item">Target: <span class="val" id="displayTarget">800</span></div>
+        <div class="item">Level: <span class="val" id="displayLevel">1/2</span></div>
+    </div>
 
-        // ============================================================
-        // DOM REFS
-        // ============================================================
-        const $ = id => document.getElementById(id);
+    <!-- PREDICTION CARD -->
+    <div class="prediction-card" id="predictionCard">
+        <div class="period">PERIOD NO ➡️ <span id="periodDisplay">0011</span></div>
+        <div class="prediction paused" id="predictionDisplay"><i class="fas fa-pause-circle"></i> PAUSED</div>
+        <div class="confidence">Confidence: <span id="confidenceDisplay">75%</span></div>
+        <div class="bet-amount">Bet: <span id="betDisplay">10</span> RS</div>
+    </div>
 
-        const startAmountInput = $('startAmount');
-        const targetAmountInput = $('targetAmount');
-        const setBalanceBtn = $('setBalanceBtn');
-        const displayBalance = $('displayBalance');
-        const displayTarget = $('displayTarget');
-        const displayLevel = $('displayLevel');
-        const periodDisplay = $('periodDisplay');
-        const predictionDisplay = $('predictionDisplay');
-        const confidenceDisplay = $('confidenceDisplay');
-        const betDisplay = $('betDisplay');
-        const historyLog = $('historyLog');
-        const historyCount = $('historyCount');
-        const statusDot = $('statusDot');
-        const statusText = $('statusText');
-        const aiStatus = $('aiStatus');
-        const startBtn = $('startBtn');
-        const stopBtn = $('stopBtn');
-        const resetBtn = $('resetBtn');
+    <!-- HISTORY -->
+    <div class="history-section">
+        <div class="title"><span><i class="fas fa-list-ul"></i> HISTORY</span><span class="count" id="historyCount">6 entries</span></div>
+        <div class="history-log" id="historyLog">
+            <div class="log-item"><span class="period">0010</span><span class="result win">SMALL 🔥</span><span class="amount">10RS</span><span class="balance">538RS</span></div>
+            <div class="log-item"><span class="period">0009</span><span class="result win">SMALL 🔥</span><span class="amount">30RS</span><span class="balance">528.4RS</span></div>
+            <div class="log-item"><span class="period">0008</span><span class="result win">SMALL 🔥</span><span class="amount">10RS</span><span class="balance">558.4RS</span></div>
+            <div class="log-item"><span class="period">0007</span><span class="result win">BIG 🔥</span><span class="amount">30RS</span><span class="balance">568.4RS</span></div>
+            <div class="log-item"><span class="period">0006</span><span class="result win">BIG 🔥</span><span class="amount">10RS</span><span class="balance">539.6RS</span></div>
+            <div class="log-item"><span class="period">0005</span><span class="result win">BIG 🔥</span><span class="amount">30RS</span><span class="balance">549.6RS</span></div>
+        </div>
+    </div>
 
-        // ============================================================
-        // PATTERNS (20 Chart Patterns)
-        // ============================================================
-        const CHART_PATTERNS = {
-            '1,4': 'BIG',
-            '4,2': 'BIG',
-            '4,3': 'BIG',
-            '4,4': 'BIG',
-            '4,7': 'BIG',
-            '4,5': 'SMALL',
-            '6,1': 'SMALL',
-            '6,3': 'SMALL',
-            '6,5': 'SMALL',
-            '6,6': 'SMALL',
-            '0,0': 'BIG',
-            '0,1': 'SMALL',
-            '2,2': 'SMALL',
-            '1,8': 'SMALL',
-            '1,2': 'BIG',
-            '6,4': 'SMALL',
-            '6,9': 'BIG',
-            '1,5': 'BIG',
-            '7,3': 'BIG',
-            '0,2': 'SMALL'
-        };
+    <!-- CONTROLS -->
+    <div class="controls">
+        <button class="btn-start" id="startBtn"><i class="fas fa-play"></i> START</button>
+        <button class="btn-stop" id="stopBtn" disabled><i class="fas fa-stop"></i> STOP</button>
+        <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i></button>
+    </div>
 
-        // ============================================================
-        // AI DATA COLLECTOR
-        // ============================================================
-        let trainingData = [];
+    <!-- AI STATUS -->
+    <div class="ai-status">
+        <span class="label"><i class="fas fa-brain"></i> AI STATUS</span>
+        <span class="status waiting" id="aiStatus">⏳ Waiting for data...</span>
+    </div>
+</div>
 
-        function addTrainingSample(numbers, result) {
-            if (numbers.length >= 5) {
-                trainingData.push({
-                    numbers: numbers.slice(-10),
-                    result: result
-                });
-                state.samples = trainingData.length;
+<script>
+// ============================================================
+// API CONFIGURATION
+// ============================================================
+const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
 
-                // Auto-train after 50 samples
-                if (trainingData.length >= 50 && !state.aiTrained) {
-                    trainAI();
-                }
-                updateAIStatus();
-            }
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+    balance: 580,
+    target: 800,
+    startAmount: 580,
+    level: 0,
+    levels: ['1X', '3X'],
+    amounts: [10, 30],
+    history: [],
+    isRunning: false,
+    period: 11,
+    prediction: null,
+    confidence: 75,
+    bet: 10,
+    winStreak: 0,
+    lossStreak: 0,
+    totalProfit: 0,
+    consecutiveWins: 0,
+    samples: 0,
+    aiTrained: false,
+    lastPeriod: null,
+    activePredPeriod: null,
+    activePredTarget: null,
+    skipCount: 0,
+    maxSkip: 2,
+    apiData: []
+};
+
+// ============================================================
+// DOM REFS
+// ============================================================
+const $ = id => document.getElementById(id);
+const startAmountInput = $('startAmount');
+const targetAmountInput = $('targetAmount');
+const setBalanceBtn = $('setBalanceBtn');
+const displayBalance = $('displayBalance');
+const displayTarget = $('displayTarget');
+const displayLevel = $('displayLevel');
+const periodDisplay = $('periodDisplay');
+const predictionDisplay = $('predictionDisplay');
+const confidenceDisplay = $('confidenceDisplay');
+const betDisplay = $('betDisplay');
+const historyLog = $('historyLog');
+const historyCount = $('historyCount');
+const statusDot = $('statusDot');
+const statusText = $('statusText');
+const aiStatus = $('aiStatus');
+const startBtn = $('startBtn');
+const stopBtn = $('stopBtn');
+const resetBtn = $('resetBtn');
+
+// ============================================================
+// CHART PATTERNS (20)
+// ============================================================
+const CHART_PATTERNS = {
+    '1,4':'BIG','4,2':'BIG','4,3':'BIG','4,4':'BIG','4,7':'BIG',
+    '4,5':'SMALL','6,1':'SMALL','6,3':'SMALL','6,5':'SMALL','6,6':'SMALL',
+    '0,0':'BIG','0,1':'SMALL','2,2':'SMALL','1,8':'SMALL','1,2':'BIG',
+    '6,4':'SMALL','6,9':'BIG','1,5':'BIG','7,3':'BIG','0,2':'SMALL'
+};
+
+// ============================================================
+// AI DATA
+// ============================================================
+let trainingData = [];
+let aiPatterns = {};
+
+function addTrainingSample(numbers, result) {
+    if (numbers.length >= 5) {
+        trainingData.push({ numbers: numbers.slice(-10), result: result });
+        state.samples = trainingData.length;
+        if (trainingData.length >= 50 && !state.aiTrained) trainAI();
+        updateAIStatus();
+    }
+}
+
+function trainAI() {
+    if (trainingData.length < 50) return;
+    const patternCount = {}, patternResults = {};
+    for (const sample of trainingData) {
+        const nums = sample.numbers;
+        if (nums.length >= 2) {
+            const key = `${nums[nums.length-2]},${nums[nums.length-1]}`;
+            patternCount[key] = (patternCount[key] || 0) + 1;
+            if (!patternResults[key]) patternResults[key] = { BIG: 0, SMALL: 0 };
+            patternResults[key][sample.result] = (patternResults[key][sample.result] || 0) + 1;
         }
-
-        // ============================================================
-        // SIMPLE AI TRAINING
-        // ============================================================
-        let aiPatterns = {};
-
-        function trainAI() {
-            if (trainingData.length < 50) return;
-
-            const patternCount = {};
-            const patternResults = {};
-
-            for (const sample of trainingData) {
-                const nums = sample.numbers;
-                const result = sample.result;
-
-                if (nums.length >= 2) {
-                    const key = `${nums[nums.length-2]},${nums[nums.length-1]}`;
-                    patternCount[key] = (patternCount[key] || 0) + 1;
-
-                    if (!patternResults[key]) patternResults[key] = { BIG: 0, SMALL: 0 };
-                    patternResults[key][result] = (patternResults[key][result] || 0) + 1;
-                }
-            }
-
-            aiPatterns = {};
-            for (const [key, count] of Object.entries(patternCount)) {
-                if (count >= 3) {
-                    const results = patternResults[key];
-                    if (results.BIG > results.SMALL) {
-                        aiPatterns[key] = {
-                            prediction: 'BIG',
-                            confidence: (results.BIG / count) * 100
-                        };
-                    } else {
-                        aiPatterns[key] = {
-                            prediction: 'SMALL',
-                            confidence: (results.SMALL / count) * 100
-                        };
-                    }
-                }
-            }
-
-            state.aiTrained = true;
-            updateAIStatus();
-            console.log(`✅ AI Trained! ${Object.keys(aiPatterns).length} patterns learned from ${trainingData.length} samples`);
-        }
-
-        // ============================================================
-        // PREDICTION ENGINE
-        // ============================================================
-        function getPrediction(numbers) {
-            if (numbers.length < 2) {
-                return { prediction: null, confidence: 0 };
-            }
-
-            const types = numbers.map(n => n >= 5 ? 'BIG' : 'SMALL');
-
-            // ===== AI PREDICTION (if trained) =====
-            if (state.aiTrained && numbers.length >= 2) {
-                const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
-                if (aiPatterns[key] && aiPatterns[key].confidence >= 65) {
-                    return {
-                        prediction: aiPatterns[key].prediction,
-                        confidence: Math.round(aiPatterns[key].confidence)
-                    };
-                }
-            }
-
-            // ===== RULE-BASED PREDICTIONS =====
-
-            // 2 Consecutive (95%)
-            if (types.length >= 2) {
-                if (types[types.length - 1] === 'BIG' && types[types.length - 2] === 'BIG') {
-                    return { prediction: 'SMALL', confidence: 95 };
-                }
-                if (types[types.length - 1] === 'SMALL' && types[types.length - 2] === 'SMALL') {
-                    return { prediction: 'BIG', confidence: 95 };
-                }
-            }
-
-            // 3+ Consecutive (93%)
-            if (types.length >= 3) {
-                const last3 = types.slice(-3);
-                if (last3.every(t => t === 'SMALL')) {
-                    return { prediction: 'BIG', confidence: 93 };
-                }
-                if (last3.every(t => t === 'BIG')) {
-                    return { prediction: 'SMALL', confidence: 93 };
-                }
-            }
-
-                        // Alternating (85%)
-            if (types.length >= 3) {
-                const last3 = types.slice(-3);
-                if (last3[0] === 'BIG' && last3[1] === 'SMALL' && last3[2] === 'BIG') {
-                    return { prediction: 'SMALL', confidence: 85 };
-                }
-                if (last3[0] === 'SMALL' && last3[1] === 'BIG' && last3[2] === 'SMALL') {
-                    return { prediction: 'BIG', confidence: 85 };
-                }
-            }
-
-            // Chart Pattern (85%)
-            if (numbers.length >= 2) {
-                const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
-                if (CHART_PATTERNS[key]) {
-                    return { prediction: CHART_PATTERNS[key], confidence: 85 };
-                }
-            }
-
-            // Default: Opposite of last (75%)
-            return {
-                prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG',
-                confidence: 75
+    }
+    aiPatterns = {};
+    for (const [key, count] of Object.entries(patternCount)) {
+        if (count >= 3) {
+            const r = patternResults[key];
+            aiPatterns[key] = {
+                prediction: r.BIG > r.SMALL ? 'BIG' : 'SMALL',
+                confidence: Math.round((Math.max(r.BIG, r.SMALL) / count) * 100)
             };
         }
+    }
+    state.aiTrained = true;
+    updateAIStatus();
+}
 
-        // ============================================================
-        // SIMULATE API DATA
-        // ============================================================
-        let simulatedData = [];
-        let currentPeriod = 1000000;
+// ============================================================
+// PREDICTION ENGINE
+// ============================================================
+function getPrediction(numbers) {
+    if (numbers.length < 2) return { prediction: null, confidence: 0 };
+    const types = numbers.map(n => n >= 5 ? 'BIG' : 'SMALL');
 
-        function generateSimulatedData() {
-            const nums = [];
-            for (let i = 0; i < 10; i++) {
-                nums.push(Math.floor(Math.random() * 10));
+    // AI
+    if (state.aiTrained && numbers.length >= 2) {
+        const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
+        if (aiPatterns[key] && aiPatterns[key].confidence >= 65) {
+            return { prediction: aiPatterns[key].prediction, confidence: aiPatterns[key].confidence };
+        }
+    }
+
+    // 2 Consecutive (95%)
+    if (types.length >= 2) {
+        if (types[types.length-1] === 'BIG' && types[types.length-2] === 'BIG') return { prediction: 'SMALL', confidence: 95 };
+        if (types[types.length-1] === 'SMALL' && types[types.length-2] === 'SMALL') return { prediction: 'BIG', confidence: 95 };
+    }
+
+    // 3+ Consecutive (93%)
+    if (types.length >= 3) {
+        const last3 = types.slice(-3);
+        if (last3.every(t => t === 'SMALL')) return { prediction: 'BIG', confidence: 93 };
+        if (last3.every(t => t === 'BIG')) return { prediction: 'SMALL', confidence: 93 };
+    }
+
+    // Alternating (85%)
+    if (types.length >= 3) {
+        const last3 = types.slice(-3);
+        if (last3[0] === 'BIG' && last3[1] === 'SMALL' && last3[2] === 'BIG') return { prediction: 'SMALL', confidence: 85 };
+        if (last3[0] === 'SMALL' && last3[1] === 'BIG' && last3[2] === 'SMALL') return { prediction: 'BIG', confidence: 85 };
+    }
+
+    // Chart Pattern (85%)
+    if (numbers.length >= 2) {
+        const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
+        if (CHART_PATTERNS[key]) return { prediction: CHART_PATTERNS[key], confidence: 85 };
+    }
+
+    return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 75 };
+}
+
+// ============================================================
+// API FETCH
+// ============================================================
+async function fetchApiData() {
+    try {
+        const resp = await fetch(API_URL);
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        let list = null;
+        if (data?.data?.list) list = data.data.list;
+        else if (data?.list) list = data.list;
+        else if (data?.result) list = data.result;
+        if (!list || list.length === 0) return null;
+        return list;
+    } catch (e) {
+        console.error('API Error:', e);
+        return null;
+    }
+}
+
+// ============================================================
+// RUN CYCLE (with API)
+// ============================================================
+let cycleInterval = null;
+let currentPeriod = 1000;
+
+async function runCycle() {
+    if (!state.isRunning) return;
+    try {
+        const list = await fetchApiData();
+        let numbers = [];
+        if (list && list.length > 0) {
+            for (const item of list) {
+                const num = item.number ?? item.num ?? item.value;
+                if (num !== undefined && num !== null) numbers.push(Number(num));
             }
-            return nums;
+            const latest = list[0];
+            const period = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
+            currentPeriod = Number(period);
+        } else {
+            // Fallback: Generate random
+            numbers = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
+            currentPeriod++;
         }
 
-        // ============================================================
-        // MAIN CYCLE
-        // ============================================================
-        let cycleInterval = null;
+        if (numbers.length === 0) numbers = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
 
-        function startBot() {
-            if (state.isRunning) return;
+        const newNumber = numbers[0] ?? Math.floor(Math.random() * 10);
+        const actualType = newNumber >= 5 ? 'BIG' : 'SMALL';
 
-            // Reset if balance is low
-            if (state.balance < 10) {
-                state.balance = state.startAmount;
-                updateUI();
+        // Check prediction result
+        if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
+            const isWin = state.activePredTarget === actualType;
+            const currentBet = state.amounts[state.level];
+
+            if (isWin) {
+                const profit = currentBet * 0.96;
+                state.balance += profit;
+                state.totalProfit += profit;
+                state.winStreak++;
+                state.consecutiveWins++;
+                state.lossStreak = 0;
+                state.level = 0;
+                if (state.consecutiveWins >= 3) state.consecutiveWins = 0;
+                addHistory(currentPeriod, state.activePredTarget, currentBet, 'WIN', state.balance);
+            } else {
+                state.balance -= currentBet;
+                state.totalProfit -= currentBet;
+                state.lossStreak++;
+                state.winStreak = 0;
+                state.consecutiveWins = 0;
+                if (state.level < state.amounts.length - 1) state.level++;
+                else state.level = 0;
+                addHistory(currentPeriod, state.activePredTarget, currentBet, 'LOSS', state.balance);
             }
-
-            state.isRunning = true;
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
-            setBalanceBtn.disabled = true;
-
-            statusDot.className = 'dot green';
-            statusText.textContent = 'Running';
-
-            // Initial data
-            const initialData = generateSimulatedData();
-            simulatedData = initialData;
-
-            // Run first cycle immediately
-            runCycle();
-
-            // Start interval
-            cycleInterval = setInterval(runCycle, 3000);
-        }
-
-        function stopBot() {
-            state.isRunning = false;
-            if (cycleInterval) {
-                clearInterval(cycleInterval);
-                cycleInterval = null;
-            }
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-            setBalanceBtn.disabled = false;
-            statusDot.className = 'dot red';
-            statusText.textContent = 'Stopped';
-            predictionDisplay.className = 'prediction waiting';
-            predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
-        }
-
-        function resetBot() {
-            stopBot();
-            state.balance = state.startAmount;
-            state.level = 0;
-            state.history = [];
-            state.winStreak = 0;
-            state.lossStreak = 0;
-            state.totalProfit = 0;
-            state.consecutiveWins = 0;
             state.activePredPeriod = null;
             state.activePredTarget = null;
             state.skipCount = 0;
-            simulatedData = [];
-            updateUI();
-            historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
-            historyCount.textContent = '0 entries';
+        }
+
+        // Get prediction
+        const result = getPrediction(numbers.slice(0, 10));
+        addTrainingSample(numbers.slice(0, 10), actualType);
+
+        let prediction = null;
+        let confidence = 0;
+
+        if (result.prediction && result.confidence >= 65) {
+            prediction = result.prediction;
+            confidence = result.confidence;
+        } else {
+            state.skipCount++;
+            if (state.skipCount >= state.maxSkip) {
+                const fallback = getPrediction(numbers.slice(0, 10));
+                if (fallback.prediction) {
+                    prediction = fallback.prediction;
+                    confidence = Math.max(fallback.confidence, 70);
+                }
+                state.skipCount = 0;
+            }
+        }
+
+        // Update UI
+        const nextPeriod = currentPeriod + 1;
+        periodDisplay.textContent = String(nextPeriod).slice(-4);
+
+        if (prediction) {
+            state.activePredPeriod = nextPeriod;
+            state.activePredTarget = prediction;
+            state.bet = state.amounts[state.level];
+
+            predictionDisplay.className = `prediction ${prediction.toLowerCase()}`;
+            predictionDisplay.textContent = prediction;
+            confidenceDisplay.textContent = `${confidence}%`;
+            betDisplay.textContent = state.bet;
+            statusText.textContent = `📈 ${prediction} • ${confidence}%`;
+            statusDot.className = 'dot green';
+        } else {
             predictionDisplay.className = 'prediction waiting';
             predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
             confidenceDisplay.textContent = '--%';
             betDisplay.textContent = '--';
-            periodDisplay.textContent = '----';
+            statusText.textContent = '⏳ Scanning...';
             statusDot.className = 'dot yellow';
-            statusText.textContent = 'Ready';
         }
 
-        // ============================================================
-        // RUN CYCLE
-        // ============================================================
-        function runCycle() {
-            if (!state.isRunning) return;
-
-            try {
-                // Simulate new period
-                currentPeriod++;
-
-                // Generate new number
-                const newNumber = Math.floor(Math.random() * 10);
-                const actualType = newNumber >= 5 ? 'BIG' : 'SMALL';
-
-                // Update simulated data
-                simulatedData.push(newNumber);
-                if (simulatedData.length > 20) simulatedData = simulatedData.slice(-20);
-
-                // Check if we had an active prediction
-                if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
-                    const isWin = state.activePredTarget === actualType;
-                    const currentBet = state.amounts[state.level];
-
-                    if (isWin) {
-                        const profit = currentBet * 0.96;
-                        state.balance += profit;
-                        state.totalProfit += profit;
-                        state.winStreak += 1;
-                        state.consecutiveWins += 1;
-                        state.lossStreak = 0;
-                        state.level = 0;
-                        if (state.consecutiveWins >= 3) state.consecutiveWins = 0;
-                        addHistory(currentPeriod, state.activePredTarget, currentBet, 'WIN', state.balance);
-                    } else {
-                        state.balance -= currentBet;
-                        state.totalProfit -= currentBet;
-                        state.lossStreak += 1;
-                        state.winStreak = 0;
-                        state.consecutiveWins = 0;
-                        if (state.level < state.amounts.length - 1) {
-                            state.level += 1;
-                        } else {
-                            state.level = 0;
-                        }
-                        addHistory(currentPeriod, state.activePredTarget, currentBet, 'LOSS', state.balance);
-                    }
-
-                    state.activePredPeriod = null;
-                    state.activePredTarget = null;
-                    state.skipCount = 0;
-                }
-
-                // ===== GET PREDICTION =====
-                const recentNumbers = simulatedData.slice(-10);
-                const result = getPrediction(recentNumbers);
-
-                // Add training sample
-                addTrainingSample(recentNumbers, actualType);
-
-                let prediction = null;
-                let confidence = 0;
-
-                if (result.prediction && result.confidence >= 65) {
-                    prediction = result.prediction;
-                    confidence = result.confidence;
-                } else {
-                    state.skipCount += 1;
-                    if (state.skipCount >= state.maxSkip) {
-                        const fallback = getPrediction(recentNumbers);
-                        if (fallback.prediction) {
-                            prediction = fallback.prediction;
-                            confidence = Math.max(fallback.confidence, 70);
-                        }
-                        state.skipCount = 0;
-                    }
-                }
-
-                // Update UI with prediction
-                const nextPeriod = currentPeriod + 1;
-                periodDisplay.textContent = String(nextPeriod).slice(-4);
-
-                if (prediction) {
-                    state.activePredPeriod = nextPeriod;
-                    state.activePredTarget = prediction;
-
-                    const bet = state.amounts[state.level];
-                    state.bet = bet;
-
-                    predictionDisplay.className = `prediction ${prediction.toLowerCase()}`;
-                    predictionDisplay.textContent = prediction;
-                    confidenceDisplay.textContent = `${confidence}%`;
-                    betDisplay.textContent = bet;
-
-                    statusText.textContent = `📈 ${prediction} • ${confidence}%`;
-                } else {
-                    predictionDisplay.className = 'prediction waiting';
-                    predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
-                    confidenceDisplay.textContent = '--%';
-                    betDisplay.textContent = '--';
-                    statusText.textContent = '⏳ Scanning...';
-                }
-
-                // Check target reached
-                if (state.balance >= state.target) {
-                    stopBot();
-                    statusText.textContent = '🎉 TARGET REACHED!';
-                    predictionDisplay.className = 'prediction waiting';
-                    predictionDisplay.innerHTML = '🎯 TARGET ACHIEVED! 🎉';
-                    return;
-                }
-
-                // Check if balance is too low
-                if (state.balance < 10) {
-                    stopBot();
-                    statusText.textContent = '⚠️ BALANCE LOW!';
-                    predictionDisplay.className = 'prediction waiting';
-                    predictionDisplay.innerHTML = '⚠️ INSUFFICIENT BALANCE';
-                    return;
-                }
-
-                updateUI();
-
-            } catch (error) {
-                console.error('Cycle error:', error);
-                statusText.textContent = '⚠️ Error';
-            }
-        }
-
-        // ============================================================
-        // ADD HISTORY
-        // ============================================================
-        function addHistory(period, target, bet, result, balance) {
-            const entry = {
-                period: String(period).slice(-4),
-                target: target,
-                bet: bet,
-                result: result,
-                balance: Math.round(balance * 100) / 100
-            };
-
-            state.history.push(entry);
-            if (state.history.length > 50) state.history = state.history.slice(-50);
-
-            renderHistory();
-            historyCount.textContent = `${state.history.length} entries`;
-        }
-
-        // ============================================================
-        // RENDER HISTORY
-        // ============================================================
-        function renderHistory() {
-            if (state.history.length === 0) {
-                historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
-                return;
-            }
-
-            let html = '';
-            const reversed = [...state.history].reverse();
-            for (const entry of reversed) {
-                const resultClass = entry.result === 'WIN' ? 'win' : 'loss';
-                const emoji = entry.result === 'WIN' ? '🔥' : '❌';
-                html += `
-                        <div class="log-item">
-                            <span class="period">${entry.period}</span>
-                            <span class="result ${resultClass}">${entry.target} ${emoji}</span>
-                            <span class="amount">${entry.bet}RS</span>
-                            <span class="balance">${entry.balance}RS</span>
-                        </div>
-                    `;
-            }
-            historyLog.innerHTML = html;
-        }
-
-                // ============================================================
-        // UPDATE UI
-        // ============================================================
-        function updateUI() {
-            displayBalance.textContent = Math.round(state.balance);
-            displayTarget.textContent = Math.round(state.target).toLocaleString();
-            displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
-
-            // Update status bar colors
-            if (state.balance < state.startAmount * 0.5) {
-                displayBalance.style.color = '#ff5252';
-            } else if (state.balance > state.startAmount) {
-                displayBalance.style.color = '#00e676';
-            } else {
-                displayBalance.style.color = '#ffd700';
-            }
-        }
-
-        // ============================================================
-        // UPDATE AI STATUS
-        // ============================================================
-        function updateAIStatus() {
-            if (state.aiTrained) {
-                aiStatus.className = 'status trained';
-                aiStatus.textContent = `✅ Trained (${Object.keys(aiPatterns).length} patterns)`;
-            } else if (state.samples >= 10) {
-                aiStatus.className = 'status learning';
-                aiStatus.textContent = `🔄 Learning... ${state.samples}/50 samples`;
-            } else {
-                aiStatus.className = 'status waiting';
-                aiStatus.textContent = '⏳ Waiting for data...';
-            }
-        }
-
-        // ============================================================
-        // EVENT LISTENERS
-        // ============================================================
-
-        // Set Balance
-        setBalanceBtn.addEventListener('click', function() {
-            const start = parseFloat(startAmountInput.value);
-            const target = parseFloat(targetAmountInput.value);
-
-            if (isNaN(start) || start < 10) {
-                alert('Please enter a valid start amount (min 10)');
-                return;
-            }
-            if (isNaN(target) || target <= start) {
-                alert('Target must be greater than start amount');
-                return;
-            }
-
-            state.startAmount = start;
-            state.balance = start;
-            state.target = target;
-            state.level = 0;
-            state.history = [];
-            state.totalProfit = 0;
-
-            // Reset AI if balance changes
-            trainingData = [];
-            state.samples = 0;
-            state.aiTrained = false;
-            aiPatterns = {};
-
-            updateUI();
-            updateAIStatus();
-            historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
-            historyCount.textContent = '0 entries';
+        // Check target
+        if (state.balance >= state.target) {
+            stopBot();
+            statusText.textContent = '🎉 TARGET REACHED!';
             predictionDisplay.className = 'prediction waiting';
-            predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
-            confidenceDisplay.textContent = '--%';
-            betDisplay.textContent = '--';
-            periodDisplay.textContent = '----';
-            statusDot.className = 'dot yellow';
-            statusText.textContent = 'Configured';
-
-            if (state.isRunning) stopBot();
-
-            alert(`✅ Balance configured!\nStart: ${start} RS\nTarget: ${target} RS`);
-        });
-
-        // Start
-        startBtn.addEventListener('click', startBot);
-
-        // Stop
-        stopBtn.addEventListener('click', stopBot);
-
-        // Reset
-        resetBtn.addEventListener('click', resetBot);
-
-        // Enter key for balance
-        startAmountInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') setBalanceBtn.click();
-        });
-        targetAmountInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') setBalanceBtn.click();
-        });
-
-        // ============================================================
-        // INIT
-        // ============================================================
-        function init() {
-            // Load saved state from localStorage
-            try {
-                const saved = localStorage.getItem('wingoBotState');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed.balance) state.balance = parsed.balance;
-                    if (parsed.startAmount) state.startAmount = parsed.startAmount;
-                    if (parsed.target) state.target = parsed.target;
-                    if (parsed.history) state.history = parsed.history;
-                    if (parsed.samples) state.samples = parsed.samples;
-                    if (parsed.aiTrained) state.aiTrained = parsed.aiTrained;
-                    if (parsed.aiPatterns) aiPatterns = parsed.aiPatterns;
-                    if (parsed.trainingData) trainingData = parsed.trainingData;
-                }
-            } catch (e) {}
-
-            startAmountInput.value = state.startAmount;
-            targetAmountInput.value = state.target;
-            updateUI();
-            updateAIStatus();
-            renderHistory();
-            historyCount.textContent = `${state.history.length} entries`;
-
-            // Auto-save every 10 seconds
-            setInterval(() => {
-                try {
-                    localStorage.setItem('wingoBotState', JSON.stringify({
-                        balance: state.balance,
-                        startAmount: state.startAmount,
-                        target: state.target,
-                        history: state.history,
-                        samples: state.samples,
-                        aiTrained: state.aiTrained,
-                        aiPatterns: aiPatterns,
-                        trainingData: trainingData.slice(-200)
-                    }));
-                } catch (e) {}
-            }, 10000);
-
-            statusDot.className = 'dot yellow';
-            statusText.textContent = 'Ready';
-
-            console.log('🚀 Wingo AI Bot Loaded!');
-            console.log(`💰 Balance: ${state.balance} | Target: ${state.target}`);
-            console.log(`🤖 AI: ${state.aiTrained ? 'Trained' : 'Learning'} (${state.samples} samples)`);
+            predictionDisplay.innerHTML = '🎯 TARGET ACHIEVED! 🎉';
+            return;
         }
 
-        // Run init
-        init();
-    </script>
+        if (state.balance < 10) {
+            stopBot();
+            statusText.textContent = '⚠️ BALANCE LOW!';
+            predictionDisplay.className = 'prediction waiting';
+            predictionDisplay.innerHTML = '⚠️ INSUFFICIENT BALANCE';
+            return;
+        }
 
+        updateUI();
+    } catch (error) {
+        console.error('Cycle error:', error);
+        statusText.textContent = '⚠️ API Error';
+        statusDot.className = 'dot red';
+    }
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function addHistory(period, target, bet, result, balance) {
+    state.history.push({
+        period: String(period).slice(-4),
+        target: target,
+        bet: bet,
+        result: result,
+        balance: Math.round(balance * 100) / 100
+    });
+    if (state.history.length > 50) state.history = state.history.slice(-50);
+    renderHistory();
+    historyCount.textContent = `${state.history.length} entries`;
+}
+
+function renderHistory() {
+    if (state.history.length === 0) {
+        historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
+        return;
+    }
+    let html = '';
+    const reversed = [...state.history].reverse();
+    for (const entry of reversed) {
+        const resultClass = entry.result === 'WIN' ? 'win' : 'loss';
+        const emoji = entry.result === 'WIN' ? '🔥' : '❌';
+        html += `<div class="log-item">
+            <span class="period">${entry.period}</span>
+            <span class="result ${resultClass}">${entry.target} ${emoji}</span>
+            <span class="amount">${entry.bet}RS</span>
+            <span class="balance">${entry.balance}RS</span>
+        </div>`;
+    }
+    historyLog.innerHTML = html;
+}
+
+function updateUI() {
+    displayBalance.textContent = Math.round(state.balance);
+    displayTarget.textContent = Math.round(state.target);
+    displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
+    displayBalance.style.color = state.balance < state.startAmount * 0.5 ? '#ff5252' :
+                                 state.balance > state.startAmount ? '#00e676' : '#ffd700';
+}
+
+function updateAIStatus() {
+    if (state.aiTrained) {
+        aiStatus.className = 'status trained';
+        aiStatus.textContent = `✅ Trained (${Object.keys(aiPatterns).length} patterns)`;
+    } else if (state.samples >= 10) {
+        aiStatus.className = 'status learning';
+        aiStatus.textContent = `🔄 Learning... ${state.samples}/50 samples`;
+    } else {
+        aiStatus.className = 'status waiting';
+        aiStatus.textContent = '⏳ Waiting for data...';
+    }
+}
+
+// ============================================================
+// CONTROLS
+// ============================================================
+function startBot() {
+    if (state.isRunning) return;
+    if (state.balance < 10) {
+        state.balance = state.startAmount;
+        updateUI();
+    }
+    state.isRunning = true;
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    setBalanceBtn.disabled = true;
+    statusDot.className = 'dot green';
+    statusText.textContent = 'Running';
+    runCycle();
+    if (cycleInterval) clearInterval(cycleInterval);
+    cycleInterval = setInterval(runCycle, 5000);
+}
+
+function stopBot() {
+    state.isRunning = false;
+    if (cycleInterval) { clearInterval(cycleInterval); cycleInterval = null; }
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    setBalanceBtn.disabled = false;
+    statusDot.className = 'dot red';
+    statusText.textContent = 'Stopped';
+    predictionDisplay.className = 'prediction paused';
+    predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
+}
+
+function resetBot() {
+    stopBot();
+    state.balance = state.startAmount;
+    state.level = 0;
+    state.history = [];
+    state.winStreak = 0;
+    state.lossStreak = 0;
+    state.totalProfit = 0;
+    state.consecutiveWins = 0;
+    state.activePredPeriod = null;
+    state.activePredTarget = null;
+    state.skipCount = 0;
+    trainingData = [];
+    state.samples = 0;
+    state.aiTrained = false;
+    aiPatterns = {};
+    updateUI();
+    updateAIStatus();
+    historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
+    historyCount.textContent = '0 entries';
+    predictionDisplay.className = 'prediction paused';
+    predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
+    confidenceDisplay.textContent = '75%';
+    betDisplay.textContent = '10';
+    periodDisplay.textContent = '0011';
+    statusDot.className = 'dot yellow';
+    statusText.textContent = 'Configured';
+    if (state.isRunning) stopBot();
+    alert(`✅ Balance set!\nStart: ${start} RS\nTarget: ${target} RS`);
+});
+
+startBtn.addEventListener('click', startBot);
+stopBtn.addEventListener('click', stopBot);
+resetBtn.addEventListener('click', resetBot);
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+    try {
+        const saved = localStorage.getItem('wingoState');
+        if (saved) {
+            const p = JSON.parse(saved);
+            if (p.balance) state.balance = p.balance;
+            if (p.startAmount) state.startAmount = p.startAmount;
+            if (p.target) state.target = p.target;
+            if (p.history) state.history = p.history;
+            if (p.samples) state.samples = p.samples;
+            if (p.aiTrained) state.aiTrained = p.aiTrained;
+            if (p.aiPatterns) aiPatterns = p.aiPatterns;
+            if (p.trainingData) trainingData = p.trainingData;
+        }
+    } catch(e) {}
+    startAmountInput.value = state.startAmount;
+    targetAmountInput.value = state.target;
+    updateUI();
+    updateAIStatus();
+    renderHistory();
+    historyCount.textContent = `${state.history.length} entries`;
+    periodDisplay.textContent = '0011';
+    statusDot.className = 'dot yellow';
+    statusText.textContent = 'Ready';
+
+    setInterval(() => {
+        try {
+            localStorage.setItem('wingoState', JSON.stringify({
+                balance: state.balance,
+                startAmount: state.startAmount,
+                target: state.target,
+                history: state.history.slice(-50),
+                samples: state.samples,
+                aiTrained: state.aiTrained,
+                aiPatterns: aiPatterns,
+                trainingData: trainingData.slice(-200)
+            }));
+        } catch(e) {}
+    }, 10000);
+
+    console.log('🚀 Wingo AI Bot Loaded!');
+    console.log(`💰 Balance: ${state.balance} | Target: ${state.target}`);
+}
+
+init();
+</script>
 </body>
 </html>
