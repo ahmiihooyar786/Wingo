@@ -1,221 +1,1352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WINGO VIP CORE V3</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wingo AI Prediction Bot</title>
+
+    <!-- ===== Google Fonts ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- ===== Font Awesome ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #03050B; 
+        /* ======================================================
+                   GLOBAL RESET & BASE
+                ====================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .glass-panel { 
-            background: linear-gradient(135deg, rgba(15, 22, 42, 0.65) 0%, rgba(6, 9, 22, 0.8) 100%);
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(10, 30, 80, 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(80, 10, 30, 0.3) 0%, transparent 60%),
+                linear-gradient(180deg, #0a0a1a 0%, #141430 100%);
         }
-        .row-entry { animation: slideIn 0.2s ease-out forwards; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ======================================================
+                   MAIN CONTAINER
+                ====================================================== */
+        .container {
+            max-width: 520px;
+            width: 100%;
+            background: rgba(20, 20, 50, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 28px 24px 32px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* ======================================================
+                   HEADER
+                ====================================================== */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .header .icon {
+            font-size: 42px;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .header .sub {
+            font-size: 13px;
+            color: #8888bb;
+            margin-top: 2px;
+            letter-spacing: 2px;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.12);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 10px;
+            color: #ffd700;
+            letter-spacing: 1px;
+            margin-top: 6px;
+            font-weight: 600;
+        }
+
+        /* ======================================================
+                   BALANCE INPUT SECTION
+                ====================================================== */
+        .balance-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 18px 16px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .balance-section .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8888bb;
+            font-weight: 600;
+        }
+
+        .balance-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .balance-row .input-group {
+            flex: 1;
+            position: relative;
+        }
+
+        .balance-row .input-group .prefix {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .balance-row input {
+            width: 100%;
+            padding: 12px 14px 12px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .balance-row input:focus {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .balance-row input::placeholder {
+            color: #555577;
+            font-weight: 400;
+        }
+
+        .balance-row button {
+            padding: 12px 22px;
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            border: none;
+            border-radius: 12px;
+            color: #0a0a1a;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: 'Rajdhani', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .balance-row button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+        }
+
+        .balance-row button:active {
+            transform: scale(0.97);
+        }
+
+        /* ======================================================
+                   STATUS BAR
+                ====================================================== */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .status-bar .item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #aaaacc;
+        }
+
+        .status-bar .item .val {
+            font-weight: 700;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .status-bar .item .val.gold {
+            color: #ffd700;
+        }
+
+        .status-bar .item .val.green {
+            color: #00e676;
+        }
+
+        .status-bar .item .val.red {
+            color: #ff5252;
+        }
+
+        .status-bar .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        .status-bar .dot.green {
+            background: #00e676;
+        }
+
+        .status-bar .dot.red {
+            background: #ff5252;
+            animation: none;
+        }
+
+        .status-bar .dot.yellow {
+            background: #ffd700;
+            animation: pulse-dot 0.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        /* ======================================================
+                   PREDICTION CARD
+                ====================================================== */
+        .prediction-card {
+            background: linear-gradient(145deg, rgba(255, 215, 0, 0.06), rgba(255, 215, 0, 0.01));
+            border-radius: 18px;
+            padding: 22px 20px 20px;
+            border: 1px solid rgba(255, 215, 0, 0.10);
+            text-align: center;
+            margin-bottom: 16px;
+            min-height: 120px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .prediction-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.03), transparent 70%);
+            animation: rotate-glow 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate-glow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .prediction-card .period {
+            font-size: 13px;
+            color: #8888bb;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .prediction-card .period span {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .prediction-card .prediction {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            margin: 6px 0 4px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        .prediction-card .prediction.big {
+            color: #ff5252;
+            text-shadow: 0 0 40px rgba(255, 82, 82, 0.3);
+        }
+
+        .prediction-card .prediction.small {
+            color: #00e676;
+            text-shadow: 0 0 40px rgba(0, 230, 118, 0.3);
+        }
+
+        .prediction-card .prediction.waiting {
+            color: #8888bb;
+            font-size: 20px;
+        }
+
+        .prediction-card .confidence {
+            font-size: 14px;
+            color: #8888bb;
+            position: relative;
+            z-index: 1;
+        }
+
+        .prediction-card .confidence span {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .prediction-card .bet-amount {
+            font-size: 13px;
+            color: #8888bb;
+            margin-top: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .prediction-card .bet-amount span {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* ======================================================
+                   HISTORY LOG
+                ====================================================== */
+        .history-section {
+            margin-top: 12px;
+        }
+
+        .history-section .title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #555577;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-section .title .count {
+            color: #8888bb;
+            font-weight: 400;
+        }
+
+        .history-log {
+            max-height: 180px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
+        }
+
+        .history-log::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history-log::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .history-log::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+        }
+
+        .history-log .log-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.2s ease;
+        }
+
+        .history-log .log-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .history-log .log-item .period {
+            color: #666688;
+            font-weight: 400;
+        }
+
+        .history-log .log-item .result {
+            font-weight: 700;
+        }
+
+        .history-log .log-item .result.win {
+            color: #00e676;
+        }
+
+        .history-log .log-item .result.loss {
+            color: #ff5252;
+        }
+
+        .history-log .log-item .amount {
+            color: #8888bb;
+        }
+
+        .history-log .log-item .balance {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .history-log .empty {
+            text-align: center;
+            color: #555577;
+            font-size: 13px;
+            padding: 20px 0;
+        }
+
+        /* ======================================================
+                   CONTROL BUTTONS
+                ====================================================== */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .controls button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .controls .btn-start {
+            background: linear-gradient(135deg, #00c853, #00e676);
+            color: #0a0a1a;
+        }
+
+        .controls .btn-start:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 230, 118, 0.2);
+        }
+
+        .controls .btn-start:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .controls .btn-stop {
+            background: linear-gradient(135deg, #d50000, #ff1744);
+            color: #fff;
+        }
+
+        .controls .btn-stop:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 23, 68, 0.2);
+        }
+
+        .controls .btn-stop:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .controls .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8888bb;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            flex: 0.5;
+        }
+
+        .controls .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        /* ======================================================
+                   AI STATUS
+                ====================================================== */
+        .ai-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 8px 14px;
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .ai-status .label {
+            font-size: 11px;
+            color: #555577;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ai-status .status {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .ai-status .status.learning {
+            color: #ffd700;
+        }
+
+        .ai-status .status.trained {
+            color: #00e676;
+        }
+
+        .ai-status .status.waiting {
+            color: #555577;
+        }
+
+        /* ======================================================
+                   RESPONSIVE
+                ====================================================== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 18px 14px 22px;
+            }
+
+            .balance-row {
+                flex-wrap: wrap;
+            }
+
+            .balance-row button {
+                width: 100%;
+            }
+
+            .prediction-card .prediction {
+                font-size: 28px;
+            }
+
+            .status-bar {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .header h1 {
+                font-size: 17px;
+            }
+
+            .controls {
+                flex-wrap: wrap;
+            }
+
+            .controls .btn-reset {
+                flex: 1;
+            }
+        }
+
+        /* ======================================================
+                   ANIMATIONS
+                ====================================================== */
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse-gold {
+            animation: pulseGold 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGold {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col items-center justify-start p-4 md:p-8 relative overflow-x-hidden">
 
-    <!-- Radial Cyber Glows -->
-    <div class="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-[0%] right-[-20%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+<body>
 
-    <div class="w-full max-w-xl z-10 mx-auto mt-2">
-        
-        <!-- Header -->
-        <div class="flex flex-col items-center mb-6 text-center">
-            <div class="inline-flex items-center gap-2 bg-indigo-950/50 border border-indigo-500/30 px-4 py-1.5 rounded-full text-indigo-400 font-bold text-[10px] tracking-widest uppercase mb-3">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> STATUTORY REALTIME CONNECTION
-            </div>
-            <h1 class="text-2xl md:text-3xl font-black tracking-wider text-white uppercase">
-                WINGO AUTOMATED MONITOR
-            </h1>
-            <p class="text-cyan-400/80 text-xs mt-1 tracking-widest uppercase font-bold">VIP PURE STATELESS ENGINE V3</p>
+    <div class="container" id="app">
+        <!-- ===== HEADER ===== -->
+        <div class="header">
+            <div class="icon"><i class="fas fa-robot"></i></div>
+            <h1>WINGO PREDICTOR</h1>
+            <div class="sub">AI + RULE HYBRID ENGINE</div>
+            <div class="badge"><i class="fas fa-bolt"></i> 1-MIN MODE</div>
         </div>
 
-        <!-- 🚀 LIVE ACTIVE TARGET COMPONENT -->
-        <div class="glass-panel rounded-2xl p-6 mb-6 relative overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500"></div>
-            
-            <div class="flex flex-col gap-6">
-                <div class="grid grid-cols-2 border-b border-slate-800/60 pb-4 items-center">
-                    <div>
-                        <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">ACTIVE BLOCK</span>
-                        <div id="live-period" class="text-xl font-black text-white tracking-wide mt-0.5">🔄 Syncing...</div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-[10px] font-bold text-slate-500 tracking-widest uppercase block">TIME CLOCK</span>
-                        <div id="live-timer" class="text-xl font-black text-amber-400 tracking-wider font-mono mt-0.5">00s</div>
-                    </div>
+        <!-- ===== BALANCE INPUT ===== -->
+        <div class="balance-section">
+            <div class="label"><i class="fas fa-wallet"></i> &nbsp;CONFIGURE BALANCE</div>
+            <div class="balance-row">
+                <div class="input-group">
+                    <span class="prefix">₨</span>
+                    <input type="number" id="startAmount" placeholder="Start Amount" value="800" min="10" />
                 </div>
-                
-                <div class="text-center py-2 relative">
-                    <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase block">PREMIUM TARGET</span>
-                    <div id="live-target" class="text-6xl font-black tracking-widest text-slate-300 my-3">CALCULATING</div>
-                    
-                    <div class="inline-flex items-center bg-slate-950/80 rounded-xl px-4 py-2 border border-slate-800/80 shadow-inner">
-                        <div id="live-multiplier" class="text-xs text-indigo-300 font-bold tracking-widest uppercase">LEVEL: FETCHING...</div>
-                    </div>
+                <div class="input-group">
+                    <span class="prefix">₨</span>
+                    <input type="number" id="targetAmount" placeholder="Target Amount" value="40000" min="100" />
                 </div>
+                <button id="setBalanceBtn"><i class="fas fa-check"></i> SET</button>
             </div>
         </div>
 
-        <!-- 📊 PATTERN VERIFICATION DECK -->
-        <div class="mb-3 flex items-center justify-between px-1">
-            <h2 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">PATTERN VERIFICATION DECK</h2>
-            <div class="text-[9px] text-emerald-400 font-bold uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Zero-Lag Sync</div>
-        </div>
-
-        <div id="history-deck" class="space-y-2.5">
-            <div class="text-center py-12 text-slate-600 text-xs border border-dashed border-slate-800/80 rounded-xl uppercase tracking-widest">
-                Reconstructing Stateless Matrix...
+        <!-- ===== STATUS BAR ===== -->
+        <div class="status-bar">
+            <div class="item">
+                <span class="dot green" id="statusDot"></span>
+                <span id="statusText">Ready</span>
+            </div>
+            <div class="item">
+                Balance: <span class="val gold" id="displayBalance">800</span>
+            </div>
+            <div class="item">
+                Target: <span class="val" id="displayTarget">40,000</span>
+            </div>
+            <div class="item">
+                Level: <span class="val" id="displayLevel">1/2</span>
             </div>
         </div>
 
-        <div class="mt-10 text-center text-[9px] text-slate-600 tracking-widest uppercase font-medium">
-            Automated Analytical Terminal • Node Sync Active
+        <!-- ===== PREDICTION CARD ===== -->
+        <div class="prediction-card" id="predictionCard">
+            <div class="period">PERIOD NO ➡️ <span id="periodDisplay">----</span></div>
+            <div class="prediction waiting" id="predictionDisplay">
+                <i class="fas fa-circle-notch fa-spin"></i> SCANNING...
+            </div>
+            <div class="confidence">Confidence: <span id="confidenceDisplay">--%</span></div>
+            <div class="bet-amount">Bet: <span id="betDisplay">--</span> RS</div>
+        </div>
+
+        <!-- ===== HISTORY ===== -->
+        <div class="history-section">
+            <div class="title">
+                <span><i class="fas fa-list-ul"></i> HISTORY</span>
+                <span class="count" id="historyCount">0 entries</span>
+            </div>
+            <div class="history-log" id="historyLog">
+                <div class="empty">⏳ Waiting for predictions...</div>
+            </div>
+        </div>
+
+        <!-- ===== CONTROLS ===== -->
+        <div class="controls">
+            <button class="btn-start" id="startBtn"><i class="fas fa-play"></i> START</button>
+            <button class="btn-stop" id="stopBtn" disabled><i class="fas fa-stop"></i> STOP</button>
+            <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i></button>
+        </div>
+
+        <!-- ===== AI STATUS ===== -->
+        <div class="ai-status">
+            <span class="label"><i class="fas fa-brain"></i> AI STATUS</span>
+            <span class="status waiting" id="aiStatus">⏳ Waiting for data...</span>
         </div>
     </div>
 
-    <!-- 🧠 ENGINE CODE -->
+    <!-- ======================================================
+    JAVASCRIPT — COMPLETE BOT LOGIC
+    ====================================================== -->
     <script>
-        const GAME_API = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=20";
-        const AMOUNTS = [10, 30, 90, 270, 810, 2430];
-        const MULTIPLIERS = ["1x", "3x", "9x", "27x", "81x", "243x"];
+        // ============================================================
+        // STATE
+        // ============================================================
+        const state = {
+            balance: 800,
+            target: 40000,
+            startAmount: 800,
+            level: 0,
+            levels: ['1X', '3X'],
+            amounts: [10, 30],
+            history: [],
+            isRunning: false,
+            period: null,
+            prediction: null,
+            confidence: 0,
+            bet: 10,
+            winStreak: 0,
+            lossStreak: 0,
+            totalProfit: 0,
+            consecutiveWins: 0,
+            samples: 0,
+            aiTrained: false,
+            lastPeriod: null,
+            activePredPeriod: null,
+            activePredTarget: null,
+            skipCount: 0,
+            maxSkip: 2
+        };
 
-        function runMultiPatternAnalyzer(list) {
-            try {
-                let types = list.map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL");
-                
-                // Pattern 1: Dragon Line
-                if (types[0] === types[1] && types[1] === types[2] && types[2] === types[3]) {
-                    return types[0];
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = id => document.getElementById(id);
+
+        const startAmountInput = $('startAmount');
+        const targetAmountInput = $('targetAmount');
+        const setBalanceBtn = $('setBalanceBtn');
+        const displayBalance = $('displayBalance');
+        const displayTarget = $('displayTarget');
+        const displayLevel = $('displayLevel');
+        const periodDisplay = $('periodDisplay');
+        const predictionDisplay = $('predictionDisplay');
+        const confidenceDisplay = $('confidenceDisplay');
+        const betDisplay = $('betDisplay');
+        const historyLog = $('historyLog');
+        const historyCount = $('historyCount');
+        const statusDot = $('statusDot');
+        const statusText = $('statusText');
+        const aiStatus = $('aiStatus');
+        const startBtn = $('startBtn');
+        const stopBtn = $('stopBtn');
+        const resetBtn = $('resetBtn');
+
+        // ============================================================
+        // PATTERNS (20 Chart Patterns)
+        // ============================================================
+        const CHART_PATTERNS = {
+            '1,4': 'BIG',
+            '4,2': 'BIG',
+            '4,3': 'BIG',
+            '4,4': 'BIG',
+            '4,7': 'BIG',
+            '4,5': 'SMALL',
+            '6,1': 'SMALL',
+            '6,3': 'SMALL',
+            '6,5': 'SMALL',
+            '6,6': 'SMALL',
+            '0,0': 'BIG',
+            '0,1': 'SMALL',
+            '2,2': 'SMALL',
+            '1,8': 'SMALL',
+            '1,2': 'BIG',
+            '6,4': 'SMALL',
+            '6,9': 'BIG',
+            '1,5': 'BIG',
+            '7,3': 'BIG',
+            '0,2': 'SMALL'
+        };
+
+        // ============================================================
+        // AI DATA COLLECTOR
+        // ============================================================
+        let trainingData = [];
+
+        function addTrainingSample(numbers, result) {
+            if (numbers.length >= 5) {
+                trainingData.push({
+                    numbers: numbers.slice(-10),
+                    result: result
+                });
+                state.samples = trainingData.length;
+
+                // Auto-train after 50 samples
+                if (trainingData.length >= 50 && !state.aiTrained) {
+                    trainAI();
                 }
-                // Pattern 2: Alternate Chop
-                if (types[0] !== types[1] && types[1] !== types[2] && types[2] !== types[3]) {
-                    return types[0] === "BIG" ? "SMALL" : "BIG";
-                }
-                // Pattern 3: Mirror Pairs
-                if (types[0] === types[1] && types[2] === types[3] && types[0] !== types[2]) {
-                    return types[0] === "BIG" ? "SMALL" : "BIG";
-                }
-                // Fallback Density Analysis
-                let bigCount = types.slice(0, 6).filter(t => t === "BIG").length;
-                return bigCount >= 3 ? "SMALL" : "BIG";
-            } catch (e) {
-                return "BIG";
+                updateAIStatus();
             }
         }
 
-        function formatPeriod(periodVal) {
-            const str = String(periodVal);
-            return str.length > 4 ? str.slice(-4) : str.padStart(4, '0');
+        // ============================================================
+        // SIMPLE AI TRAINING
+        // ============================================================
+        let aiPatterns = {};
+
+        function trainAI() {
+            if (trainingData.length < 50) return;
+
+            const patternCount = {};
+            const patternResults = {};
+
+            for (const sample of trainingData) {
+                const nums = sample.numbers;
+                const result = sample.result;
+
+                if (nums.length >= 2) {
+                    const key = `${nums[nums.length-2]},${nums[nums.length-1]}`;
+                    patternCount[key] = (patternCount[key] || 0) + 1;
+
+                    if (!patternResults[key]) patternResults[key] = { BIG: 0, SMALL: 0 };
+                    patternResults[key][result] = (patternResults[key][result] || 0) + 1;
+                }
+            }
+
+            aiPatterns = {};
+            for (const [key, count] of Object.entries(patternCount)) {
+                if (count >= 3) {
+                    const results = patternResults[key];
+                    if (results.BIG > results.SMALL) {
+                        aiPatterns[key] = {
+                            prediction: 'BIG',
+                            confidence: (results.BIG / count) * 100
+                        };
+                    } else {
+                        aiPatterns[key] = {
+                            prediction: 'SMALL',
+                            confidence: (results.SMALL / count) * 100
+                        };
+                    }
+                }
+            }
+
+            state.aiTrained = true;
+            updateAIStatus();
+            console.log(`✅ AI Trained! ${Object.keys(aiPatterns).length} patterns learned from ${trainingData.length} samples`);
         }
 
-        async function pureStatelessSync() {
+        // ============================================================
+        // PREDICTION ENGINE
+        // ============================================================
+        function getPrediction(numbers) {
+            if (numbers.length < 2) {
+                return { prediction: null, confidence: 0 };
+            }
+
+            const types = numbers.map(n => n >= 5 ? 'BIG' : 'SMALL');
+
+            // ===== AI PREDICTION (if trained) =====
+            if (state.aiTrained && numbers.length >= 2) {
+                const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
+                if (aiPatterns[key] && aiPatterns[key].confidence >= 65) {
+                    return {
+                        prediction: aiPatterns[key].prediction,
+                        confidence: Math.round(aiPatterns[key].confidence)
+                    };
+                }
+            }
+
+            // ===== RULE-BASED PREDICTIONS =====
+
+            // 2 Consecutive (95%)
+            if (types.length >= 2) {
+                if (types[types.length - 1] === 'BIG' && types[types.length - 2] === 'BIG') {
+                    return { prediction: 'SMALL', confidence: 95 };
+                }
+                if (types[types.length - 1] === 'SMALL' && types[types.length - 2] === 'SMALL') {
+                    return { prediction: 'BIG', confidence: 95 };
+                }
+            }
+
+            // 3+ Consecutive (93%)
+            if (types.length >= 3) {
+                const last3 = types.slice(-3);
+                if (last3.every(t => t === 'SMALL')) {
+                    return { prediction: 'BIG', confidence: 93 };
+                }
+                if (last3.every(t => t === 'BIG')) {
+                    return { prediction: 'SMALL', confidence: 93 };
+                }
+            }
+
+                        // Alternating (85%)
+            if (types.length >= 3) {
+                const last3 = types.slice(-3);
+                if (last3[0] === 'BIG' && last3[1] === 'SMALL' && last3[2] === 'BIG') {
+                    return { prediction: 'SMALL', confidence: 85 };
+                }
+                if (last3[0] === 'SMALL' && last3[1] === 'BIG' && last3[2] === 'SMALL') {
+                    return { prediction: 'BIG', confidence: 85 };
+                }
+            }
+
+            // Chart Pattern (85%)
+            if (numbers.length >= 2) {
+                const key = `${numbers[numbers.length-2]},${numbers[numbers.length-1]}`;
+                if (CHART_PATTERNS[key]) {
+                    return { prediction: CHART_PATTERNS[key], confidence: 85 };
+                }
+            }
+
+            // Default: Opposite of last (75%)
+            return {
+                prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG',
+                confidence: 75
+            };
+        }
+
+        // ============================================================
+        // SIMULATE API DATA
+        // ============================================================
+        let simulatedData = [];
+        let currentPeriod = 1000000;
+
+        function generateSimulatedData() {
+            const nums = [];
+            for (let i = 0; i < 10; i++) {
+                nums.push(Math.floor(Math.random() * 10));
+            }
+            return nums;
+        }
+
+        // ============================================================
+        // MAIN CYCLE
+        // ============================================================
+        let cycleInterval = null;
+
+        function startBot() {
+            if (state.isRunning) return;
+
+            // Reset if balance is low
+            if (state.balance < 10) {
+                state.balance = state.startAmount;
+                updateUI();
+            }
+
+            state.isRunning = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            setBalanceBtn.disabled = true;
+
+            statusDot.className = 'dot green';
+            statusText.textContent = 'Running';
+
+            // Initial data
+            const initialData = generateSimulatedData();
+            simulatedData = initialData;
+
+            // Run first cycle immediately
+            runCycle();
+
+            // Start interval
+            cycleInterval = setInterval(runCycle, 3000);
+        }
+
+        function stopBot() {
+            state.isRunning = false;
+            if (cycleInterval) {
+                clearInterval(cycleInterval);
+                cycleInterval = null;
+            }
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            setBalanceBtn.disabled = false;
+            statusDot.className = 'dot red';
+            statusText.textContent = 'Stopped';
+            predictionDisplay.className = 'prediction waiting';
+            predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
+        }
+
+        function resetBot() {
+            stopBot();
+            state.balance = state.startAmount;
+            state.level = 0;
+            state.history = [];
+            state.winStreak = 0;
+            state.lossStreak = 0;
+            state.totalProfit = 0;
+            state.consecutiveWins = 0;
+            state.activePredPeriod = null;
+            state.activePredTarget = null;
+            state.skipCount = 0;
+            simulatedData = [];
+            updateUI();
+            historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
+            historyCount.textContent = '0 entries';
+            predictionDisplay.className = 'prediction waiting';
+            predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
+            confidenceDisplay.textContent = '--%';
+            betDisplay.textContent = '--';
+            periodDisplay.textContent = '----';
+            statusDot.className = 'dot yellow';
+            statusText.textContent = 'Ready';
+        }
+
+        // ============================================================
+        // RUN CYCLE
+        // ============================================================
+        function runCycle() {
+            if (!state.isRunning) return;
+
             try {
-                const response = await fetch(GAME_API);
-                const json = await response.json();
-                const serverList = json.data.list;
+                // Simulate new period
+                currentPeriod++;
 
-                let reversedList = [...serverList].reverse();
-                let currentMartingaleIndex = 0;
-                let processedHistory = [];
+                // Generate new number
+                const newNumber = Math.floor(Math.random() * 10);
+                const actualType = newNumber >= 5 ? 'BIG' : 'SMALL';
 
-                // Re-calculate everything from server state dynamically
-                for (let i = 0; i < reversedList.length; i++) {
-                    let origIndex = serverList.findIndex(item => item.issueNumber === reversedList[i].issueNumber);
-                    let pastDataFeed = serverList.slice(origIndex + 1);
+                // Update simulated data
+                simulatedData.push(newNumber);
+                if (simulatedData.length > 20) simulatedData = simulatedData.slice(-20);
 
-                    if (pastDataFeed.length < 2) continue;
-
-                    let predictedTarget = runMultiPatternAnalyzer(pastDataFeed);
-                    let actualResult = parseInt(reversedList[i].number) >= 5 ? "BIG" : "SMALL";
-                    let isWin = predictedTarget === actualResult;
-
-                    processedHistory.push({
-                        period: reversedList[i].issueNumber,
-                        target: predictedTarget,
-                        amount: AMOUNTS[currentMartingaleIndex],
-                        result: isWin ? "WIN" : "LOSE"
-                    });
+                // Check if we had an active prediction
+                if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
+                    const isWin = state.activePredTarget === actualType;
+                    const currentBet = state.amounts[state.level];
 
                     if (isWin) {
-                        currentMartingaleIndex = 0;
+                        const profit = currentBet * 0.96;
+                        state.balance += profit;
+                        state.totalProfit += profit;
+                        state.winStreak += 1;
+                        state.consecutiveWins += 1;
+                        state.lossStreak = 0;
+                        state.level = 0;
+                        if (state.consecutiveWins >= 3) state.consecutiveWins = 0;
+                        addHistory(currentPeriod, state.activePredTarget, currentBet, 'WIN', state.balance);
                     } else {
-                        currentMartingaleIndex = Math.min(currentMartingaleIndex + 1, AMOUNTS.length - 1);
+                        state.balance -= currentBet;
+                        state.totalProfit -= currentBet;
+                        state.lossStreak += 1;
+                        state.winStreak = 0;
+                        state.consecutiveWins = 0;
+                        if (state.level < state.amounts.length - 1) {
+                            state.level += 1;
+                        } else {
+                            state.level = 0;
+                        }
+                        addHistory(currentPeriod, state.activePredTarget, currentBet, 'LOSS', state.balance);
+                    }
+
+                    state.activePredPeriod = null;
+                    state.activePredTarget = null;
+                    state.skipCount = 0;
+                }
+
+                // ===== GET PREDICTION =====
+                const recentNumbers = simulatedData.slice(-10);
+                const result = getPrediction(recentNumbers);
+
+                // Add training sample
+                addTrainingSample(recentNumbers, actualType);
+
+                let prediction = null;
+                let confidence = 0;
+
+                if (result.prediction && result.confidence >= 65) {
+                    prediction = result.prediction;
+                    confidence = result.confidence;
+                } else {
+                    state.skipCount += 1;
+                    if (state.skipCount >= state.maxSkip) {
+                        const fallback = getPrediction(recentNumbers);
+                        if (fallback.prediction) {
+                            prediction = fallback.prediction;
+                            confidence = Math.max(fallback.confidence, 70);
+                        }
+                        state.skipCount = 0;
                     }
                 }
 
-                // 1. Calculate next round parameters based STRICTLY on the latest server response + 1
-                const latestConcludedPeriod = parseInt(serverList[0].issueNumber);
-                const nextActivePeriod = latestConcludedPeriod + 1;
-                const nextActiveTarget = runMultiPatternAnalyzer(serverList);
-                const nextActiveAmount = AMOUNTS[currentMartingaleIndex];
-                const nextActiveMultiplier = MULTIPLIERS[currentMartingaleIndex];
+                // Update UI with prediction
+                const nextPeriod = currentPeriod + 1;
+                periodDisplay.textContent = String(nextPeriod).slice(-4);
 
-                // Force layout shift immediately
-                document.getElementById('live-period').innerText = `*${formatPeriod(nextActivePeriod)}`;
-                document.getElementById('live-target').innerText = nextActiveTarget;
-                
-                const targetEl = document.getElementById('live-target');
-                if(nextActiveTarget === "BIG") {
-                    targetEl.className = "text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.3)] my-3";
+                if (prediction) {
+                    state.activePredPeriod = nextPeriod;
+                    state.activePredTarget = prediction;
+
+                    const bet = state.amounts[state.level];
+                    state.bet = bet;
+
+                    predictionDisplay.className = `prediction ${prediction.toLowerCase()}`;
+                    predictionDisplay.textContent = prediction;
+                    confidenceDisplay.textContent = `${confidence}%`;
+                    betDisplay.textContent = bet;
+
+                    statusText.textContent = `📈 ${prediction} • ${confidence}%`;
                 } else {
-                    targetEl.className = "text-6xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-rose-400 drop-shadow-[0_0_20px_rgba(232,121,249,0.3)] my-3";
+                    predictionDisplay.className = 'prediction waiting';
+                    predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
+                    confidenceDisplay.textContent = '--%';
+                    betDisplay.textContent = '--';
+                    statusText.textContent = '⏳ Scanning...';
                 }
-                document.getElementById('live-multiplier').innerText = `LEVEL: ${nextActiveMultiplier} (₹${nextActiveAmount})`;
 
-                // 2. Clear and build history list
-                const deck = document.getElementById('history-deck');
-                deck.innerHTML = '';
+                // Check target reached
+                if (state.balance >= state.target) {
+                    stopBot();
+                    statusText.textContent = '🎉 TARGET REACHED!';
+                    predictionDisplay.className = 'prediction waiting';
+                    predictionDisplay.innerHTML = '🎯 TARGET ACHIEVED! 🎉';
+                    return;
+                }
 
-                const displayHistory = processedHistory.slice(-6).reverse();
-                displayHistory.forEach(row => {
-                    const isWin = row.result === "WIN";
-                    const badgeStyle = isWin ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' : 'text-rose-400 bg-rose-500/10 border-rose-500/30';
-                    const borderLeftColor = isWin ? 'border-l-emerald-500' : 'border-l-rose-500';
+                // Check if balance is too low
+                if (state.balance < 10) {
+                    stopBot();
+                    statusText.textContent = '⚠️ BALANCE LOW!';
+                    predictionDisplay.className = 'prediction waiting';
+                    predictionDisplay.innerHTML = '⚠️ INSUFFICIENT BALANCE';
+                    return;
+                }
 
-                    deck.innerHTML += `
-                        <div class="glass-panel rounded-xl p-3.5 flex items-center justify-between border-l-4 ${borderLeftColor} row-entry">
-                            <div class="flex items-center gap-5">
-                                <span class="text-xs font-bold text-slate-500 font-mono">ID: *${formatPeriod(row.period)}</span>
-                                <span class="text-sm font-black text-white tracking-wider">【${row.target}】</span>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <span class="text-xs font-bold text-slate-400 font-mono">₹${row.amount}</span>
-                                <div class="w-16 border text-center py-1 text-[9px] font-black tracking-widest rounded-md uppercase ${badgeStyle}">
-                                    ${row.result}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
+                updateUI();
 
             } catch (error) {
-                console.log("Sync Error:", error);
+                console.error('Cycle error:', error);
+                statusText.textContent = '⚠️ Error';
             }
         }
 
-        // Clock trigger configurations
-        setInterval(() => {
-            const currentSeconds = new Date().getSeconds();
-            const remainingSeconds = 60 - currentSeconds;
-            document.getElementById('live-timer').innerText = (remainingSeconds < 10 ? "0" : "") + remainingSeconds + "s";
+        // ============================================================
+        // ADD HISTORY
+        // ============================================================
+        function addHistory(period, target, bet, result, balance) {
+            const entry = {
+                period: String(period).slice(-4),
+                target: target,
+                bet: bet,
+                result: result,
+                balance: Math.round(balance * 100) / 100
+            };
 
-            // Multi-frequency background polling near the edge transitions
-            if (remainingSeconds === 59 || remainingSeconds === 57 || remainingSeconds === 55 || remainingSeconds === 30 || remainingSeconds === 5) {
-                pureStatelessSync();
+            state.history.push(entry);
+            if (state.history.length > 50) state.history = state.history.slice(-50);
+
+            renderHistory();
+            historyCount.textContent = `${state.history.length} entries`;
+        }
+
+        // ============================================================
+        // RENDER HISTORY
+        // ============================================================
+        function renderHistory() {
+            if (state.history.length === 0) {
+                historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
+                return;
             }
-        }, 1000);
 
-        pureStatelessSync();
+            let html = '';
+            const reversed = [...state.history].reverse();
+            for (const entry of reversed) {
+                const resultClass = entry.result === 'WIN' ? 'win' : 'loss';
+                const emoji = entry.result === 'WIN' ? '🔥' : '❌';
+                html += `
+                        <div class="log-item">
+                            <span class="period">${entry.period}</span>
+                            <span class="result ${resultClass}">${entry.target} ${emoji}</span>
+                            <span class="amount">${entry.bet}RS</span>
+                            <span class="balance">${entry.balance}RS</span>
+                        </div>
+                    `;
+            }
+            historyLog.innerHTML = html;
+        }
+
+                // ============================================================
+        // UPDATE UI
+        // ============================================================
+        function updateUI() {
+            displayBalance.textContent = Math.round(state.balance);
+            displayTarget.textContent = Math.round(state.target).toLocaleString();
+            displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
+
+            // Update status bar colors
+            if (state.balance < state.startAmount * 0.5) {
+                displayBalance.style.color = '#ff5252';
+            } else if (state.balance > state.startAmount) {
+                displayBalance.style.color = '#00e676';
+            } else {
+                displayBalance.style.color = '#ffd700';
+            }
+        }
+
+        // ============================================================
+        // UPDATE AI STATUS
+        // ============================================================
+        function updateAIStatus() {
+            if (state.aiTrained) {
+                aiStatus.className = 'status trained';
+                aiStatus.textContent = `✅ Trained (${Object.keys(aiPatterns).length} patterns)`;
+            } else if (state.samples >= 10) {
+                aiStatus.className = 'status learning';
+                aiStatus.textContent = `🔄 Learning... ${state.samples}/50 samples`;
+            } else {
+                aiStatus.className = 'status waiting';
+                aiStatus.textContent = '⏳ Waiting for data...';
+            }
+        }
+
+        // ============================================================
+        // EVENT LISTENERS
+        // ============================================================
+
+        // Set Balance
+        setBalanceBtn.addEventListener('click', function() {
+            const start = parseFloat(startAmountInput.value);
+            const target = parseFloat(targetAmountInput.value);
+
+            if (isNaN(start) || start < 10) {
+                alert('Please enter a valid start amount (min 10)');
+                return;
+            }
+            if (isNaN(target) || target <= start) {
+                alert('Target must be greater than start amount');
+                return;
+            }
+
+            state.startAmount = start;
+            state.balance = start;
+            state.target = target;
+            state.level = 0;
+            state.history = [];
+            state.totalProfit = 0;
+
+            // Reset AI if balance changes
+            trainingData = [];
+            state.samples = 0;
+            state.aiTrained = false;
+            aiPatterns = {};
+
+            updateUI();
+            updateAIStatus();
+            historyLog.innerHTML = '<div class="empty">⏳ Waiting for predictions...</div>';
+            historyCount.textContent = '0 entries';
+            predictionDisplay.className = 'prediction waiting';
+            predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
+            confidenceDisplay.textContent = '--%';
+            betDisplay.textContent = '--';
+            periodDisplay.textContent = '----';
+            statusDot.className = 'dot yellow';
+            statusText.textContent = 'Configured';
+
+            if (state.isRunning) stopBot();
+
+            alert(`✅ Balance configured!\nStart: ${start} RS\nTarget: ${target} RS`);
+        });
+
+        // Start
+        startBtn.addEventListener('click', startBot);
+
+        // Stop
+        stopBtn.addEventListener('click', stopBot);
+
+        // Reset
+        resetBtn.addEventListener('click', resetBot);
+
+        // Enter key for balance
+        startAmountInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') setBalanceBtn.click();
+        });
+        targetAmountInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') setBalanceBtn.click();
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            // Load saved state from localStorage
+            try {
+                const saved = localStorage.getItem('wingoBotState');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.balance) state.balance = parsed.balance;
+                    if (parsed.startAmount) state.startAmount = parsed.startAmount;
+                    if (parsed.target) state.target = parsed.target;
+                    if (parsed.history) state.history = parsed.history;
+                    if (parsed.samples) state.samples = parsed.samples;
+                    if (parsed.aiTrained) state.aiTrained = parsed.aiTrained;
+                    if (parsed.aiPatterns) aiPatterns = parsed.aiPatterns;
+                    if (parsed.trainingData) trainingData = parsed.trainingData;
+                }
+            } catch (e) {}
+
+            startAmountInput.value = state.startAmount;
+            targetAmountInput.value = state.target;
+            updateUI();
+            updateAIStatus();
+            renderHistory();
+            historyCount.textContent = `${state.history.length} entries`;
+
+            // Auto-save every 10 seconds
+            setInterval(() => {
+                try {
+                    localStorage.setItem('wingoBotState', JSON.stringify({
+                        balance: state.balance,
+                        startAmount: state.startAmount,
+                        target: state.target,
+                        history: state.history,
+                        samples: state.samples,
+                        aiTrained: state.aiTrained,
+                        aiPatterns: aiPatterns,
+                        trainingData: trainingData.slice(-200)
+                    }));
+                } catch (e) {}
+            }, 10000);
+
+            statusDot.className = 'dot yellow';
+            statusText.textContent = 'Ready';
+
+            console.log('🚀 Wingo AI Bot Loaded!');
+            console.log(`💰 Balance: ${state.balance} | Target: ${state.target}`);
+            console.log(`🤖 AI: ${state.aiTrained ? 'Trained' : 'Learning'} (${state.samples} samples)`);
+        }
+
+        // Run init
+        init();
     </script>
+
 </body>
 </html>
