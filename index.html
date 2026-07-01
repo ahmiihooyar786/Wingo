@@ -335,9 +335,14 @@ async function coreEngineSync() {
 
 function addInfiniteHistory(period, target, bet, result, balance) {
     state.history.push({ period: String(period).padStart(4, '0'), target, bet, result, balance: Math.round(balance*100)/100 });
+    
+    // 🔥 ANTI-CRASH SHIELD: Agar history 1000 se barhe, toh sab se purani entry delete kar do
+    if (state.history.length > 1000) {
+        state.history.shift(); 
+    }
+    
     renderHistory();
 }
-
 function renderHistory() {
     if (state.history.length === 0) { els.historyLog.innerHTML = '<div class="empty">Waiting for the next live round close...</div>'; return; }
     let html = '';
