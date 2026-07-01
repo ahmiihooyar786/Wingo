@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wingo Self-Learning Bot - Fixed</title>
+    <title>Wingo Self-Learning Bot - PreFetch Fixed</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="prediction-card">
-        <div class="period">PERIOD NO ➡️ <span id="periodDisplay">----</span></div>
+        <div class="period">PERIOD NO ➡️ <span id="periodDisplay">Loading...</span></div>
         <div class="prediction paused" id="predictionDisplay"><i class="fas fa-pause-circle"></i> PAUSED</div>
         <div class="confidence">Confidence: <span id="confidenceDisplay">--%</span></div>
         <div class="bet-amount">Bet: <span id="betDisplay">--</span> RS</div>
@@ -159,7 +159,7 @@
 
 <script>
 // ============================================================
-// 📊 FIXED & SORT-LOCKED MARKOV ENGINE 
+// 📊 FIXED, SORT-LOCKED & INSTANT PRE-FETCH MARKOV ENGINE 
 // ============================================================
 
 const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
@@ -170,7 +170,7 @@ const state = {
     history: [], isRunning: false, period: 0,
     prediction: null, confidence: 75, bet: 10,
     activePredPeriod: null, activePredTarget: null,
-    lastEvaluatedPeriod: null, // Double execution guard active
+    lastEvaluatedPeriod: null, 
     skipCount: 0, maxSkip: 1,
     
     brain: {
@@ -253,6 +253,28 @@ async function fetchAPI() {
 
 let cycleInterval = null, currentPeriod = 0;
 
+// ⚡ LIVE PRE-FETCH LAYER (Aapke click karne se pehle hi actual period utha leta hai)
+async function preFetchPeriodOnly() {
+    try {
+        const list = await fetchAPI();
+        if (list && list.length > 0) {
+            list.sort((a, b) => {
+                const pA = Number(a.issueNumber ?? a.issue ?? a.period ?? 0);
+                const pB = Number(b.issueNumber ?? b.issue ?? b.period ?? 0);
+                return pB - pA;
+            });
+            const latest = list[0];
+            const p = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
+            currentPeriod = Number(p);
+            els.periodDisplay.textContent = String(currentPeriod + 1).slice(-4);
+        } else {
+            els.periodDisplay.textContent = "1171";
+        }
+    } catch (e) {
+        els.periodDisplay.textContent = "1171";
+    }
+}
+
 async function runCycle() {
     if (!state.isRunning) return;
     try {
@@ -261,7 +283,6 @@ async function runCycle() {
         let actual = 'BIG';
         
         if (list && list.length > 0) {
-            // 🛡️ CRITICAL LOCK: Sort list by period number in descending order first!
             list.sort((a, b) => {
                 const pA = Number(a.issueNumber ?? a.issue ?? a.period ?? 0);
                 const pB = Number(b.issueNumber ?? b.issue ?? b.period ?? 0);
@@ -287,9 +308,8 @@ async function runCycle() {
             nums = Array.from({length:10}, () => Math.floor(Math.random()*10));
         }
 
-        // 🛡️ EVALUATION GUARD: Only verify if it's a completely new period
         if (state.activePredPeriod && state.activePredPeriod === currentPeriod && state.lastEvaluatedPeriod !== currentPeriod) {
-            state.lastEvaluatedPeriod = currentPeriod; // Lock period
+            state.lastEvaluatedPeriod = currentPeriod; 
             const win = state.activePredTarget === actual;
             const bet = state.amounts[state.level];
             
@@ -312,7 +332,6 @@ async function runCycle() {
         let pred = result.prediction, conf = result.confidence;
 
         const nextPeriod = currentPeriod + 1;
-        // Displays last 4 digits safely and cleanly
         els.periodDisplay.textContent = String(nextPeriod).slice(-4); 
 
         if (pred) {
@@ -350,9 +369,6 @@ function renderHistory() {
         html += `<div class="log-item"><span class="period">${e.period}</span><span class="result ${c}">${e.target} ${em}</span><span class="amount">${e.bet}RS</span><span class="balance">${e.balance}RS</span></div>`;
     }
     els.historyLog.innerHTML = html;
-}
-
-             els.historyLog.innerHTML = html;
 }
 
 function updateUI() {
@@ -403,6 +419,7 @@ function resetBot() {
     state.brain.totalRoundsProcessed = 0;
     updateUI();
     updateAIStatus();
+    preFetchPeriodOnly(); // Reset ke baad bhi fetch reset lock karega
     els.historyLog.innerHTML = '<div class="empty">⏳ Waiting...</div>';
     els.historyCount.textContent = '0 entries';
 }
@@ -436,6 +453,9 @@ function init() {
     els.targetAmount.value = state.target;
     updateUI(); updateAIStatus(); renderHistory();
     els.historyCount.textContent = `${state.history.length} entries`;
+    
+    // 🔥 RUN INSTANT LIVE CHECK RIGHT NOW
+    preFetchPeriodOnly();
 
     setInterval(() => {
         try {
