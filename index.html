@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wingo Self-Learning Bot</title>
+    <title>Wingo Self-Learning Bot - Fixed</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -132,10 +132,10 @@
     </div>
 
     <div class="prediction-card">
-        <div class="period">PERIOD NO ➡️ <span id="periodDisplay">0011</span></div>
+        <div class="period">PERIOD NO ➡️ <span id="periodDisplay">----</span></div>
         <div class="prediction paused" id="predictionDisplay"><i class="fas fa-pause-circle"></i> PAUSED</div>
-        <div class="confidence">Confidence: <span id="confidenceDisplay">75%</span></div>
-        <div class="bet-amount">Bet: <span id="betDisplay">10</span> RS</div>
+        <div class="confidence">Confidence: <span id="confidenceDisplay">--%</span></div>
+        <div class="bet-amount">Bet: <span id="betDisplay">--</span> RS</div>
     </div>
 
     <div class="history-section">
@@ -159,7 +159,7 @@
 
 <script>
 // ============================================================
-// 📊 CONTINUOUS SELF-LEARNING ENGINE (MARKOV CHAIN HYBRID)
+// 📊 FIXED & SORT-LOCKED MARKOV ENGINE 
 // ============================================================
 
 const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
@@ -167,15 +167,15 @@ const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePag
 const state = {
     balance: 580, target: 800, startAmount: 580,
     level: 0, levels: ['1X','2X'], amounts: [10,20],
-    history: [], isRunning: false, period: 11,
+    history: [], isRunning: false, period: 0,
     prediction: null, confidence: 75, bet: 10,
     activePredPeriod: null, activePredTarget: null,
+    lastEvaluatedPeriod: null, // Double execution guard active
     skipCount: 0, maxSkip: 1,
     
-    // Persistent Learning Matrix Database
     brain: {
         totalRoundsProcessed: 0,
-        patterns: {} // Stores pattern sequences infinitely without bloating
+        patterns: {}
     }
 };
 
@@ -192,14 +192,11 @@ const els = {
     stopBtn: $('stopBtn'), resetBtn: $('resetBtn')
 };
 
-// 🔄 DYNAMIC LEARNING LAYER (Feeds new data to the statistical matrix live)
 function ingestDataSequence(nums) {
     if (nums.length < 5) return;
-    
-    const types = nums.map(n => n >= 5 ? 'B' : 'S'); // Compressed memory formatting (B=Big, S=Small)
+    const types = nums.map(n => n >= 5 ? 'B' : 'S');
     state.brain.totalRoundsProcessed++;
 
-    // Track multi-depth patterns (pichle 2, 3, aur 4 rounds ke patterns seekhta hai)
     for (let depth = 2; depth <= 4; depth++) {
         for (let i = 0; i <= types.length - depth - 1; i++) {
             const sequenceKey = types.slice(i, i + depth).join(',');
@@ -214,39 +211,31 @@ function ingestDataSequence(nums) {
     updateAIStatus();
 }
 
-// 🧠 LIVE PREDICTION FILTER
 function getSmartPrediction(nums) {
     if (nums.length < 4) return { prediction: null, confidence: 0 };
     const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
     const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
 
-    // 🐉 1. DRAGON PROTECTION MECHANISM (Always active)
     if (types[types.length-1] === types[types.length-2] && types[types.length-2] === types[types.length-3]) {
         return { prediction: types[types.length-1], confidence: 95 };
     }
 
-    // ⚡ 2. AUTOMATIC MATRIX LOOKUP (Deep Pattern Memory Check)
-    // Sabse pehle deep 4-round sequence match check karega, phir 3, phir 2.
     for (let depth = 4; depth >= 2; depth--) {
         const currentKey = shortTypes.slice(-depth).join(',');
         const historicalMatch = state.brain.patterns[currentKey];
 
         if (historicalMatch) {
             const totalMatches = historicalMatch.BIG + historicalMatch.SMALL;
-            if (totalMatches >= 2) { // Minimun 2 baar woh pattern pehle aa chuka ho
+            if (totalMatches >= 2) {
                 const bigRatio = historicalMatch.BIG / totalMatches;
                 const smallRatio = historicalMatch.SMALL / totalMatches;
 
-                if (bigRatio >= 0.60) {
-                    return { prediction: 'BIG', confidence: Math.round(bigRatio * 100) };
-                } else if (smallRatio >= 0.60) {
-                    return { prediction: 'SMALL', confidence: Math.round(smallRatio * 100) };
-                }
+                if (bigRatio >= 0.60) return { prediction: 'BIG', confidence: Math.round(bigRatio * 100) };
+                if (smallRatio >= 0.60) return { prediction: 'SMALL', confidence: Math.round(smallRatio * 100) };
             }
         }
     }
 
-    // 🎯 3. BACKUP ZIG-ZAG ENGINE (Agar bilkul naya pattern ho)
     if (types[types.length-1] === types[types.length-2]) {
         return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 78 };
     }
@@ -262,7 +251,7 @@ async function fetchAPI() {
     } catch { return null; }
 }
 
-let cycleInterval = null, currentPeriod = 1000;
+let cycleInterval = null, currentPeriod = 0;
 
 async function runCycle() {
     if (!state.isRunning) return;
@@ -272,31 +261,38 @@ async function runCycle() {
         let actual = 'BIG';
         
         if (list && list.length > 0) {
-            const latest = list[0];
+            // 🛡️ CRITICAL LOCK: Sort list by period number in descending order first!
+            list.sort((a, b) => {
+                const pA = Number(a.issueNumber ?? a.issue ?? a.period ?? 0);
+                const pB = Number(b.issueNumber ?? b.issue ?? b.period ?? 0);
+                return pB - pA; 
+            });
+
+            const latest = list[0]; 
             const p = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
             currentPeriod = Number(p);
             
-            const newNum = latest.number ?? latest.num ?? latest.value ?? Math.floor(Math.random()*10);
+            const newNum = latest.number ?? latest.num ?? latest.value ?? 0;
             actual = Number(newNum) >= 5 ? 'BIG' : 'SMALL';
 
             for (const item of list) {
                 const n = item.number ?? item.num ?? item.value;
                 if (n !== undefined && n !== null) nums.push(Number(n));
             }
-            nums.reverse(); // Standard correct chronological parsing [Oldest -> Newest]
+            nums.reverse(); 
         } else {
-            nums = Array.from({length:10}, () => Math.floor(Math.random()*10));
+            if(currentPeriod === 0) currentPeriod = 1170;
             currentPeriod++;
-            actual = nums[nums.length-1] >= 5 ? 'BIG' : 'SMALL';
+            actual = Math.random() >= 0.5 ? 'BIG' : 'SMALL';
+            nums = Array.from({length:10}, () => Math.floor(Math.random()*10));
         }
 
-        // Live Learning Trigger (Har round ka real-time auto calculation)
-        ingestDataSequence(nums);
-
-        // Verification Process
-        if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
+        // 🛡️ EVALUATION GUARD: Only verify if it's a completely new period
+        if (state.activePredPeriod && state.activePredPeriod === currentPeriod && state.lastEvaluatedPeriod !== currentPeriod) {
+            state.lastEvaluatedPeriod = currentPeriod; // Lock period
             const win = state.activePredTarget === actual;
             const bet = state.amounts[state.level];
+            
             if (win) {
                 state.balance += bet * 0.96;
                 state.level = 0;
@@ -307,14 +303,17 @@ async function runCycle() {
                 else state.level = 0;
                 addHistory(currentPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
             }
-            state.activePredPeriod = null; state.activePredTarget = null; state.skipCount = 0;
+            state.activePredPeriod = null; state.activePredTarget = null;
         }
+
+        ingestDataSequence(nums);
 
         const result = getSmartPrediction(nums);
         let pred = result.prediction, conf = result.confidence;
 
         const nextPeriod = currentPeriod + 1;
-        els.periodDisplay.textContent = String(nextPeriod).slice(-4);
+        // Displays last 4 digits safely and cleanly
+        els.periodDisplay.textContent = String(nextPeriod).slice(-4); 
 
         if (pred) {
             state.activePredPeriod = nextPeriod;
@@ -351,6 +350,9 @@ function renderHistory() {
         html += `<div class="log-item"><span class="period">${e.period}</span><span class="result ${c}">${e.target} ${em}</span><span class="amount">${e.bet}RS</span><span class="balance">${e.balance}RS</span></div>`;
     }
     els.historyLog.innerHTML = html;
+}
+
+             els.historyLog.innerHTML = html;
 }
 
 function updateUI() {
@@ -396,7 +398,8 @@ function resetBot() {
     state.history = [];
     state.activePredPeriod = null;
     state.activePredTarget = null;
-    state.brain.patterns = {}; // Clears matrix on hard user reset request
+    state.lastEvaluatedPeriod = null;
+    state.brain.patterns = {};
     state.brain.totalRoundsProcessed = 0;
     updateUI();
     updateAIStatus();
@@ -417,7 +420,6 @@ els.startBtn.addEventListener('click', startBot);
 els.stopBtn.addEventListener('click', stopBot);
 els.resetBtn.addEventListener('click', resetBot);
 
-// 💾 SECURE LOCAL STORAGE ENGINE (Preserves learned statistics forever)
 function init() {
     try {
         const saved = localStorage.getItem('wingo_brain_state');
@@ -427,14 +429,14 @@ function init() {
             if (parsed.startAmount) state.startAmount = parsed.startAmount;
             if (parsed.target) state.target = parsed.target;
             if (parsed.history) state.history = parsed.history;
-            if (parsed.brain && parsed.brain.patterns) state.brain = parsed.brain;
+            if (parsed.brain) state.brain = parsed.brain;
         }
     } catch(e) {}
     els.startAmount.value = state.startAmount;
     els.targetAmount.value = state.target;
     updateUI(); updateAIStatus(); renderHistory();
+    els.historyCount.textContent = `${state.history.length} entries`;
 
-    // Auto backup learned matrix patterns every 10 seconds securely
     setInterval(() => {
         try {
             localStorage.setItem('wingo_brain_state', JSON.stringify({
