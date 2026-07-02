@@ -22,76 +22,54 @@
         .balance-row .input-group{flex:1;position:relative;min-width:70px;}
         .balance-row .input-group .prefix{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:#ffd700;font-weight:700;font-size:11px;}
         .balance-row input{width:100%;padding:6px 8px 6px 22px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:12px;font-weight:600;font-family:'Rajdhani',sans-serif;outline:none;}
-        .balance-row input:focus{border-color:#ffd700;}
         .balance-row button{padding:6px 14px;background:linear-gradient(135deg,#f7971e,#ffd200);border:none;border-radius:8px;color:#0a0a1a;font-weight:700;font-size:11px;cursor:pointer;transition:0.3s;}
-        .balance-row button:hover{transform:scale(1.03);}
         
         .status-bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;background:rgba(255,255,255,0.03);border-radius:8px;padding:5px 8px;margin-bottom:8px;border:1px solid rgba(255,255,255,0.04);}
         .status-bar .item{display:flex;align-items:center;gap:3px;font-size:9px;color:#8888bb;}
         .status-bar .item .val{font-weight:700;color:#fff;font-size:11px;}
         .status-bar .item .val.gold{color:#ffd700;}
-        .status-bar .item .val.green{color:#00e676;}
-        .status-bar .item .val.red{color:#ff5252;}
         .status-bar .dot{width:5px;height:5px;border-radius:50%;display:inline-block;animation:pulse-dot 1.5s ease-in-out infinite;}
         .status-bar .dot.green{background:#00e676;}
-        .status-bar .dot.red{background:#ff5252;animation:none;}
         .status-bar .dot.yellow{background:#ffd700;animation:pulse-dot 0.8s ease-in-out infinite;}
+        .status-bar .dot.red{background:#ff5252;animation:none;}
         @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
         
-        .prediction-card{background:linear-gradient(145deg,rgba(255,215,0,0.06),rgba(255,215,0,0.01));border-radius:14px;padding:14px 12px;border:1px solid rgba(255,215,0,0.08);text-align:center;margin-bottom:8px;min-height:80px;position:relative;overflow:hidden;}
-        .prediction-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(255,215,0,0.03),transparent 70%);animation:rotate-glow 20s linear infinite;pointer-events:none;}
-        @keyframes rotate-glow{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-        .prediction-card .period{font-size:10px;color:#8888bb;letter-spacing:1px;position:relative;z-index:1;}
+        .prediction-card{background:linear-gradient(145deg,rgba(255,215,0,0.06),rgba(255,215,0,0.01));border-radius:14px;padding:14px 12px;border:1px solid rgba(255,215,0,0.08);text-align:center;margin-bottom:8px;min-height:80px;position:relative;}
+        .prediction-card .period{font-size:10px;color:#8888bb;letter-spacing:1px;}
         .prediction-card .period span{color:#ffd700;font-weight:700;}
-        .prediction-card .prediction{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;margin:2px 0;position:relative;z-index:1;letter-spacing:2px;}
+        .prediction-card .prediction{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;margin:2px 0;letter-spacing:2px;}
         .prediction-card .prediction.big{color:#ffbc00;text-shadow:0 0 40px rgba(255,188,0,0.3);}
         .prediction-card .prediction.small{color:#00e676;text-shadow:0 0 40px rgba(0,230,118,0.3);}
-        .prediction-card .prediction.waiting{color:#8888bb;font-size:14px;}
         .prediction-card .prediction.paused{color:#ffd700;font-size:16px;}
-        .prediction-card .confidence{font-size:11px;color:#8888bb;position:relative;z-index:1;}
+        .prediction-card .confidence{font-size:11px;color:#8888bb;}
         .prediction-card .confidence span{color:#ffd700;font-weight:700;}
-        .prediction-card .bet-amount{font-size:10px;color:#8888bb;margin-top:1px;position:relative;z-index:1;}
+        .prediction-card .bet-amount{font-size:10px;color:#8888bb;margin-top:1px;}
         .prediction-card .bet-amount span{color:#fff;font-weight:700;}
-        
-        .history-section{margin-top:6px;}
-        .history-section .title{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#555577;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between;}
-        .history-log{max-height:120px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.05) transparent;}
-        .history-log::-webkit-scrollbar{width:2px;}
-        .history-log::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:10px;}
-        .history-log .log-item{display:grid;grid-template-columns:40px 1fr 40px 55px;gap:2px;padding:4px 4px;border-radius:4px;font-size:10px;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.03);align-items:center;}
-        .history-log .log-item .period{color:#666688;font-weight:400;}
-        .history-log .log-item .result{font-weight:700;}
-        .history-log .log-item .result.win{color:#00e676;}
-        .history-log .log-item .result.loss{color:#ff5252;}
-        .history-log .log-item .amount{color:#8888bb;}
-        .history-log .log-item .balance{color:#ffd700;font-weight:700;font-size:9px;text-align:right;}
-        .history-log .empty{text-align:center;color:#555577;font-size:10px;padding:10px 0;}
-        
-        .controls{display:flex;gap:5px;margin-top:8px;}
-        .controls button{flex:1;padding:8px;border:none;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:0.3s;letter-spacing:0.5px;}
-        .controls .btn-start{background:linear-gradient(135deg,#00c853,#00e676);color:#0a0a1a;}
-        .controls .btn-start:hover{transform:scale(1.02);}
-        .controls .btn-start:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
-        .controls .btn-stop{background:linear-gradient(135deg,#d50000,#ff1744);color:#fff;}
-        .controls .btn-stop:hover{transform:scale(1.02);}
-        .controls .btn-stop:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
-        .controls .btn-reset{background:rgba(255,255,255,0.05);color:#8888bb;border:1px solid rgba(255,255,255,0.06);flex:0.3;}
-        
-        .ai-status{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);border-radius:6px;padding:4px 8px;margin-top:6px;border:1px solid rgba(255,255,255,0.04);}
-        .ai-status .label{font-size:8px;color:#555577;text-transform:uppercase;letter-spacing:1px;}
-        .ai-status .status{font-size:9px;font-weight:600;}
-        .ai-status .status.learning{color:#ffd700;}
-        .ai-status .status.trained{color:#00e676;}
-        .ai-status .status.waiting{color:#555577;}
-        .ai-status .status.infinity{color:#ff6b6b;animation:pulse-glow 1.5s ease-in-out infinite;}
-        @keyframes pulse-glow{0%,100%{opacity:1;text-shadow:0 0 10px rgba(255,107,107,0.3)}50%{opacity:0.7;text-shadow:0 0 30px rgba(255,107,107,0.6)}}
         
         .stats-mini{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:4px;}
         .stats-mini .stat{background:rgba(255,255,255,0.02);border-radius:6px;padding:3px 6px;text-align:center;border:1px solid rgba(255,255,255,0.03);}
         .stats-mini .stat .num{font-size:14px;font-weight:700;color:#ffd700;font-family:'Orbitron',sans-serif;}
         .stats-mini .stat .lbl{font-size:7px;color:#555577;text-transform:uppercase;letter-spacing:1px;}
         
-        @media(max-width:420px){.container{padding:12px 10px 16px;}.status-bar{grid-template-columns:1fr 1fr;gap:2px;}.prediction-card .prediction{font-size:20px;}.history-log .log-item{grid-template-columns:35px 1fr 30px 45px;font-size:9px;}}
+        .history-section{margin-top:6px;}
+        .history-section .title{font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#555577;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between;}
+        .history-log{max-height:120px;overflow-y:auto;}
+        .history-log .log-item{display:grid;grid-template-columns:40px 1fr 40px 55px;gap:2px;padding:4px 4px;font-size:10px;border-bottom:1px solid rgba(255,255,255,0.03);align-items:center;}
+        .history-log .log-item .period{color:#666688;}
+        .history-log .log-item .result.win{color:#00e676;font-weight:700;}
+        .history-log .log-item .result.loss{color:#ff5252;font-weight:700;}
+        .history-log .log-item .balance{color:#ffd700;font-weight:700;text-align:right;}
+        .history-log .empty{text-align:center;color:#555577;font-size:10px;padding:10px 0;}
+        
+        .controls{display:flex;gap:5px;margin-top:8px;}
+        .controls button{flex:1;padding:8px;border:none;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:0.3s;}
+        .controls .btn-start{background:linear-gradient(135deg,#00c853,#00e676);color:#0a0a1a;}
+        .controls .btn-stop{background:linear-gradient(135deg,#d50000,#ff1744);color:#fff;}
+        .controls .btn-reset{background:rgba(255,255,255,0.05);color:#8888bb;border:1px solid rgba(255,255,255,0.06);flex:0.3;}
+        
+        .ai-status-bar{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);border-radius:6px;padding:6px 10px;margin-top:8px;border:1px solid rgba(255,255,255,0.04);font-size:10px;}
+        .ai-status-bar .left{color:#8888bb;display:flex;align-items:center;gap:6px;}
+        .ai-status-bar .right{font-weight:700;color:#ffd700;}
     </style>
 </head>
 <body>
@@ -101,40 +79,40 @@
         <div class="icon"><i class="fas fa-infinity"></i></div>
         <h1>∞ WINGO AI</h1>
         <div class="sub">INFINITY AUTO PILOT PRO</div>
-        <div class="badge"><i class="fas fa-brain"></i> AI+ML • DATABASE ACTIVE</div>
+        <div class="badge"><i class="fas fa-shield-alt"></i> ANTI-BLOCK CORS ACTIVE</div>
     </div>
 
     <div class="balance-section">
         <div class="label"><i class="fas fa-wallet"></i> CONFIGURE</div>
         <div class="balance-row">
-            <div class="input-group"><span class="prefix">₨</span><input type="number" id="startAmount" placeholder="Start" value="445" min="10"></div>
-            <div class="input-group"><span class="prefix">₨</span><input type="number" id="targetAmount" placeholder="Target" value="500" min="100"></div>
+            <div class="input-group"><span class="prefix">₨</span><input type="number" id="startAmount" value="463"></div>
+            <div class="input-group"><span class="prefix">₨</span><input type="number" id="targetAmount" value="500"></div>
             <button id="setBalanceBtn"><i class="fas fa-check"></i> SET</button>
         </div>
     </div>
 
     <div class="status-bar">
-        <div class="item"><span class="dot yellow" id="statusDot"></span><span id="statusText">Initializing...</span></div>
-        <div class="item">Balance: <span class="val gold" id="displayBalance">445</span></div>
+        <div class="item"><span class="dot yellow" id="statusDot"></span><span id="statusText">Ready</span></div>
+        <div class="item">Balance: <span class="val gold" id="displayBalance">453</span></div>
         <div class="item">Target: <span class="val" id="displayTarget">500</span></div>
         <div class="item">Stage: <span class="val" id="displayStage">1/4</span></div>
     </div>
 
     <div class="prediction-card">
-        <div class="period">UPCOMING PERIOD ➡️ <span id="periodDisplay">----</span></div>
+        <div class="period">PERIOD ➡️ <span id="periodDisplay">----</span></div>
         <div class="prediction paused" id="predictionDisplay"><i class="fas fa-pause-circle"></i> PAUSED</div>
         <div class="confidence">Confidence: <span id="confidenceDisplay">--%</span></div>
         <div class="bet-amount">Bet: <span id="betDisplay">--</span> RS</div>
     </div>
 
     <div class="stats-mini">
-        <div class="stat"><div class="num" id="statData">0</div><div class="lbl">DB Records</div></div>
-        <div class="stat"><div class="num" id="statPatterns">0</div><div class="lbl">AI Patterns</div></div>
+        <div class="stat"><div class="num" id="statData">0</div><div class="lbl">Data Points</div></div>
+        <div class="stat"><div class="num" id="statPatterns">0</div><div class="lbl">Patterns</div></div>
         <div class="stat"><div class="num" id="statAccuracy">100%</div><div class="lbl">Accuracy</div></div>
     </div>
 
     <div class="history-section">
-        <div class="title"><span><i class="fas fa-list-ul"></i> HISTORY LOG</span><span class="count" id="historyCount">0</span></div>
+        <div class="title"><span><i class="fas fa-list-ul"></i> HISTORY</span><span class="count" id="historyCount">0</span></div>
         <div class="history-log" id="historyLog"><div class="empty">⏳ Waiting for live frame stream...</div></div>
     </div>
 
@@ -144,368 +122,267 @@
         <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i></button>
     </div>
 
-    <div class="ai-status">
-        <span class="label"><i class="fas fa-infinity"></i> DB CORRECTIONS</span>
-        <span class="status waiting" id="aiStatus">Connecting DB Node...</span>
+    <!-- Match the exact design frame from screenshot 1000080225.jpg -->
+    <div class="ai-status-bar">
+        <div class="left"><i class="fas fa-hourglass-half"></i> <span id="bottomStatusText">Collecting data... 0/50</span></div>
+        <div class="right" id="proxyStatus">Proxy 1</div>
     </div>
 </div>
 
 <script>
-// Live Data Link
-const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
+// Live Base Endpoints & Fallback Public Bypassers
+const TARGET_API = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=15";
+const PROXIES = [
+    "https://api.allorigins.win/raw?url=",
+    "https://corsproxy.io/?",
+    "https://thingproxy.freeboard.io/fetch/"
+];
+let currentProxyIndex = 0;
 
-// IndexedDB Core Configuration
-const DB_NAME = "WingoInfinityDB_V2";
-const DB_VERSION = 1;
-const STORE_NAME = "history_records";
-let indexedDbInstance = null;
+// Local Database Setup
+const DB_NAME = "WingoInfinityDB_Secure";
+const STORE_NAME = "records";
+let dbInstance = null;
 
 const state = {
-    balance: 445, target: 500, startAmount: 445,
-    stage: 0,
-    amounts: [10, 20, 40, 80],
-    history: [],
-    isRunning: false,
-    activePredPeriod: null,
-    activePredTarget: null,
-    lastProcessedPeriod: null, 
-    totalPredictions: 0,
-    correctPredictions: 0,
-    patternCount: 0
+    balance: 453, target: 500, startAmount: 463, stage: 0,
+    amounts: [10, 20, 40, 80], history: [], isRunning: false,
+    activePeriod: null, activeTarget: null, lastProcessedPeriod: null,
+    totalCount: 0, wins: 0
 };
 
 const $ = id => document.getElementById(id);
 const E = {
-    startAmount: $('startAmount'), targetAmount: $('targetAmount'),
-    setBalance: $('setBalanceBtn'), displayBalance: $('displayBalance'),
-    displayTarget: $('displayTarget'), displayStage: $('displayStage'),
-    periodDisplay: $('periodDisplay'), predictionDisplay: $('predictionDisplay'),
-    confidenceDisplay: $('confidenceDisplay'), betDisplay: $('betDisplay'),
-    historyLog: $('historyLog'), historyCount: $('historyCount'),
-    statusDot: $('statusDot'), statusText: $('statusText'),
-    aiStatus: $('aiStatus'), startBtn: $('startBtn'),
-    stopBtn: $('stopBtn'), resetBtn: $('resetBtn'),
-    statData: $('statData'), statPatterns: $('statPatterns'), statAccuracy: $('statAccuracy')
+    startAmount: $('startAmount'), targetAmount: $('targetAmount'), setBalance: $('setBalanceBtn'),
+    displayBalance: $('displayBalance'), displayTarget: $('displayTarget'), displayStage: $('displayStage'),
+    periodDisplay: $('periodDisplay'), predictionDisplay: $('predictionDisplay'), confidenceDisplay: $('confidenceDisplay'),
+    betDisplay: $('betDisplay'), historyLog: $('historyLog'), historyCount: $('historyCount'),
+    statusDot: $('statusDot'), statusText: $('statusText'), startBtn: $('startBtn'),
+    stopBtn: $('stopBtn'), resetBtn: $('resetBtn'), statData: $('statData'),
+    statPatterns: $('statPatterns'), statAccuracy: $('statAccuracy'),
+    bottomStatusText: $('bottomStatusText'), proxyStatus: $('proxyStatus')
 };
 
-// IndexedDB Initializer Engine
+// Open Secure Storage
 function initDatabase() {
     return new Promise((resolve) => {
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = (e) => {
-            let db = e.target.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: "periodId" });
-            }
-        };
-        request.onsuccess = (e) => {
-            indexedDbInstance = e.target.result;
-            resolve(true);
-        };
-        request.onerror = () => {
-            resolve(false); 
-        };
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => e.target.result.createObjectStore(STORE_NAME, { keyPath: "periodId" });
+        req.onsuccess = e => { dbInstance = e.target.result; resolve(true); };
+        req.onerror = () => resolve(false);
     });
 }
 
-function savePeriodToDB(periodId, number, result) {
-    if (!indexedDbInstance) return;
-    const tx = indexedDbInstance.transaction([STORE_NAME], "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    store.put({ periodId: Number(periodId), number: Number(number), result: result, time: Date.now() });
+function saveToDB(periodId, number, result) {
+    if (!dbInstance) return;
+    const store = dbInstance.transaction([STORE_NAME], "readwrite").objectStore(STORE_NAME);
+    store.put({ periodId: Number(periodId), number: Number(number), result: result });
     updateDBStats();
 }
 
-function getDBCount() {
+function getStoredData() {
     return new Promise((resolve) => {
-        if (!indexedDbInstance) return resolve(0);
-        const tx = indexedDbInstance.transaction([STORE_NAME], "readonly");
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.count();
+        if (!dbInstance) return resolve([]);
+        const req = dbInstance.transaction([STORE_NAME], "readonly").objectStore(STORE_NAME).getAll();
         req.onsuccess = () => resolve(req.result);
-        req.onerror = () => resolve(0);
+        req.onerror = () => resolve([]);
     });
 }
 
 async function updateDBStats() {
-    let count = await getDBCount();
-    E.statData.textContent = count;
-    state.patternCount = Math.floor(count * 0.34);
-    E.statPatterns.textContent = state.patternCount;
+    let all = await getStoredData();
+    E.statData.textContent = all.length;
+    E.statPatterns.textContent = Math.floor(all.length * 0.45);
+    // Dynamic bottom auto pilot bar updates seamlessly
+    if(all.length >= 50) {
+        E.bottomStatusText.textContent = "🟢 Auto Pilot Live... " + all.length + "/∞";
+    } else {
+        E.bottomStatusText.textContent = "⏳ Collecting data... " + all.length + "/50";
+    }
 }
 
-function recalculateBetStages(startVal) {
-    let base = Math.max(10, Math.floor(startVal / 45));
+function calculateBetPlan(baseVal) {
+    let base = Math.max(10, Math.floor(baseVal / 45));
     state.amounts = [base, base * 2, base * 4, base * 8];
-    state.bet = state.amounts[state.stage];
 }
 
-// Highly Responsive Prediction Engine (Never Freezes)
-function getPrediction(numbers) {
-    if (!numbers || numbers.length < 2) return { prediction: 'BIG', confidence: 70 };
-
-    const types = numbers.map(n => n >= 5 ? 'BIG' : 'SMALL');
+// Logic Analyzer Frame
+function analyzePatterns(historyArray) {
+    if(!historyArray || historyArray.length < 2) return { prediction: 'BIG', confidence: 75 };
+    const trends = historyArray.slice(0, 6).map(item => item.result);
     
-    // Pattern 1: Long Streak Breaker (5 rounds)
-    if (types.length >= 5) {
-        const last5 = types.slice(0, 5);
-        if (last5.every(t => t === 'SMALL')) return { prediction: 'BIG', confidence: 96 };
-        if (last5.every(t => t === 'BIG')) return { prediction: 'SMALL', confidence: 96 };
-    }
-
-    // Pattern 2: Short Cluster Check (3 rounds)
-    if (types.length >= 3) {
-        const last3 = types.slice(0, 3);
-        if (last3.every(t => t === 'SMALL')) return { prediction: 'BIG', confidence: 90 };
-        if (last3.every(t => t === 'BIG')) return { prediction: 'SMALL', confidence: 90 };
-    }
-
-    // Pattern 3: Mirror Alternator Trend
-    if (types.length >= 3) {
-        if (types[0] === 'BIG' && types[1] === 'SMALL' && types[2] === 'BIG') return { prediction: 'SMALL', confidence: 85 };
-        if (types[0] === 'SMALL' && types[1] === 'BIG' && types[2] === 'SMALL') return { prediction: 'BIG', confidence: 85 };
-    }
-
-    // Default Fallback Frame
-    return { prediction: types[0] === 'BIG' ? 'SMALL' : 'BIG', confidence: 78 };
+    if(trends.slice(0,4).every(t => t === 'SMALL')) return { prediction: 'BIG', confidence: 98 };
+    if(trends.slice(0,4).every(t => t === 'BIG')) return { prediction: 'SMALL', confidence: 98 };
+    
+    if(trends[0] === 'BIG' && trends[1] === 'SMALL' && trends[2] === 'BIG') return { prediction: 'SMALL', confidence: 88 };
+    if(trends[0] === 'SMALL' && trends[1] === 'BIG' && trends[2] === 'SMALL') return { prediction: 'BIG', confidence: 88 };
+    
+    return { prediction: trends[0] === 'BIG' ? 'SMALL' : 'BIG', confidence: 82 };
 }
 
-let loopInterval = null;
-
-async function executePipeline() {
+// Anti-Freeze Core Loop
+async function processExecutionCycle() {
     if (!state.isRunning) return;
 
     try {
-        // Crash Proof Configuration Wrapper (Timeout Controller)
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 6000);
+        const timeout = setTimeout(() => controller.abort(), 5000); // Strict 5s fetch timeout
 
-        const resp = await fetch(API_URL, { signal: controller.signal });
+        const proxyPrefix = PROXIES[currentProxyIndex];
+        E.proxyStatus.textContent = `Proxy ${currentProxyIndex + 1}`;
+
+        const response = await fetch(proxyPrefix + encodeURIComponent(TARGET_API), { signal: controller.signal });
         clearTimeout(timeout);
 
-        if (!resp.ok) throw new Error("Network status invalid");
-        const json = await resp.json();
-        const list = json?.data?.list || json?.list || json?.result;
+        if (!response.ok) throw new Error("CORS or Gateway Error");
+        
+        let json = await response.json();
+        // Handle all possible dynamic wrapping variants of public bypassers cleanly
+        if (typeof json === "string") json = JSON.parse(json);
+        const list = json?.data?.list || json?.list || json?.result || json;
 
-        if (!list || list.length === 0) {
-            E.statusText.textContent = "Connection Lag...";
-            E.statusDot.className = "dot yellow";
-            return;
-        }
+        if (!Array.isArray(list) || list.length === 0) throw new Error("Format mismatch");
 
-        // Parse structures cleanly
-        let numbers = [];
-        for (const item of list) {
-            const val = item.number ?? item.num ?? item.value;
-            if (val !== undefined && val !== null) numbers.push(Number(val));
-        }
+        // Process arrays
+        list.forEach(item => {
+            let pid = item.issueNumber || item.issue || item.period;
+            let num = item.number ?? item.num ?? item.value;
+            if(pid && num !== undefined) {
+                saveToDB(pid, num, Number(num) >= 5 ? 'BIG' : 'SMALL');
+            }
+        });
 
-        const latest = list[0];
-        const rawPeriod = latest.issueNumber ?? latest.issue ?? latest.period;
-        if (!rawPeriod) return;
+        const latestNode = list[0];
+        const currentPeriod = Number(latestNode.issueNumber || latestNode.issue || latestNode.period);
+        const actualOutcome = (latestNode.number ?? latestNode.num) >= 5 ? 'BIG' : 'SMALL';
 
-        const currentFetchedPeriod = Number(rawPeriod);
-        const actualOutcome = numbers[0] >= 5 ? 'BIG' : 'SMALL';
+        if (state.lastProcessedPeriod === currentPeriod) return; // Wait for system transition clock
 
-        // Silently pipe raw telemetry matrix streams into infinite DB
-        savePeriodToDB(currentFetchedPeriod, numbers[0], actualOutcome);
-
-        // Guard Framework Check: If this period is already structural checked, exit loop frame
-        if (state.lastProcessedPeriod === currentFetchedPeriod) {
-            return; 
-        }
-
-        // Check the outcome of our previous prediction
-        if (state.activePredPeriod && state.activePredPeriod === currentFetchedPeriod) {
-            const isWin = state.activePredTarget === actualOutcome;
-            const executedBet = state.amounts[state.stage];
-
-            state.totalPredictions++;
-            if (isWin) state.correctPredictions++;
+        // Evaluation Node Matrix
+        if (state.activePeriod && state.activePeriod === currentPeriod) {
+            const isWin = state.activeTarget === actualOutcome;
+            const currentBet = state.amounts[state.stage];
+            state.totalCount++;
 
             if (isWin) {
-                state.balance += executedBet * 0.96;
+                state.wins++;
+                state.balance += currentBet * 0.96;
                 state.stage = 0;
-                addHistoryLog(currentFetchedPeriod, state.activePredTarget, executedBet, 'WIN', state.balance);
+                addLogItem(currentPeriod, state.activeTarget, currentBet, 'WIN', state.balance);
             } else {
-                state.balance -= executedBet;
-                if (state.stage < 3) state.stage++;
-                else state.stage = 0;
-                addHistoryLog(currentFetchedPeriod, state.activePredTarget, executedBet, 'LOSS', state.balance);
+                state.balance -= currentBet;
+                state.stage = (state.stage < 3) ? state.stage + 1 : 0;
+                addLogItem(currentPeriod, state.activeTarget, currentBet, 'LOSS', state.balance);
             }
-            
-            // Sync accuracy telemetry panels
-            let acc = Math.round((state.correctPredictions / state.totalPredictions) * 100);
-            E.statAccuracy.textContent = acc + "%";
+            E.statAccuracy.textContent = Math.round((state.wins / state.totalCount) * 100) + "%";
         }
 
-        // Lock period to prevent double logging
-        state.lastProcessedPeriod = currentFetchedPeriod;
+        state.lastProcessedPeriod = currentPeriod;
 
-        // Generate prediction for the UPCOMING period
-        const upcomingPeriod = currentFetchedPeriod + 1;
-        const analysis = getPrediction(numbers);
+        // Generate upcoming telemetry target prediction instantly
+        let dbRecords = await getStoredData();
+        const sortedHistory = dbRecords.sort((a,b) => b.periodId - a.periodId);
+        const logicResult = analyzePatterns(sortedHistory);
 
-        state.activePredPeriod = upcomingPeriod;
-        state.activePredTarget = analysis.prediction;
-        state.bet = state.amounts[state.stage];
+        const nextPeriodId = currentPeriod + 1;
+        state.activePeriod = nextPeriodId;
+        state.activeTarget = logicResult.prediction;
 
-        // Direct DOM frame adjustments (Anti-Freeze Rendering)
-        E.periodDisplay.textContent = String(upcomingPeriod).slice(-4);
-        E.predictionDisplay.className = `prediction ${analysis.prediction.toLowerCase()}`;
-        E.predictionDisplay.textContent = analysis.prediction;
-        E.confidenceDisplay.textContent = `${analysis.confidence}%`;
-        E.betDisplay.textContent = state.bet;
-        
-        E.statusText.textContent = "Auto Pilot Live";
+        E.periodDisplay.textContent = String(nextPeriodId).slice(-4);
+        E.predictionDisplay.className = `prediction ${logicResult.prediction.toLowerCase()}`;
+        E.predictionDisplay.textContent = logicResult.prediction;
+        E.confidenceDisplay.textContent = `${logicResult.confidence}%`;
+        E.betDisplay.textContent = state.amounts[state.stage];
+
+        E.statusText.textContent = "Live Stream Sync";
         E.statusDot.className = "dot green";
-        E.aiStatus.className = "status trained";
-        E.aiStatus.textContent = `⚡ Sync Active • Next: ${String(upcomingPeriod).slice(-4)}`;
 
-        // Check bounds matrices
-        if (state.balance >= state.target) {
-            terminateEngine("🎯 TARGET ACHIEVED! 🎉");
-            return;
-        }
-        if (state.balance < state.amounts[0]) {
-            terminateEngine("⚠️ INSUFFICIENT BALANCE");
+        if (state.balance >= state.target || state.balance < state.amounts[0]) {
+            stopEngine(state.balance >= state.target ? "🎯 TARGET REACHED!" : "⚠️ LOW BALANCE");
             return;
         }
 
-        syncUIElements();
+        syncUIPanels();
 
     } catch (err) {
-        console.warn("Pipeline reset hook invoked:", err.message);
-        E.statusText.textContent = "Retrying link...";
+        console.warn("Proxy routing exception caught, pivoting engine paths:", err.message);
+        // Switch proxies if blocked to prevent getting stuck
+        currentProxyIndex = (currentProxyIndex + 1) % PROXIES.length;
+        E.statusText.textContent = "Re-routing Nodes...";
         E.statusDot.className = "dot yellow";
     }
 }
 
-function addHistoryLog(period, target, bet, result, currentBal) {
-    state.history.push({
-        period: String(period).slice(-4),
-        target: target,
-        bet: bet,
-        result: result,
-        balance: Math.round(currentBal * 10) / 10
-    });
-    if (state.history.length > 30) state.history = state.history.slice(-30);
-    renderHistoryPanel();
-}
-
-function renderHistoryPanel() {
+function addLogItem(period, target, bet, outcome, currentBal) {
+    state.history.push({ period: String(period).slice(-4), target, bet, outcome, balance: Math.round(currentBal) });
+    if (state.history.length > 20) state.history.shift();
+    
     E.historyCount.textContent = state.history.length;
-    if (state.history.length === 0) {
-        E.historyLog.innerHTML = '<div class="empty">⏳ Waiting for live frame stream...</div>';
-        return;
-    }
-    let codeBlock = '';
-    for (const row of [...state.history].reverse()) {
-        const checkStatus = row.result === 'WIN' ? 'win' : 'loss';
-        const glyph = row.result === 'WIN' ? '🔥' : '❌';
-        codeBlock += `<div class="log-item"><span class="period">${row.period}</span><span class="result ${checkStatus}">${row.target} ${glyph}</span><span class="amount">${row.bet}RS</span><span class="balance">${row.balance}RS</span></div>`;
-    }
-    E.historyLog.innerHTML = codeBlock;
+    E.historyLog.innerHTML = state.history.map(row => `
+        <div class="log-item">
+            <span class="period">${row.period}</span>
+            <span class="result ${row.outcome === 'WIN' ? 'win' : 'loss'}">${row.target} ${row.outcome === 'WIN' ? '✓' : '✗'}</span>
+            <span class="amount">${row.bet}RS</span>
+            <span class="balance">${row.balance}RS</span>
+        </div>
+    `).reverse().join('');
 }
 
-function syncUIElements() {
+function syncUIPanels() {
     E.displayBalance.textContent = Math.round(state.balance);
     E.displayTarget.textContent = Math.round(state.target);
     E.displayStage.textContent = `${state.stage + 1}/4`;
 }
 
-function initiateEngine() {
+let pipelineClock = null;
+
+function startEngine() {
     if (state.isRunning) return;
     state.isRunning = true;
     E.startBtn.disabled = true;
     E.stopBtn.disabled = false;
     E.setBalance.disabled = true;
-    
-    executePipeline();
-    if (loopInterval) clearInterval(loopInterval);
-    loopInterval = setInterval(executePipeline, 2500); // Super fast 2.5 second polling
+    processExecutionCycle();
+    pipelineClock = setInterval(processExecutionCycle, 2000); // 2 second super loops
 }
 
-function terminateEngine(message = null) {
+function stopEngine(msg = null) {
     state.isRunning = false;
-    if (loopInterval) { clearInterval(loopInterval); loopInterval = null; }
+    if(pipelineClock) { clearInterval(pipelineClock); pipelineClock = null; }
     E.startBtn.disabled = false;
     E.stopBtn.disabled = true;
     E.setBalance.disabled = false;
     E.statusDot.className = "dot red";
     E.statusText.textContent = "Stopped";
     E.predictionDisplay.className = "prediction paused";
-    if (message) {
-        E.predictionDisplay.textContent = message;
-    } else {
-        E.predictionDisplay.innerHTML = '<i class="fas fa-pause-circle"></i> PAUSED';
-    }
-    E.aiStatus.className = "status waiting";
-    E.aiStatus.textContent = "Engine Standby";
+    E.predictionDisplay.textContent = msg ? msg : "PAUSED";
 }
 
-function hardResetEngine() {
-    terminateEngine();
-    state.balance = state.startAmount;
-    state.stage = 0;
-    state.history = [];
-    state.totalPredictions = 0;
-    state.correctPredictions = 0;
-    state.activePredPeriod = null;
-    state.activePredTarget = null;
-    state.lastProcessedPeriod = null;
-    recalculateBetStages(state.startAmount);
-    syncUIElements();
-    renderHistoryPanel();
-    E.statAccuracy.textContent = "100%";
-    E.confidenceDisplay.textContent = "--%";
-    E.betDisplay.textContent = "--";
-    E.periodDisplay.textContent = "----";
-    E.statusDot.className = "dot yellow";
-    E.statusText.textContent = "Infinity Ready";
-}
-
-E.setBalance.addEventListener('click', function() {
+E.setBalance.addEventListener('click', () => {
     const s = parseFloat(E.startAmount.value);
     const t = parseFloat(E.targetAmount.value);
-    if (isNaN(s) || s < 10) return;
-    if (isNaN(t) || t <= s) return;
-    
-    state.startAmount = s;
-    state.balance = s;
-    state.target = t;
-    state.stage = 0;
-    state.lastProcessedPeriod = null;
-    
-    recalculateBetStages(s);
-    syncUIElements();
-    alert(`⚙️ Matrix Loaded!\nBase Bet Plan: ${state.amounts[0]} RS -> ${state.amounts[1]} RS -> ${state.amounts[2]} RS -> ${state.amounts[3]} RS`);
+    if(!isNaN(s) && !isNaN(t) && t > s) {
+        state.startAmount = s; state.balance = s; state.target = t; state.stage = 0;
+        calculateBetPlan(s); syncUIPanels();
+        alert(`🎯 Target Configured! Base Bet initialized at: ${state.amounts[0]} RS`);
+    }
 });
 
-E.startBtn.addEventListener('click', initiateEngine);
-E.stopBtn.addEventListener('click', () => terminateEngine());
-E.resetBtn.addEventListener('click', hardResetEngine);
+E.startBtn.addEventListener('click', startEngine);
+E.stopBtn.addEventListener('click', () => stopEngine());
+E.resetBtn.addEventListener('click', () => {
+    stopEngine(); state.balance = state.startAmount; state.stage = 0; state.history = [];
+    state.totalCount = 0; state.wins = 0; syncUIPanels(); updateDBStats();
+    E.historyLog.innerHTML = '<div class="empty">⏳ Waiting for live frame stream...</div>';
+});
 
-// Self Bootloader Pipeline Hook
-async function bootloader() {
-    recalculateBetStages(state.startAmount);
-    syncUIElements();
-    
-    E.statusText.textContent = "Connecting Storage...";
-    let dbConnected = await initDatabase();
-    
-    if(dbConnected) {
-        updateDBStats();
-        E.statusText.textContent = "Infinity Ready";
-        E.statusDot.className = "dot yellow";
-        E.aiStatus.textContent = "Engine Standby";
-    } else {
-        E.statusText.textContent = "DB Local Error";
-        E.statusDot.className = "dot red";
-    }
-}
-
-bootloader();
+// Auto-Boot
+(async () => {
+    calculateBetPlan(state.startAmount);
+    syncUIPanels();
+    await initDatabase();
+    updateDBStats();
+})();
 </script>
 </body>
 </html>
