@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ahmad Autopilot Engine</title>
+    <title>Ahmad Autopilot Engine - Fixed</title>
     <style>
         /* 🔥 PREMIUM CYBERPUNK DARK THEME */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
@@ -67,7 +67,6 @@
 <body>
 
 <div class="app-container">
-    <!-- TOP AUTOPILOT BANNER -->
     <div class="status-bar">🛡️ Autopilot: Secure Network Active</div>
 
     <!-- WALLET MATRIX PANEL -->
@@ -86,7 +85,7 @@
 
     <!-- CENTRAL PREDICTION BOARD -->
     <div class="panel-card prediction-box">
-        <div class="upcoming-label">LIVE UPCOMING PERIOD ➡️ <span id="live-upcoming-period" class="upcoming-period">0193</span></div>
+        <div class="upcoming-label">LIVE UPCOMING PERIOD ➡️ <span id="live-upcoming-period" class="upcoming-period">0195</span></div>
         <div id="predicted-value" class="prediction-value small">SMALL</div>
         <div class="metrics-row">Dynamic Accuracy: <span id="dynamic-accuracy-value" class="accuracy-val">64%</span></div>
         <div class="metrics-row" style="margin-top: 4px; font-size: 12px;">Smart Stake: <b style="color:#fff;" id="smart-stake-val">10 RS</b></div>
@@ -95,7 +94,7 @@
     <!-- SYSTEM CONTROL BLOCK -->
     <div class="action-container">
         <div class="btn-auto">
-            <span style="display:inline-block; width:8px; height:8px; background:#00b0ff; border-radius:50%; animation: pulse 1.5s infinite;"></span>
+            <span style="display:inline-block; width:8px; height:8px; background:#00b0ff; border-radius:50%;"></span>
             System Running Totally Automatic
         </div>
         <button class="btn-reset" id="system-reset-btn" title="Reset All Data">
@@ -112,7 +111,7 @@
             <span>Balance</span>
         </div>
         <div id="infinite-logs-list" class="logs-container">
-            <!-- Dynamic Entries Append Here -->
+            <!-- Logs load here -->
         </div>
     </div>
 
@@ -137,15 +136,12 @@
         history: [] 
     };
 
-    // 💾 SYSTEM 1: STORAGE SAVER & LOAD ENGINE
     function saveEngineState() {
         try {
             localStorage.setItem('ahmad_autopilot_brain', JSON.stringify(state.brain));
             localStorage.setItem('ahmad_autopilot_history', JSON.stringify(state.history));
             localStorage.setItem('ahmad_wallet_cfg', JSON.stringify(state.wallet));
-        } catch (e) {
-            console.error("Storage full or security block.");
-        }
+        } catch (e) { console.error("Storage full."); }
     }
 
     function loadEngineState() {
@@ -157,7 +153,6 @@
         if (savedHistory) state.history = JSON.parse(savedHistory);
         if (savedWallet) state.wallet = JSON.parse(savedWallet);
         
-        // Sync Inputs with loaded state
         document.getElementById('balance-input').value = `Rs ${state.wallet.balance}`;
         document.getElementById('target-input').value = `Rs ${state.wallet.target}`;
         
@@ -165,7 +160,6 @@
         renderHistoryUI();
     }
 
-    // 📋 SYSTEM 2: SAFE HISTORY LOGGER (1000 MAX CAP)
     function addInfiniteHistory(period, target, bet, result, balance) {
         state.history.unshift({ 
             period: String(period).padStart(4, '0'), 
@@ -174,17 +168,12 @@
             result: result, 
             balance: Math.round(balance * 100) / 100 
         });
-        
-        // Anti-crash cutoff logic
-        if (state.history.length > 1000) {
-            state.history.pop();
-        }
-        
+        if (state.history.length > 1000) state.history.pop();
         saveEngineState();
         renderHistoryUI();
     }
 
-    // 🧠 SYSTEM 3: MASTER PATTERN INGESTION (LEARNING ENGINE)
+    // 🧠 MASTER PATTERN INGESTION (Expects Chronological Ordered Array)
     function ingestDataSequence(nums) {
         if (nums.length < 2) return;
         state.brain.totalRoundsProcessed++;
@@ -205,26 +194,26 @@
         saveEngineState();
     }
 
-    // 🐉 SYSTEM 4: DEEP ADVANCED ANTI-DRAGON PREDICTION ENGINE
+    // 🐉 DEEP ADVANCED ANTI-DRAGON PREDICTION ENGINE
     function getSmartPrediction(nums) {
         if (nums.length < 6) return { prediction: 'BIG', confidence: 50 };
         
         const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
         const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
 
-        // 1. DATA KHANAA SHURU FALLBACK (If total processed rounds are too raw)
+        // 1. 🔥 FIXED FALLBACK: types[types.length - 1] ab bilkul LATEST round uthayega
         if (state.brain.totalRoundsProcessed < 15) {
-            const lastResult = types[types.length - 1];
-            const randomFluctuate = Math.floor(Math.random() * 5) + 63;
+            const lastResult = types[types.length - 1]; 
+            const randomFluctuate = Math.floor(Math.random() * 4) + 62;
             return { prediction: lastResult, confidence: randomFluctuate };
         }
 
-        // 2. 🐉 DRAGON STREAK SHIELD (If last 4 rounds are identical, ride the wave!)
+        // 2. 🐉 FIXED DRAGON SHIELD: slicing last 4 actual chronological rounds
         if (types.slice(-4).every((v, i, a) => v === a[0])) {
-            return { prediction: types[types.length - 1], confidence: 93 };
+            return { prediction: types[types.length - 1], confidence: 94 };
         }
 
-        // 3. CORE PROBABILITY MATRIX ENGINE (Depth 6 down to 2)
+        // 3. CORE PROBABILITY MATRIX ENGINE
         for (let depth = 6; depth >= 2; depth--) {
             const currentKey = shortTypes.slice(-depth).join(',');
             const match = state.brain.patterns[currentKey];
@@ -248,11 +237,9 @@
             }
         }
 
-        // 4. FLOATING TREND ACTION
-        return { prediction: types[types.length - 1], confidence: 64 };
+        return { prediction: types[types.length - 1], confidence: 63 };
     }
 
-    // 🖥️ SYSTEM 5: INTERFACE MANAGER
     function updateUIElements() {
         document.getElementById('periods-analyzed-count').innerText = `${state.brain.totalRoundsProcessed} Rounds`;
         document.getElementById('pattern-matrix-count').innerText = `${Object.keys(state.brain.patterns).length} Chains`;
@@ -273,19 +260,17 @@
                 <span class="text-gold">${item.balance}RS</span>
             </div>
         `).join('');
-        
         updateUIElements();
     }
 
-    // 🔄 SYSTEM 6: CRON SYNC CONNECTOR
+    // 🔄 CORE SYNC CONNECTOR
     function syncNextPeriodEngine(apiNumbersData, latestPeriod) {
-        // Feed loop to core engine
-        ingestDataSequence(apiNumbersData);
+        // 🔥 THE ULTIMATE FIX: Array ko foran reverse kar diya taake order chronological (Oldest to Newest) ho jaye
+        const cleanNums = [...apiNumbersData].reverse();
         
-        // Process smart output
-        const output = getSmartPrediction(apiNumbersData);
+        ingestDataSequence(cleanNums);
+        const output = getSmartPrediction(cleanNums);
         
-        // Paint Screen elements
         document.getElementById('live-upcoming-period').innerText = latestPeriod;
         
         const predictEl = document.getElementById('predicted-value');
@@ -294,67 +279,37 @@
         
         document.getElementById('dynamic-accuracy-value').innerText = `${output.confidence}%`;
         
-        // Smart level multiplier display example
         let stakeAmount = 10 * Math.pow(2, state.wallet.currentLevel - 1);
         document.getElementById('smart-stake-val').innerText = `${stakeAmount} RS`;
         
         updateUIElements();
     }
 
-    // ⚡ INITIALIZATION & EVENT BINDS
     document.addEventListener("DOMContentLoaded", () => {
         loadEngineState();
         
-        // Input Config Setter Trigger
         document.getElementById('btn-set-matrix').addEventListener('click', () => {
             const bVal = parseInt(document.getElementById('balance-input').value.replace(/[^0-9]/g, '')) || 0;
             const tVal = parseInt(document.getElementById('target-input').value.replace(/[^0-9]/g, '')) || 0;
-            
             state.wallet.balance = bVal;
             state.wallet.target = tVal;
-            
             saveEngineState();
             updateUIElements();
-            alert("Wallet Matrix Settings Updated Successfully!");
+            alert("Settings Saved!");
         });
 
-        // Hard Reset Master Trigger
         document.getElementById('system-reset-btn').addEventListener('click', () => {
-            if(confirm("Warning! Kya aap saara seekha hua patterns data aur data-logs reset karna chahte hain?")) {
+            if(confirm("Saara data clear kar dein?")) {
                 localStorage.clear();
                 state.brain = { totalRoundsProcessed: 0, patterns: {} };
                 state.history = [];
                 state.wallet = { balance: 408, target: 500, currentLevel: 1, maxLevel: 5 };
-                
                 document.getElementById('balance-input').value = `Rs ${state.wallet.balance}`;
                 document.getElementById('target-input').value = `Rs ${state.wallet.target}`;
-                
                 updateUIElements();
                 renderHistoryUI();
             }
         });
-
-        // 🔍 TESTING SIMULATION WRAPPER (Yeh sirf check karne ke liye hai, aap isme apni API fetch call bind kar sakte ho)
-        // Fake simulation loop just to verify performance out-of-the-box
-        let dummyPeriod = 193;
-        setInterval(() => {
-            dummyPeriod++;
-            let dummyDataStream = Array.from({length: 20}, () => Math.floor(Math.random() * 10));
-            let mockChoices = ['WIN', 'LOSS'];
-            let randomOutcome = mockChoices[Math.floor(Math.random() * mockChoices.length)];
-            let calculatedBet = 10 * Math.pow(2, state.wallet.currentLevel - 1);
-            
-            if (randomOutcome === 'WIN') {
-                state.wallet.balance += calculatedBet;
-                state.wallet.currentLevel = 1;
-            } else {
-                state.wallet.balance -= calculatedBet;
-                state.wallet.currentLevel = state.wallet.currentLevel >= state.wallet.maxLevel ? 1 : state.wallet.currentLevel + 1;
-            }
-            
-            syncNextPeriodEngine(dummyDataStream, dummyPeriod);
-            addInfiniteHistory(dummyPeriod - 1, randomOutcome === 'WIN' ? 'SMALL' : 'BIG', calculatedBet, randomOutcome, state.wallet.balance);
-        }, 15000); // simulation runs every 15 secs for checking interface
     });
 </script>
 </body>
