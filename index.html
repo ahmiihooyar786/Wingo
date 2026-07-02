@@ -375,22 +375,23 @@ function getPrediction(numbers) {
     return { prediction: types[types.length-1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 75 };
 }
 
-// Fixed API Wrapper with CORS proxy for GitHub Pages
+// Direct Fetch - No Proxy
 async function fetchAPI() {
     try {
-        const resp = await fetch(PROXY_URL + encodeURIComponent(BASE_API));
+        const resp = await fetch(BASE_API);
         if (!resp.ok) return null;
-        const wrapper = await resp.json();
         
-        let parsedData = wrapper.contents;
-        if (typeof parsedData === "string") {
-            parsedData = JSON.parse(parsedData);
-        }
-        return parsedData?.data?.list || parsedData?.list || parsedData?.result || null;
-    } catch { return null; }
+        const parsedData = await resp.json();
+        const list = parsedData?.data?.list || parsedData?.list || parsedData?.result;
+        
+        if (list && list.length > 0) return list;
+        return null;
+    } catch (err) {
+        console.error("Direct fetch failed:", err);
+        return null;
+    }
 }
 
-let cycleInterval = null;
 
 async function runCycle() {
     if (!state.isRunning) return;
