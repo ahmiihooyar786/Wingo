@@ -151,18 +151,13 @@
 </div>
 
 <script>
-// ============================================================
-// ∞ INFINITY AI + MACHINE LEARNING AUTO PILOT
-// 4 STAGES • INFINITY DATA STORAGE • WORLD CLASS PATTERNS
-// ============================================================
-
 const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
 
 const state = {
     balance: 580, target: 800, startAmount: 580,
     stage: 0,
     stages: ['1X','2X','3X','4X'],
-    amounts: [10, 20, 40, 80], // Dynamic Scaled Matrix Array
+    amounts: [10, 20, 40, 80],
     history: [],
     isRunning: false,
     period: 0,
@@ -177,6 +172,7 @@ const state = {
     aiTrained: false,
     activePredPeriod: null,
     activePredTarget: null,
+    lastProcessedPeriod: null, // 🔥 CRITICAL LOCK: Double entry protection
     skipCount: 0,
     maxSkip: 1,
     infinityData: [],
@@ -201,12 +197,8 @@ const E = {
     statData: $('statData'), statPatterns: $('statPatterns'), statAccuracy: $('statAccuracy')
 };
 
-// 🛡️ DYNAMIC PORTFOLIO STAGE SCALER (Main Fix)
 function recalculateBetStages(startVal) {
-    // 60 units buffer is super safe for 4-stage progression (1+2+4+8 = 15 units per chain breakdown)
     let calculatedBase = Math.max(10, Math.floor(startVal / 60));
-    
-    // Auto-align arrays dynamically matching custom start portfolio balance
     state.amounts = [
         calculatedBase,
         calculatedBase * 2,
@@ -402,33 +394,44 @@ async function fetchAPI() {
 }
 
 let cycleInterval = null;
-let currentPeriod = 1000;
 
 async function runCycle() {
     if (!state.isRunning) return;
     try {
         const list = await fetchAPI();
-        let nums = [];
-        if (list && list.length > 0) {
-            for (const item of list) {
-                const n = item.number ?? item.num ?? item.value;
-                if (n !== undefined && n !== null) nums.push(Number(n));
-            }
-            const latest = list[0];
-            const p = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
-            currentPeriod = Number(p);
-        } else {
-            nums = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
-            currentPeriod++;
+        
+        // 🛡️ Safe Network Fallback Guard (No blind increments)
+        if (!list || list.length === 0) {
+            E.statusText.textContent = '⏳ Connection Lag...';
+            E.statusDot.className = 'dot yellow';
+            return; 
         }
-        if (nums.length === 0) nums = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
 
-        const newNum = nums[0] ?? Math.floor(Math.random() * 10);
-        const actual = newNum >= 5 ? 'BIG' : 'SMALL';
+        let nums = [];
+        for (const item of list) {
+            const n = item.number ?? item.num ?? item.value;
+            if (n !== undefined && n !== null) nums.push(Number(n));
+        }
+        if (nums.length === 0) return;
 
+        const latest = list[0];
+        const p = latest.issueNumber ?? latest.issue ?? latest.period;
+        if (!p) return;
+        
+        const fetchedPeriod = Number(p);
+
+        // 🛑 MULTI-LOG BLOCK GUARD: Don't execute if this period has already been processed
+        if (state.lastProcessedPeriod === fetchedPeriod) {
+            return; 
+        }
+
+        const actual = nums[0] >= 5 ? 'BIG' : 'SMALL';
+
+        // Add telemetry point for database mapping
         AI.addData(nums.slice(0, 10), actual);
 
-        if (state.activePredPeriod && state.activePredPeriod === currentPeriod) {
+        // Evaluate target result matrices against previous calculation cycle
+        if (state.activePredPeriod && state.activePredPeriod === fetchedPeriod) {
             const win = state.activePredTarget === actual;
             const bet = state.amounts[state.stage];
             
@@ -441,8 +444,7 @@ async function runCycle() {
                 state.consecutiveWins++;
                 state.lossStreak = 0;
                 state.stage = 0;
-                if (state.consecutiveWins >= 3) state.consecutiveWins = 0;
-                addHistory(currentPeriod, state.activePredTarget, bet, 'WIN', state.balance);
+                addHistory(fetchedPeriod, state.activePredTarget, bet, 'WIN', state.balance);
             } else {
                 state.balance -= bet;
                 state.totalProfit -= bet;
@@ -451,16 +453,18 @@ async function runCycle() {
                 state.consecutiveWins = 0;
                 if (state.stage < 3) state.stage++;
                 else state.stage = 0;
-                addHistory(currentPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
+                addHistory(fetchedPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
             }
-            state.activePredPeriod = null;
-            state.activePredTarget = null;
-            state.skipCount = 0;
         }
 
-        const result = getPrediction(nums.slice(0, 10));
-        let pred = null, conf = 0;
+        // 🔒 Lock current period frame from being triggered again
+        state.lastProcessedPeriod = fetchedPeriod;
 
+        // Formulate target predictions tracking for NEXT structural period chain
+        const nextPeriod = fetchedPeriod + 1;
+        const result = getPrediction(nums.slice(0, 10));
+        
+        let pred = null, conf = 0;
         if (result.prediction && result.confidence >= 70) {
             pred = result.prediction;
             conf = result.confidence;
@@ -473,7 +477,7 @@ async function runCycle() {
             }
         }
 
-        const nextPeriod = currentPeriod + 1;
+        // Sync panel displays cleanly
         E.periodDisplay.textContent = String(nextPeriod).slice(-4);
 
         if (pred) {
@@ -488,6 +492,8 @@ async function runCycle() {
             E.statusText.textContent = `📈 ${pred} • ${conf}%`;
             E.statusDot.className = 'dot green';
         } else {
+            state.activePredPeriod = null;
+            state.activePredTarget = null;
             E.predictionDisplay.className = 'prediction waiting';
             E.predictionDisplay.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> SCANNING...';
             E.confidenceDisplay.textContent = '--%';
@@ -592,6 +598,7 @@ function resetBot() {
     state.consecutiveWins = 0;
     state.activePredPeriod = null;
     state.activePredTarget = null;
+    state.lastProcessedPeriod = null;
     state.skipCount = 0;
     AI.trainingData = [];
     AI.patterns = {};
@@ -641,8 +648,8 @@ E.setBalance.addEventListener('click', function() {
     state.samples = 0;
     state.aiTrained = false;
     state.lastResults = [];
+    state.lastProcessedPeriod = null;
     
-    // 🔥 Fire structural calculation hook
     recalculateBetStages(s);
     
     updateUI();
@@ -682,6 +689,7 @@ function init() {
             if (p.totalPred) AI.totalPred = p.totalPred;
             if (p.correctPred) AI.correctPred = p.correctPred;
             if (p.lastResults) state.lastResults = p.lastResults;
+            if (p.lastProcessedPeriod) state.lastProcessedPeriod = p.lastProcessedPeriod;
             AI.modelTrained = state.aiTrained;
             E.statData.textContent = AI.trainingData.length;
             E.statPatterns.textContent = Object.keys(AI.patterns).length;
@@ -689,11 +697,9 @@ function init() {
         }
     } catch(e) {}
     
-    // Set field states according to memory matrices
     E.startAmount.value = state.startAmount;
     E.targetAmount.value = state.target;
     
-    // Sync array bounds matching current balance
     recalculateBetStages(state.startAmount);
     
     updateUI();
@@ -717,7 +723,8 @@ function init() {
                 accuracy: AI.accuracy,
                 totalPred: AI.totalPred,
                 correctPred: AI.correctPred,
-                lastResults: state.lastResults.slice(-500)
+                lastResults: state.lastResults.slice(-500),
+                lastProcessedPeriod: state.lastProcessedPeriod
             }));
         } catch(e) {}
     }, 15000);
