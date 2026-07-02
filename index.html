@@ -428,8 +428,10 @@ async function runCycle() {
                 if (n !== undefined && n !== null) nums.push(Number(n));
             }
             const latest = list[0];
-            const p = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
-            currentPeriod = Number(p);
+const p = latest.issueNumber ?? latest.issue ?? latest.period ?? currentPeriod;
+// 17-digit number safe nahi hota, isliye aakhri ke 6 digits lekar number me convert kar rahe hain
+currentPeriod = Number(String(p).slice(-6));
+
         } else {
             nums = Array.from({length: 10}, () => Math.floor(Math.random() * 10));
             currentPeriod++;
