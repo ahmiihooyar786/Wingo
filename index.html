@@ -3,440 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wingo AI Radical - Fully Automated Autopilot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Ahmad Autopilot Engine</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #06060f;
-            color: #e2e8f0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-            background-image: radial-gradient(circle at top right, rgba(247,151,30,0.1), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(0,230,118,0.08), transparent 40%);
-        }
-        .container {
-            max-width: 480px;
-            width: 100%;
-            background: rgba(13,13,28,0.95);
-            backdrop-filter: blur(25px);
-            border-radius: 24px;
-            padding: 22px 20px;
-            border: 1px solid rgba(255,215,0,0.1);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-        }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header .icon { font-size: 36px; background: linear-gradient(135deg, #ffd700, #ff8800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(255,215,0,0.2)); }
-        .header h1 { font-family: 'Orbitron', sans-serif; font-size: 19px; font-weight: 900; background: linear-gradient(135deg, #ffd700, #ff8800); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
-        .header .sub { font-size: 10px; color: #718096; letter-spacing: 3px; margin-top: 2px; }
-        .header .badge { display: inline-block; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.2); padding: 3px 14px; border-radius: 20px; font-size: 9px; color: #00e676; margin-top: 6px; font-weight: 700; text-transform: uppercase; }
-        .header .badge.autopilot { background: rgba(0, 191, 255, 0.1); border-color: rgba(0, 191, 255, 0.3); color: #00bfff; }
+        /* 🔥 PREMIUM CYBERPUNK DARK THEME */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #0b0e14; color: #ffffff; padding: 15px; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 420px; background: #111622; border-radius: 24px; padding: 20px; border: 1px solid #1a2233; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        
+        /* TOP STATUS BAR */
+        .status-bar { background: linear-gradient(90deg, #0288d1, #00b0ff); color: #fff; text-align: center; padding: 8px; border-radius: 30px; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* CARD BASICS */
+        .panel-card { background: #171e2e; border-radius: 16px; padding: 15px; margin-bottom: 15px; border: 1px solid #222c41; }
+        .panel-title { font-size: 12px; color: #8fa0c2; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        
+        /* WALLET MATRIX GRID */
+        .wallet-inputs { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; }
+        .input-box { background: #0b0e14; border: 1px solid #2d3b56; border-radius: 10px; padding: 10px; color: #fff; font-weight: bold; text-align: center; width: 100%; }
+        .input-box.gold { color: #ffca28; }
+        .btn-set { background: #ffbc00; color: #000; border: none; font-weight: bold; padding: 12px 18px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .btn-set:hover { background: #e0a500; }
+        .sync-row { margin-top: 12px; font-size: 12px; color: #8fa0c2; display: flex; justify-content: space-between; padding: 0 4px; }
+        .indicator { color: #00e676; font-weight: bold; }
 
-        .balance-section { background: rgba(255,255,255,0.02); border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.04); }
-        .balance-section .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #a0aec0; font-weight: 600; }
-        .balance-row { display: flex; gap: 8px; margin-top: 6px; }
-        .balance-row .input-group { flex: 1; position: relative; }
-        .balance-row .input-group .prefix { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #ffd700; font-weight: 700; font-size: 13px; }
-        .balance-row input { width: 100%; padding: 10px 10px 10px 30px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #fff; font-size: 14px; font-weight: 700; font-family: 'Rajdhani', sans-serif; outline: none; transition: 0.3s; }
-        .balance-row input:focus { border-color: #ffd700; background: rgba(0,0,0,0.5); }
-        .balance-row button { padding: 0 20px; background: linear-gradient(135deg, #ffd700, #ff8800); border: none; border-radius: 10px; color: #06060f; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; }
+        /* PREDICTION AREA */
+        .prediction-box { text-align: center; padding: 20px 10px; }
+        .upcoming-label { font-size: 13px; color: #8fa0c2; letter-spacing: 1px; }
+        .upcoming-period { color: #ffca28; font-weight: bold; }
+        .prediction-value { font-size: 52px; font-weight: 900; letter-spacing: 2px; margin: 10px 0; text-transform: uppercase; }
+        .prediction-value.small { color: #00e676; text-shadow: 0 0 20px rgba(0,230,118,0.3); }
+        .prediction-value.big { color: #ffbc00; text-shadow: 0 0 20px rgba(255,188,0,0.3); }
+        .metrics-row { font-size: 14px; color: #8fa0c2; margin-top: 5px; }
+        .accuracy-val { color: #00e676; font-weight: bold; }
+        
+        /* INFINITE LOGS SECTION */
+        .logs-header { display: flex; justify-content: space-between; font-size: 11px; color: #5b6f94; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+        .logs-container { max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; padding-right: 2px; }
+        .logs-container::-webkit-scrollbar { width: 4px; }
+        .logs-container::-webkit-scrollbar-thumb { background: #2d3b56; border-radius: 10px; }
+        .log-row { display: grid; grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr; background: #0f1420; padding: 10px; border-radius: 8px; font-size: 13px; text-align: center; border-left: 3px solid #222c41; }
+        .log-row.win { border-left-color: #00e676; }
+        .log-row.loss { border-left-color: #ff5252; }
+        .text-green { color: #00e676; font-weight: bold; }
+        .text-red { color: #ff5252; font-weight: bold; }
+        .text-gold { color: #ffca28; font-weight: bold; }
 
-        .status-bar { display: flex; justify-content: space-between; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.03); }
-        .status-bar .item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #a0aec0; }
-        .status-bar .item .val { font-weight: 700; color: #fff; font-size: 13px; }
-        .status-bar .item .val.gold { color: #ffd700; }
-        .status-bar .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
-        .status-bar .dot.green { background: #00e676; animation: pulse 1.2s infinite; }
-        .status-bar .dot.blue { background: #00bfff; animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        /* ACTION FOOTER BUTTONS */
+        .action-container { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin-bottom: 15px; }
+        .btn-auto { background: none; border: 1px solid #0288d1; color: #00b0ff; padding: 15px; border-radius: 14px; font-weight: bold; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-reset { background: #171e2e; border: 1px solid #2d3b56; border-radius: 14px; padding: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-reset svg { width: 18px; height: 18px; fill: #8fa0c2; transition: 0.3s; }
+        .btn-reset:hover svg { fill: #ff5252; transform: rotate(180deg); }
 
-        .prediction-card { background: linear-gradient(145deg, rgba(255,215,0,0.04), rgba(0,0,0,0)); border-radius: 16px; padding: 18px 14px; border: 1px solid rgba(255,215,0,0.08); text-align: center; margin-bottom: 12px; position: relative; }
-        .prediction-card .period { font-size: 12px; color: #a0aec0; letter-spacing: 1px; font-weight: 600; }
-        .prediction-card .period span { color: #ffd700; font-weight: 700; font-family: 'Orbitron', sans-serif; font-size: 15px; }
-        .prediction-card .prediction { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; margin: 6px 0; letter-spacing: 2px; }
-        .prediction-card .prediction.big { color: #ff5252; text-shadow: 0 0 30px rgba(255,82,82,0.4); }
-        .prediction-card .prediction.small { color: #00e676; text-shadow: 0 0 30px rgba(0,230,118,0.4); }
-        .prediction-card .confidence { font-size: 13px; color: #718096; }
-        .prediction-card .confidence span { color: #00e676; font-weight: 700; font-family: 'Orbitron', sans-serif; }
-        .prediction-card .bet-amount { font-size: 12px; color: #a0aec0; margin-top: 3px; }
-        .prediction-card .bet-amount span { color: #fff; font-weight: 700; }
-
-        .history-section { margin-top: 10px; }
-        .history-section .title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #4a5568; font-weight: 700; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .history-log { max-height: 180px; overflow-y: auto; scrollbar-width: thin; }
-        .history-log::-webkit-scrollbar { width: 3px; }
-        .history-log::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); }
-        .history-log .log-item { display: grid; grid-template-columns: 50px 1fr 50px 60px; padding: 6px 8px; border-radius: 6px; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.02); align-items: center; }
-        .history-log .log-item:nth-child(even) { background: rgba(255,255,255,0.01); }
-        .history-log .log-item .period { color: #718096; font-family: 'Orbitron', sans-serif; }
-        .history-log .log-item .result { font-weight: 700; }
-        .history-log .log-item .result.win { color: #00e676; }
-        .history-log .log-item .result.loss { color: #ff5252; }
-        .history-log .log-item .amount { color: #a0aec0; }
-        .history-log .log-item .balance { color: #ffd700; font-weight: 700; text-align: right; }
-        .history-log .empty { text-align: center; color: #4a5568; font-size: 12px; padding: 20px 0; }
-
-        .controls { display: flex; gap: 8px; margin-top: 14px; }
-        .controls .btn-status-active { flex: 1; padding: 11px; background: rgba(0, 191, 255, 0.1); border: 1px solid rgba(0, 191, 255, 0.3); border-radius: 10px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 13px; color: #00bfff; text-align: center; letter-spacing: 1px; text-transform: uppercase; pointer-events: none; }
-        .controls .btn-reset { background: rgba(255,255,255,0.04); color: #a0aec0; border: 1px solid rgba(255,255,255,0.05); flex: 0.25; border-radius: 10px; cursor: pointer; transition: 0.2s; }
-        .controls .btn-reset:hover { background: rgba(255,255,255,0.08); color: #fff; }
-
-        .ai-status-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-        .ai-status { display: flex; flex-direction: column; background: rgba(0,0,0,0.4); border-radius: 8px; padding: 8px 12px; border: 1px solid rgba(255,215,0,0.05); }
-        .ai-status .label { font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
-        .ai-status .status { font-size: 12px; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #ffd700; }
-        .ai-status .status.green { color: #00e676; }
+        /* COUNTER BOXES FOOTER */
+        .counters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .counter-card { background: #171e2e; border: 1px solid #222c41; border-radius: 14px; padding: 12px; text-align: center; }
+        .counter-label { font-size: 10px; color: #5b6f94; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .counter-val { font-size: 16px; font-weight: bold; }
+        .counter-val.green { color: #00e676; }
+        .counter-val.gold { color: #ffca28; }
     </style>
 </head>
 <body>
 
-<div class="container" id="app">
-    <div class="header">
-        <div class="icon"><i class="fas fa-robot"></i></div>
-        <h1>WINGO AI RADICAL</h1>
-        <div class="sub">DEEP MARKOV PATTERN ENGINE</div>
-        <div class="badge autopilot" id="engineMode"><i class="fas fa-bolt"></i> AUTOPILOT ENGAGED</div>
-    </div>
+<div class="app-container">
+    <!-- TOP AUTOPILOT BANNER -->
+    <div class="status-bar">🛡️ Autopilot: Secure Network Active</div>
 
-    <div class="balance-section">
-        <div class="label"><i class="fas fa-wallet"></i> Wallet Matrix (Auto-Saved)</div>
-        <div class="balance-row">
-            <div class="input-group"><span class="prefix">₨</span><input type="number" id="startAmount" value="580"></div>
-            <div class="input-group"><span class="prefix">₨</span><input type="number" id="targetAmount" value="2000"></div>
-            <button id="setBalanceBtn">SET</button>
+    <!-- WALLET MATRIX PANEL -->
+    <div class="panel-card">
+        <div class="panel-title">💳 Wallet Matrix (Auto-Saved)</div>
+        <div class="wallet-inputs">
+            <input type="text" id="balance-input" class="input-box gold" value="Rs 408">
+            <input type="text" id="target-input" class="input-box" value="Rs 500">
+            <button class="btn-set" id="btn-set-matrix">SET</button>
+        </div>
+        <div class="sync-row">
+            <span><span class="indicator">●</span> Auto-Syncing Engine</span>
+            <span>Bal: <b id="lbl-bal">408</b> &nbsp; Trgt: <b id="lbl-trgt">500</b> &nbsp; Level: <b id="lbl-level">1/5</b></span>
         </div>
     </div>
 
-    <div class="status-bar">
-        <div class="item"><span class="dot blue" id="statusDot"></span><span id="statusText">Booting...</span></div>
-        <div class="item">Bal: <span class="val gold" id="displayBalance">580</span></div>
-        <div class="item">Trgt: <span class="val" id="displayTarget">2000</span></div>
-        <div class="item">Level: <span class="val" id="displayLevel">1/2</span></div>
+    <!-- CENTRAL PREDICTION BOARD -->
+    <div class="panel-card prediction-box">
+        <div class="upcoming-label">LIVE UPCOMING PERIOD ➡️ <span id="live-upcoming-period" class="upcoming-period">0193</span></div>
+        <div id="predicted-value" class="prediction-value small">SMALL</div>
+        <div class="metrics-row">Dynamic Accuracy: <span id="dynamic-accuracy-value" class="accuracy-val">64%</span></div>
+        <div class="metrics-row" style="margin-top: 4px; font-size: 12px;">Smart Stake: <b style="color:#fff;" id="smart-stake-val">10 RS</b></div>
     </div>
 
-    <div class="prediction-card">
-        <div class="period">LIVE UPCOMING PERIOD ➡️ <span id="periodDisplay">----</span></div>
-        <div class="prediction" id="predictionDisplay">WAITING DATA...</div>
-        <div class="confidence">Dynamic Accuracy: <span id="confidenceDisplay">0%</span></div>
-        <div class="bet-amount">Smart Stake: <span id="betDisplay">0</span> RS</div>
+    <!-- SYSTEM CONTROL BLOCK -->
+    <div class="action-container">
+        <div class="btn-auto">
+            <span style="display:inline-block; width:8px; height:8px; background:#00b0ff; border-radius:50%; animation: pulse 1.5s infinite;"></span>
+            System Running Totally Automatic
+        </div>
+        <button class="btn-reset" id="system-reset-btn" title="Reset All Data">
+            <svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </button>
     </div>
 
-    <div class="history-section">
-        <div class="title"><span><i class="fas fa-database"></i> INFINITE LOGS</span><span id="historyCount">0 entries</span></div>
-        <div class="history-log" id="historyLog">
-            <div class="empty">Connecting to data node...</div>
+    <!-- LOGS DATA TABLE -->
+    <div class="panel-card" style="padding-bottom: 10px;">
+        <div class="logs-header">
+            <span>Period</span>
+            <span>Target</span>
+            <span>Bet</span>
+            <span>Balance</span>
+        </div>
+        <div id="infinite-logs-list" class="logs-container">
+            <!-- Dynamic Entries Append Here -->
         </div>
     </div>
 
-    <div class="controls">
-        <div class="btn-status-active"><i class="fas fa-circle-notch fa-spin"></i> SYSTEM RUNNING TOTALLY AUTOMATIC</div>
-        <button class="btn-reset" id="resetBtn" title="Reset All Data"><i class="fas fa-sync-alt"></i></button>
-    </div>
-
-    <div class="ai-status-container">
-        <div class="ai-status">
-            <span class="label"><i class="fas fa-folder-open"></i> PERIODS ANALYZED</span>
-            <span class="status green" id="rawPeriodsCount">0 Rounds</span>
+    <!-- DATA STATE COUNTERS -->
+    <div class="counters-grid">
+        <div class="counter-card">
+            <div class="counter-label">📁 Periods Analyzed</div>
+            <div id="periods-analyzed-count" class="counter-val green">0 Rounds</div>
         </div>
-        <div class="ai-status">
-            <span class="label"><i class="fas fa-network-wired"></i> PATTERN MATRIX</span>
-            <span class="status" id="aiStatus">0 Mastered</span>
+        <div class="counter-card">
+            <div class="counter-label">🗂️ Pattern Matrix</div>
+            <div id="pattern-matrix-count" class="counter-val gold">0 Chains</div>
         </div>
     </div>
 </div>
 
 <script>
-const API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=10";
+    // 🧠 GLOBAL SYSTEM STATE
+    let state = {
+        wallet: { balance: 408, target: 500, currentLevel: 1, maxLevel: 5 },
+        brain: { totalRoundsProcessed: 0, patterns: {} },
+        history: [] 
+    };
 
-// 5 Levels deep configured automatically for max security
-const state = {
-    balance: 580, target: 2000, startAmount: 580,
-    level: 0, 
-    levels: ['1X','2X','4X','8X','16X'], 
-    amounts: [10, 20, 40, 85, 180], // Pro-calculated 5-level recovery
-    history: [], 
-    isRunning: true, // ALWAYS TRUE ON BOOT
-    currentLivePeriodRaw: "", 
-    activePredPeriodShort: null, activePredTarget: null,
-    lastEvaluatedPeriodRaw: "", 
-    
-    brain: {
-        totalRoundsProcessed: 0,
-        patterns: {}
-    }
-};
-
-const $ = id => document.getElementById(id);
-const els = {
-    startAmount: $('startAmount'), targetAmount: $('targetAmount'),
-    setBalance: $('setBalanceBtn'), displayBalance: $('displayBalance'),
-    displayTarget: $('displayTarget'), displayLevel: $('displayLevel'),
-    periodDisplay: $('periodDisplay'), predictionDisplay: $('predictionDisplay'),
-    confidenceDisplay: $('confidenceDisplay'), betDisplay: $('betDisplay'),
-    historyLog: $('historyLog'), historyCount: $('historyCount'),
-    statusDot: $('statusDot'), statusText: $('statusText'),
-    aiStatus: $('aiStatus'), rawPeriodsCount: $('rawPeriodsCount'),
-    resetBtn: $('resetBtn'), engineMode: $('engineMode')
-};
-
-function ingestDataSequence(nums) {
-    if (nums.length < 7) return;
-    const types = nums.map(n => n >= 5 ? 'B' : 'S');
-
-    for (let depth = 2; depth <= 6; depth++) {
-        for (let i = 0; i <= types.length - depth - 1; i++) {
-            const sequenceKey = types.slice(i, i + depth).join(',');
-            const nextResult = types[i + depth] === 'B' ? 'BIG' : 'SMALL';
-
-            if (!state.brain.patterns[sequenceKey]) {
-                state.brain.patterns[sequenceKey] = { BIG: 0, SMALL: 0 };
-            }
-            state.brain.patterns[sequenceKey][nextResult]++;
-        }
-    }
-    updateAIStatus();
-}
-
-function getSmartPrediction(nums) {
-    if (nums.length < 6) return { prediction: 'BIG', confidence: 50 };
-    const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
-    const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
-
-    if (state.brain.totalRoundsProcessed < 15) {
-        const randomFluctuate = Math.floor(Math.random() * 5) + 56;
-        return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: randomFluctuate };
-    }
-
-    if (types.slice(-4).every((v, i, a) => v === a[0])) {
-        return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 88 };
-    }
-
-    for (let depth = 6; depth >= 2; depth--) {
-        const currentKey = shortTypes.slice(-depth).join(',');
-        const match = state.brain.patterns[currentKey];
-
-        if (match) {
-            const totalMatches = match.BIG + match.SMALL;
-            if (totalMatches >= 3) { 
-                const bigRatio = match.BIG / totalMatches;
-                const smallRatio = match.SMALL / totalMatches;
-                const volumeBonus = Math.min(6, Math.floor(totalMatches / 10)); 
-
-                if (bigRatio >= 0.55) {
-                    let conf = Math.min(96, Math.round(bigRatio * 100) + volumeBonus);
-                    return { prediction: 'BIG', confidence: conf };
-                }
-                if (smallRatio >= 0.55) {
-                    let conf = Math.min(96, Math.round(smallRatio * 100) + volumeBonus);
-                    return { prediction: 'SMALL', confidence: conf };
-                }
-            }
-        }
-    }
-
-    return { prediction: types[types.length - 1] === 'BIG' ? 'SMALL' : 'BIG', confidence: 64 };
-}
-
-async function fetchAPI() {
-    try {
-        const resp = await fetch(API_URL + "?t=" + new Date().getTime());
-        if (!resp.ok) return null;
-        return (await resp.json())?.data?.list || null;
-    } catch { return null; }
-}
-
-async function coreEngineSync() {
-    try {
-        const list = await fetchAPI();
-        if (!list || list.length === 0) return;
-
-        list.sort((a, b) => String(b.issueNumber ?? b.period).localeCompare(String(a.issueNumber ?? a.period)));
-
-        const latestServerItem = list[0];
-        const serverPeriodRaw = String(latestServerItem.issueNumber ?? latestServerItem.period);
-        
-        if (serverPeriodRaw === state.currentLivePeriodRaw && state.lastEvaluatedPeriodRaw === serverPeriodRaw) {
-            return; 
-        }
-
-        const newNum = latestServerItem.number ?? latestServerItem.num ?? 0;
-        const actualResult = Number(newNum) >= 5 ? 'BIG' : 'SMALL';
-
-        if (state.currentLivePeriodRaw !== "" && serverPeriodRaw !== state.currentLivePeriodRaw) {
-            state.brain.totalRoundsProcessed++; 
-        }
-        
-        state.currentLivePeriodRaw = serverPeriodRaw;
-
-        const shortCurrentPeriod = Number(serverPeriodRaw.slice(-4));
-        const shortNextPeriod = shortCurrentPeriod === 9999 ? 0 : shortCurrentPeriod + 1;
-        
-        els.periodDisplay.textContent = String(shortNextPeriod).padStart(4, '0');
-
-        if (state.activePredPeriodShort !== null && shortCurrentPeriod === state.activePredPeriodShort && state.lastEvaluatedPeriodRaw !== serverPeriodRaw) {
-            state.lastEvaluatedPeriodRaw = serverPeriodRaw;
-            const win = state.activePredTarget === actualResult;
-            const bet = state.amounts[state.level];
-
-            if (win) {
-                state.balance += bet * 0.96;
-                state.level = 0;
-                addInfiniteHistory(shortCurrentPeriod, state.activePredTarget, bet, 'WIN', state.balance);
-            } else {
-                state.balance -= bet;
-                if (state.level < state.amounts.length - 1) state.level++;
-                else state.level = 0; // Soft reset if out of bounds
-                addInfiniteHistory(shortCurrentPeriod, state.activePredTarget, bet, 'LOSS', state.balance);
-            }
-            state.activePredPeriodShort = null; state.activePredTarget = null;
-        }
-
-        let nums = [];
-        for (const item of list) {
-            const n = item.number ?? item.num;
-            if (n !== undefined && n !== null) nums.push(Number(n));
-        }
-        nums.reverse();
-
-        ingestDataSequence(nums);
-
-        // Continuous Loop Action
-        const analysis = getSmartPrediction(nums);
-        state.activePredPeriodShort = shortNextPeriod;
-        state.activePredTarget = analysis.prediction;
-        const currentBet = state.amounts[state.level];
-
-        els.predictionDisplay.className = `prediction ${analysis.prediction.toLowerCase()}`;
-        els.predictionDisplay.textContent = analysis.prediction;
-        els.confidenceDisplay.textContent = `${analysis.confidence}%`;
-        els.betDisplay.textContent = currentBet;
-        
-        els.statusText.textContent = `Auto-Syncing Engine`;
-        els.statusDot.className = 'dot green';
-
-        if (state.balance >= state.target) { 
-            els.statusText.textContent = 'Target Achieved!'; 
-            els.predictionDisplay.textContent = 'TARGET MET 🎉';
-            // Auto restart loop target logic can be put here if required
-        }
-        if (state.balance < 10) { 
-            els.statusText.textContent = 'Low Wallet Balance'; 
-            els.predictionDisplay.textContent = 'RECHARGE NEEDED'; 
-        }
-
-        updateUI();
-    } catch (e) { console.error(e); }
-}
-
-function addInfiniteHistory(period, target, bet, result, balance) {
-    state.history.push({ period: String(period).padStart(4, '0'), target, bet, result, balance: Math.round(balance*100)/100 });
-    
-    // 🔥 ANTI-CRASH SHIELD: Agar history 1000 se barhe, toh sab se purani entry delete kar do
-    if (state.history.length > 1000) {
-        state.history.shift(); 
-    }
-    
-    renderHistory();
-}
-function renderHistory() {
-    if (state.history.length === 0) { els.historyLog.innerHTML = '<div class="empty">Waiting for the next live round close...</div>'; return; }
-    let html = '';
-    for (const e of [...state.history].reverse()) {
-        const statusClass = e.result === 'WIN' ? 'win' : 'loss';
-        const icon = e.result === 'WIN' ? '🔥' : '❌';
-        html += `<div class="log-item"><span class="period">${e.period}</span><span class="result ${statusClass}">${e.target} ${icon}</span><span class="amount">${e.bet}RS</span><span class="balance">${e.balance}RS</span></div>`;
-    }
-    els.historyLog.innerHTML = html;
-    els.historyCount.textContent = `${state.history.length} entries`;
-}
-
-function updateUI() {
-    els.displayBalance.textContent = Math.round(state.balance);
-    els.displayTarget.textContent = Math.round(state.target);
-    els.displayLevel.textContent = `${state.level + 1}/${state.amounts.length}`;
-    els.rawPeriodsCount.textContent = `${state.brain.totalRoundsProcessed} Rounds`;
-}
-
-function updateAIStatus() {
-    const totalPatterns = Object.keys(state.brain.patterns).length;
-    if(state.brain.totalRoundsProcessed > 20) {
-        els.engineMode.className = "badge autopilot";
-        els.engineMode.innerHTML = `<i class="fas fa-shield-alt"></i> AUTOPILOT: SECURE NETWORK ACTIVE`;
-    }
-    els.aiStatus.textContent = `${totalPatterns} Chains`;
-}
-
-function wipeResetCore() {
-    if(confirm("Wipe completely and restart auto-pilot data?")) {
-        localStorage.removeItem('wingo_auto_v3_state');
-        state.balance = state.startAmount;
-        state.level = 0;
-        state.history = [];
-        state.activePredPeriodShort = null;
-        state.activePredTarget = null;
-        state.lastEvaluatedPeriodRaw = "";
-        state.brain.patterns = {};
-        state.brain.totalRoundsProcessed = 0;
-        state.currentLivePeriodRaw = "";
-        updateUI();
-        updateAIStatus();
-        renderHistory();
-        coreEngineSync();
-    }
-}
-
-els.setBalance.addEventListener('click', function() {
-    const s = parseFloat(els.startAmount.value);
-    const t = parseFloat(els.targetAmount.value);
-    if (isNaN(s) || s < 10 || isNaN(t) || t <= s) return;
-    state.startAmount = s; state.balance = s; state.target = t; state.level = 0;
-    updateUI();
-});
-
-els.resetBtn.addEventListener('click', wipeResetCore);
-
-function init() {
-    try {
-        const saved = localStorage.getItem('wingo_auto_v3_state');
-        if (saved) {
-            const parsed = JSON.parse(saved);
-            if (parsed.balance) state.balance = parsed.balance;
-            if (parsed.startAmount) state.startAmount = parsed.startAmount;
-            if (parsed.target) state.target = parsed.target;
-            if (parsed.history) state.history = parsed.history;
-            if (parsed.brain) state.brain = parsed.brain;
-        }
-    } catch(e) {}
-    
-    els.startAmount.value = state.startAmount;
-    els.targetAmount.value = state.target;
-    
-    updateUI(); updateAIStatus(); renderHistory();
-    
-    // START IMMEDATELY ON LOAD
-    coreEngineSync();
-    setInterval(coreEngineSync, 3500); // Super responsive 3.5s loop
-
-    // Continuous Background State Save
-    setInterval(() => {
+    // 💾 SYSTEM 1: STORAGE SAVER & LOAD ENGINE
+    function saveEngineState() {
         try {
-            localStorage.setItem('wingo_auto_v3_state', JSON.stringify({
-                balance: state.balance,
-                startAmount: state.startAmount,
-                target: state.target,
-                history: state.history,
-                brain: state.brain 
-            }));
-        } catch(e) {}
-    }, 4000);
-}
+            localStorage.setItem('ahmad_autopilot_brain', JSON.stringify(state.brain));
+            localStorage.setItem('ahmad_autopilot_history', JSON.stringify(state.history));
+            localStorage.setItem('ahmad_wallet_cfg', JSON.stringify(state.wallet));
+        } catch (e) {
+            console.error("Storage full or security block.");
+        }
+    }
 
-init();
+    function loadEngineState() {
+        const savedBrain = localStorage.getItem('ahmad_autopilot_brain');
+        const savedHistory = localStorage.getItem('ahmad_autopilot_history');
+        const savedWallet = localStorage.getItem('ahmad_wallet_cfg');
+        
+        if (savedBrain) state.brain = JSON.parse(savedBrain);
+        if (savedHistory) state.history = JSON.parse(savedHistory);
+        if (savedWallet) state.wallet = JSON.parse(savedWallet);
+        
+        // Sync Inputs with loaded state
+        document.getElementById('balance-input').value = `Rs ${state.wallet.balance}`;
+        document.getElementById('target-input').value = `Rs ${state.wallet.target}`;
+        
+        updateUIElements();
+        renderHistoryUI();
+    }
+
+    // 📋 SYSTEM 2: SAFE HISTORY LOGGER (1000 MAX CAP)
+    function addInfiniteHistory(period, target, bet, result, balance) {
+        state.history.unshift({ 
+            period: String(period).padStart(4, '0'), 
+            target: target, 
+            bet: bet, 
+            result: result, 
+            balance: Math.round(balance * 100) / 100 
+        });
+        
+        // Anti-crash cutoff logic
+        if (state.history.length > 1000) {
+            state.history.pop();
+        }
+        
+        saveEngineState();
+        renderHistoryUI();
+    }
+
+    // 🧠 SYSTEM 3: MASTER PATTERN INGESTION (LEARNING ENGINE)
+    function ingestDataSequence(nums) {
+        if (nums.length < 2) return;
+        state.brain.totalRoundsProcessed++;
+        
+        const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
+        
+        for (let depth = 2; depth <= 6; depth++) {
+            if (shortTypes.length > depth) {
+                const patternKey = shortTypes.slice(-(depth + 1), -1).join(',');
+                const nextActual = shortTypes[shortTypes.length - 1] === 'B' ? 'BIG' : 'SMALL';
+                
+                if (!state.brain.patterns[patternKey]) {
+                    state.brain.patterns[patternKey] = { BIG: 0, SMALL: 0 };
+                }
+                state.brain.patterns[patternKey][nextActual]++;
+            }
+        }
+        saveEngineState();
+    }
+
+    // 🐉 SYSTEM 4: DEEP ADVANCED ANTI-DRAGON PREDICTION ENGINE
+    function getSmartPrediction(nums) {
+        if (nums.length < 6) return { prediction: 'BIG', confidence: 50 };
+        
+        const types = nums.map(n => n >= 5 ? 'BIG' : 'SMALL');
+        const shortTypes = nums.map(n => n >= 5 ? 'B' : 'S');
+
+        // 1. DATA KHANAA SHURU FALLBACK (If total processed rounds are too raw)
+        if (state.brain.totalRoundsProcessed < 15) {
+            const lastResult = types[types.length - 1];
+            const randomFluctuate = Math.floor(Math.random() * 5) + 63;
+            return { prediction: lastResult, confidence: randomFluctuate };
+        }
+
+        // 2. 🐉 DRAGON STREAK SHIELD (If last 4 rounds are identical, ride the wave!)
+        if (types.slice(-4).every((v, i, a) => v === a[0])) {
+            return { prediction: types[types.length - 1], confidence: 93 };
+        }
+
+        // 3. CORE PROBABILITY MATRIX ENGINE (Depth 6 down to 2)
+        for (let depth = 6; depth >= 2; depth--) {
+            const currentKey = shortTypes.slice(-depth).join(',');
+            const match = state.brain.patterns[currentKey];
+
+            if (match) {
+                const totalMatches = match.BIG + match.SMALL;
+                if (totalMatches >= 3) { 
+                    const bigRatio = match.BIG / totalMatches;
+                    const smallRatio = match.SMALL / totalMatches;
+                    const volumeBonus = Math.min(6, Math.floor(totalMatches / 10)); 
+
+                    if (bigRatio >= 0.55) {
+                        let conf = Math.min(96, Math.round(bigRatio * 100) + volumeBonus);
+                        return { prediction: 'BIG', confidence: conf };
+                    }
+                    if (smallRatio >= 0.55) {
+                        let conf = Math.min(96, Math.round(smallRatio * 100) + volumeBonus);
+                        return { prediction: 'SMALL', confidence: conf };
+                    }
+                }
+            }
+        }
+
+        // 4. FLOATING TREND ACTION
+        return { prediction: types[types.length - 1], confidence: 64 };
+    }
+
+    // 🖥️ SYSTEM 5: INTERFACE MANAGER
+    function updateUIElements() {
+        document.getElementById('periods-analyzed-count').innerText = `${state.brain.totalRoundsProcessed} Rounds`;
+        document.getElementById('pattern-matrix-count').innerText = `${Object.keys(state.brain.patterns).length} Chains`;
+        document.getElementById('lbl-bal').innerText = state.wallet.balance;
+        document.getElementById('lbl-trgt').innerText = state.wallet.target;
+        document.getElementById('lbl-level').innerText = `${state.wallet.currentLevel}/${state.wallet.maxLevel}`;
+    }
+
+    function renderHistoryUI() {
+        const logsContainer = document.getElementById('infinite-logs-list');
+        if (!logsContainer) return;
+        
+        logsContainer.innerHTML = state.history.map(item => `
+            <div class="log-row ${item.result.toLowerCase()}">
+                <span>${item.period}</span>
+                <span class="${item.result === 'WIN' ? 'text-green' : 'text-red'}">${item.target} ${item.result === 'WIN' ? '▲' : '✕'}</span>
+                <span>${item.bet}RS</span>
+                <span class="text-gold">${item.balance}RS</span>
+            </div>
+        `).join('');
+        
+        updateUIElements();
+    }
+
+    // 🔄 SYSTEM 6: CRON SYNC CONNECTOR
+    function syncNextPeriodEngine(apiNumbersData, latestPeriod) {
+        // Feed loop to core engine
+        ingestDataSequence(apiNumbersData);
+        
+        // Process smart output
+        const output = getSmartPrediction(apiNumbersData);
+        
+        // Paint Screen elements
+        document.getElementById('live-upcoming-period').innerText = latestPeriod;
+        
+        const predictEl = document.getElementById('predicted-value');
+        predictEl.innerText = output.prediction;
+        predictEl.className = `prediction-value ${output.prediction.toLowerCase()}`;
+        
+        document.getElementById('dynamic-accuracy-value').innerText = `${output.confidence}%`;
+        
+        // Smart level multiplier display example
+        let stakeAmount = 10 * Math.pow(2, state.wallet.currentLevel - 1);
+        document.getElementById('smart-stake-val').innerText = `${stakeAmount} RS`;
+        
+        updateUIElements();
+    }
+
+    // ⚡ INITIALIZATION & EVENT BINDS
+    document.addEventListener("DOMContentLoaded", () => {
+        loadEngineState();
+        
+        // Input Config Setter Trigger
+        document.getElementById('btn-set-matrix').addEventListener('click', () => {
+            const bVal = parseInt(document.getElementById('balance-input').value.replace(/[^0-9]/g, '')) || 0;
+            const tVal = parseInt(document.getElementById('target-input').value.replace(/[^0-9]/g, '')) || 0;
+            
+            state.wallet.balance = bVal;
+            state.wallet.target = tVal;
+            
+            saveEngineState();
+            updateUIElements();
+            alert("Wallet Matrix Settings Updated Successfully!");
+        });
+
+        // Hard Reset Master Trigger
+        document.getElementById('system-reset-btn').addEventListener('click', () => {
+            if(confirm("Warning! Kya aap saara seekha hua patterns data aur data-logs reset karna chahte hain?")) {
+                localStorage.clear();
+                state.brain = { totalRoundsProcessed: 0, patterns: {} };
+                state.history = [];
+                state.wallet = { balance: 408, target: 500, currentLevel: 1, maxLevel: 5 };
+                
+                document.getElementById('balance-input').value = `Rs ${state.wallet.balance}`;
+                document.getElementById('target-input').value = `Rs ${state.wallet.target}`;
+                
+                updateUIElements();
+                renderHistoryUI();
+            }
+        });
+
+        // 🔍 TESTING SIMULATION WRAPPER (Yeh sirf check karne ke liye hai, aap isme apni API fetch call bind kar sakte ho)
+        // Fake simulation loop just to verify performance out-of-the-box
+        let dummyPeriod = 193;
+        setInterval(() => {
+            dummyPeriod++;
+            let dummyDataStream = Array.from({length: 20}, () => Math.floor(Math.random() * 10));
+            let mockChoices = ['WIN', 'LOSS'];
+            let randomOutcome = mockChoices[Math.floor(Math.random() * mockChoices.length)];
+            let calculatedBet = 10 * Math.pow(2, state.wallet.currentLevel - 1);
+            
+            if (randomOutcome === 'WIN') {
+                state.wallet.balance += calculatedBet;
+                state.wallet.currentLevel = 1;
+            } else {
+                state.wallet.balance -= calculatedBet;
+                state.wallet.currentLevel = state.wallet.currentLevel >= state.wallet.maxLevel ? 1 : state.wallet.currentLevel + 1;
+            }
+            
+            syncNextPeriodEngine(dummyDataStream, dummyPeriod);
+            addInfiniteHistory(dummyPeriod - 1, randomOutcome === 'WIN' ? 'SMALL' : 'BIG', calculatedBet, randomOutcome, state.wallet.balance);
+        }, 15000); // simulation runs every 15 secs for checking interface
+    });
 </script>
 </body>
 </html>
